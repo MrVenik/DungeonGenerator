@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4788935126168272057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4788935126168272058}
+  - component: {fileID: 4788935126168272059}
+  m_Layer: 0
+  m_Name: Dungeon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4788935126168272058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4788935126168272057}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4788935126168272059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4788935126168272057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d261e933e522b5a4487f54fc2ede4ddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoomPrefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,
+    type: 3}
+  StartRoomPrefab: {fileID: 1977446155243726721, guid: 6adcc69980e408d4583975c5d7fb9be1,
+    type: 3}
+  CorridorPrefab: {fileID: 390632652426117184, guid: 43c18a4b30525054b8360a62255886b3,
+    type: 3}
+  ColumnPrefab: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
+    type: 3}
+  WallPrefab: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
+    type: 3}
+  DoorPrefab: {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98,
+    type: 3}
+  CorridorWallPrefab: {fileID: 2550542356135359241, guid: b51b7e4eb37506d49810bfdd36c96da5,
+    type: 3}
+  CorridorDoorPrefab: {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98,
+    type: 3}
+  CorridorOpenPrefab: {fileID: 5595796165803689315, guid: b25a94453f7a2b74694c438a6f7b6c6c,
+    type: 3}
+  RoomSize: 7
+  CorridorSize: 5
+  _heigth: 8
+  _width: 8
