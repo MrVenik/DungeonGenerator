@@ -7,7 +7,8 @@
         Wall,
         Open,
         Door,
-        CorridorWall
+        CorridorWall,
+        SecretRoomDoor
     }
 
     [System.Serializable]

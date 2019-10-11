@@ -67,6 +67,21 @@ namespace DungeonGenerator
 
 
 
+            if (Connection.Top == ConnectionType.SecretRoomDoor)
+                Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size + 1), Quaternion.Euler(0, 0, 0), Transform);
+
+            if (Connection.Bottom == ConnectionType.SecretRoomDoor)
+                Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
+
+            if (Connection.Left == ConnectionType.SecretRoomDoor)
+                Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
+
+            if (Connection.Right == ConnectionType.SecretRoomDoor)
+                Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size + 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
+
+
+
+
             if (Connection.Top == ConnectionType.Wall)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size), Quaternion.Euler(0, 0, 0), Transform);
 
@@ -92,9 +107,10 @@ namespace DungeonGenerator
                     return DungeonManager.Dungeon.CorridorWallPrefab;
                 case ConnectionType.Open:
                     return DungeonManager.Dungeon.CorridorOpenPrefab;
-                    break;
                 case ConnectionType.Door:
                     return DungeonManager.Dungeon.CorridorDoorPrefab;
+                case ConnectionType.SecretRoomDoor:
+                    return DungeonManager.Dungeon.SecretRoomDoorPrefab;
                 default:
                     break;
             }

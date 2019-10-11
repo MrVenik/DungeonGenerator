@@ -93,13 +93,17 @@ namespace DungeonGenerator
             if (chance <= 0.5f)
             {
                 chance = UnityEngine.Random.Range(0f, 1f);
-                if (chance <= 0.5f)
+                if (chance >= 0.50f)
                 {
                     return ConnectionType.Open;
                 }
-                else
+                else if (chance >= 0.10f)
                 {
                     return ConnectionType.Door;
+                }
+                else
+                {
+                    return ConnectionType.SecretRoomDoor;
                 }
             }
             else return ConnectionType.Wall;
@@ -116,10 +120,10 @@ namespace DungeonGenerator
 
         protected virtual void CreateNextRooms()
         {
-            if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1);
-            if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1);
-            if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y);
-            if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y);
+            if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1, Connection.Top);
+            if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1, Connection.Bottom);
+            if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y, Connection.Left);
+            if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y, Connection.Right);
         }
 
         protected virtual bool CanCreateNextRoom(ConnectionType type)
@@ -130,24 +134,33 @@ namespace DungeonGenerator
                 && type != ConnectionType.CorridorWall;
         }
 
-        protected virtual void CreateNextRoom(int x, int y)
+        protected virtual void CreateNextRoom(int x, int y, ConnectionType previousConnectionType)
         {
             IRoom nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
             if (nextRoom is EmptyRoom)
             {
                 float chance = UnityEngine.Random.Range(0f, 1f);
-                if (chance <= 0.5)
+                if (previousConnectionType == ConnectionType.SecretRoomDoor)
                 {
                     Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                    nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Room>();
+                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<SecretRoom>();
                     DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                 }
                 else
                 {
-                    Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                    nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Corridor>();
-                    DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
+                    if (chance >= 0.5)
+                    {
+                        Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
+                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Corridor>();
+                        DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
+                    }
+                    else
+                    {
+                        Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
+                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Room>();
+                        DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
+                    }
                 }
             }
         }
@@ -160,16 +173,16 @@ namespace DungeonGenerator
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y), Transform.rotation, Transform);
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y + size - 1), Transform.rotation, Transform);
 
-            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Door)
+            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Door || Connection.Top == ConnectionType.SecretRoomDoor)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size - 1), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Door)
+            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Door || Connection.Bottom == ConnectionType.SecretRoomDoor)
                 Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Door)
+            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Door || Connection.Left == ConnectionType.SecretRoomDoor)
                 Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
-            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Door)
+            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Door || Connection.Right == ConnectionType.SecretRoomDoor)
                 Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size - 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
         }
@@ -188,6 +201,8 @@ namespace DungeonGenerator
                     break;
                 case ConnectionType.Door:
                     return DungeonManager.Dungeon.DoorPrefab;
+                case ConnectionType.SecretRoomDoor:
+                    return DungeonManager.Dungeon.SecretRoomDoorPrefab;
                 default:
                     break;
             }

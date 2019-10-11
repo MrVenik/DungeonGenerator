@@ -12,6 +12,7 @@ namespace DungeonGenerator
         [SerializeField] public GameObject RoomPrefab;
         [SerializeField] public GameObject StartRoomPrefab;
         [SerializeField] public GameObject CorridorPrefab;
+        [SerializeField] public GameObject SecretRoomPrefab;
 
         [SerializeField] public GameObject ColumnPrefab;
         [SerializeField] public GameObject WallPrefab;
@@ -19,6 +20,7 @@ namespace DungeonGenerator
         [SerializeField] public GameObject CorridorWallPrefab;
         [SerializeField] public GameObject CorridorDoorPrefab;
         [SerializeField] public GameObject CorridorOpenPrefab;
+        [SerializeField] public GameObject SecretRoomDoorPrefab;
 
         [SerializeField] public int RoomSize;
         [SerializeField] public int CorridorSize;
@@ -77,11 +79,9 @@ namespace DungeonGenerator
             {
                 if (_rooms[x, y] is EmptyRoom)
                 {
-                    Console.WriteLine("Проверка прошла успешно, ставим комнату на Х - " + x + " Y - " + y);
                     _rooms[x, y] = room;
                     _rooms[x, y].Create(x, y);
                 }
-                Console.WriteLine("Проверка прошла неуспешно, не ставим комнату на Х - " + x + " Y - " + y);
             }
         }
 
