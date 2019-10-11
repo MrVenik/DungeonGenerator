@@ -45,7 +45,7 @@ namespace DungeonGenerator
         {
             Transform = transform;
 
-            _rooms = new IRoom[_heigth, _width];
+            _rooms = new IRoom[_width, _heigth];
 
             for (int x = 0; x < _width; x++)
             {
