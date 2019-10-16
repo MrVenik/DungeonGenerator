@@ -7,14 +7,8 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class Corridor : Room
+    public class Corridor : ProceduralRoom
     {
-        protected override ConnectionType[] PossibleConnectionTypes { get; } = new ConnectionType[]
-        {
-            ConnectionType.Wall,
-            ConnectionType.Door
-        };
-
         protected override ConnectionType CreateNewConnection()
         {
 
@@ -82,27 +76,27 @@ namespace DungeonGenerator
 
 
 
-            if (Connection.Top == ConnectionType.Wall)
+            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Bottom == ConnectionType.Wall)
+            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y + 1), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Left == ConnectionType.Wall)
+            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x + 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
-            if (Connection.Right == ConnectionType.Wall)
+            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
         }
 
-        public override GameObject GetConnectionGameObject(ConnectionType type)
+        protected override GameObject GetConnectionGameObject(ConnectionType type)
         {
             switch (type)
             {
                 case ConnectionType.None:
                     break;
                 case ConnectionType.Border:
-                    break;
+                    return DungeonManager.Dungeon.CorridorWallPrefab;
                 case ConnectionType.Wall:
                     return DungeonManager.Dungeon.CorridorWallPrefab;
                 case ConnectionType.Open:

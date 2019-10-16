@@ -2,11 +2,10 @@
 
 namespace DungeonGenerator
 {
-    public class SecretRoom : Room
+    public class SecretRoom : ProceduralRoom
     {
         protected override ConnectionType CreateNewConnection()
         {
-
             float chance = UnityEngine.Random.Range(0f, 1f);
 
             if (chance > 0.1f && chance <= 0.2f)
@@ -23,7 +22,7 @@ namespace DungeonGenerator
             //return PossibleConnectionTypes[index];
         }
 
-        protected override void CreateNextRoom(int x, int y, ConnectionType previousConnectionType)
+        protected override void CreateNextRoom(int x, int y)
         {
             IRoom nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 

@@ -2,7 +2,8 @@
 {
     public interface IRoom
     {
-        Connection GetConnection();
+        Connection Connection { get; }
+        bool CanCreate(int x, int y);
         void Create(int x, int y);
         void Build();
     }

@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4788935126168272057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d261e933e522b5a4487f54fc2ede4ddf, type: 3}
+  m_Script: {fileID: 11500000, guid: eacff6eab1d9a804593d7671b8e2d9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RoomPrefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,

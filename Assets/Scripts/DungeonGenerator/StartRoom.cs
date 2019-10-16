@@ -1,6 +1,6 @@
 ﻿namespace DungeonGenerator
 {
-    internal class StartRoom : Room, IRoom
+    internal class StartRoom : TemplateRoom
     {
         protected override void CreateConnections()
         {
