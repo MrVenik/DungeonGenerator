@@ -111,7 +111,7 @@ namespace DungeonGenerator
                 if (previousConnectionType == ConnectionType.SecretRoomDoor)
                 {
                     Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<SecretRoom>();
+                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<SecretRoom>();
                     DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                 }
                 else
@@ -119,13 +119,13 @@ namespace DungeonGenerator
                     if (chance >= 0.5)
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Corridor>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Corridor>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
                     else
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<ProceduralRoom>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<ProceduralRoom>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
                 }

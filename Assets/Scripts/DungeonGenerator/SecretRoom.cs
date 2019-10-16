@@ -29,7 +29,7 @@ namespace DungeonGenerator
             if (nextRoom is EmptyRoom)
             {
                 Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<SecretRoom>();
+                nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<SecretRoom>();
                 DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
             }
         }
