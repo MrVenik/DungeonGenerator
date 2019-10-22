@@ -7,6 +7,22 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
+    static class MyExtensions
+    {
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = UnityEngine.Random.Range(0, n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
+
     public class ProceduralRoom : Room
     {
         public override bool CanCreate(int x, int y)
@@ -87,10 +103,24 @@ namespace DungeonGenerator
 
         protected override void CreateNextRooms()
         {
+            /*
             if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1);
             if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1);
             if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y);
             if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y);
+            */
+            
+            List<Vector2Int> queue = new List<Vector2Int>();
+            if (CanCreateNextRoom(Connection.Top)) queue.Add(new Vector2Int(_x, _y + 1));//CreateNextRoom(_x, _y + 1);
+            if (CanCreateNextRoom(Connection.Bottom)) queue.Add(new Vector2Int(_x, _y - 1));//CreateNextRoom(_x, _y - 1);
+            if (CanCreateNextRoom(Connection.Left)) queue.Add(new Vector2Int(_x - 1, _y));//CreateNextRoom(_x - 1, _y);
+            if (CanCreateNextRoom(Connection.Right)) queue.Add(new Vector2Int(_x + 1, _y));//CreateNextRoom(_x + 1, _y);
+            queue.Shuffle();
+            foreach (var room in queue)
+            {
+                //Debug.Log(room);
+                CreateNextRoom(room.x, room.y);
+            }
         }
 
         protected virtual bool CanCreateNextRoom(ConnectionType type)
@@ -111,7 +141,7 @@ namespace DungeonGenerator
                 if (previousConnectionType == ConnectionType.SecretRoomDoor)
                 {
                     Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<SecretRoom>();
+                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                     DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                 }
                 else
@@ -119,13 +149,13 @@ namespace DungeonGenerator
                     if (chance >= 0.5)
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Corridor>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
                     else
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<ProceduralRoom>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
                 }
