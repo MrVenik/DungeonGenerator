@@ -9,6 +9,23 @@ namespace DungeonGenerator
 {
     public class Corridor : ProceduralRoom
     {
+        public override bool CanCreate(int x, int y)
+        {
+            int connections = 0;
+
+            Connection topConnection = DungeonManager.Dungeon.GetRoom(x, y + 1).Connection;
+            if (topConnection.Bottom != ConnectionType.Wall && topConnection.Bottom != ConnectionType.Border) connections++;
+            Connection bottomConnection = DungeonManager.Dungeon.GetRoom(x, y - 1).Connection;
+            if (bottomConnection.Top != ConnectionType.Wall && bottomConnection.Top != ConnectionType.Border) connections++;
+            Connection leftConnection = DungeonManager.Dungeon.GetRoom(x - 1, y).Connection;
+            if (leftConnection.Right != ConnectionType.Wall && leftConnection.Right != ConnectionType.Border) connections++;
+            Connection rightConnection = DungeonManager.Dungeon.GetRoom(x + 1, y).Connection;
+            if (rightConnection.Left != ConnectionType.Wall && rightConnection.Left != ConnectionType.Border) connections++;
+
+            Debug.Log(connections >= 2);
+            return connections >= 2;
+        }
+
         protected override ConnectionType CreateNewConnection()
         {
 

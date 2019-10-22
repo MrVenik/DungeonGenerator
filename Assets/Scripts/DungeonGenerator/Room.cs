@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DungeonGenerator
@@ -13,6 +14,7 @@ namespace DungeonGenerator
 
     public abstract class Room : MonoBehaviour, IRoom
     {
+        [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
         [SerializeField] private Connection _connection;
         public Connection Connection
         {

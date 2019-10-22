@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace DungeonGenerator
 {
@@ -47,11 +48,39 @@ namespace DungeonGenerator
             if (nextRoom is EmptyRoom)
             {
                 float chance = UnityEngine.Random.Range(0f, 1f);
+
+                //if (PossibleNextRooms == null)
+                //{
+                PossibleNextRooms = DungeonManager.Dungeon.AllRooms;
+                //}
+
+                List<RoomPrefabData> nextRooms = new List<RoomPrefabData>();
+
+                foreach (var room in PossibleNextRooms)
+                {
+                    if (chance < room.Chance)
+                    {
+                        IRoom possibleNextRoom = room.Prefab.GetComponent<Room>();
+                        if (possibleNextRoom.CanCreate(x, y))
+                        {
+                            nextRooms.Add(room);
+                        }
+                    }
+                }
+
+                int rndIndex = UnityEngine.Random.Range(0, nextRooms.Count);
+                GameObject nextRoomPrefab = nextRooms[rndIndex].Prefab;
+
+                Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
+                nextRoom = Instantiate(nextRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
+                DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
+
+                /*
                 ConnectionType previousConnectionType = default;
                 if (previousConnectionType == ConnectionType.SecretRoomDoor)
                 {
                     Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<SecretRoom>();
+                    nextRoom = Instantiate(DungeonManager.Dungeon.SecretRoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                     DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                 }
                 else
@@ -59,16 +88,16 @@ namespace DungeonGenerator
                     if (chance >= 0.5)
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<Corridor>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.CorridorPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
                     else
                     {
                         Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
-                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, DungeonManager.Dungeon.Transform).GetComponent<ProceduralRoom>();
+                        nextRoom = Instantiate(DungeonManager.Dungeon.RoomPrefab, nextRoomPosition, Transform.rotation, Transform.parent).GetComponent<Room>();
                         DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
                     }
-                }
+                }*/
             }
         }
 

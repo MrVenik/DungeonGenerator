@@ -9,6 +9,8 @@ namespace DungeonGenerator
 {
     public class Dungeon : MonoBehaviour
     {
+        [SerializeField] public List<RoomPrefabData> AllRooms;
+
         [SerializeField] public GameObject RoomPrefab;
         [SerializeField] public GameObject StartRoomPrefab;
         [SerializeField] public GameObject CorridorPrefab;

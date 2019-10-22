@@ -43,6 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacff6eab1d9a804593d7671b8e2d9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AllRooms:
+  - Name: Room
+    Prefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,
+      type: 3}
+    Chance: 1
+  - Name: Corridor
+    Prefab: {fileID: 390632652426117184, guid: 43c18a4b30525054b8360a62255886b3, type: 3}
+    Chance: 1
+  - Name: SecretRoom
+    Prefab: {fileID: 1811533191166877106, guid: 2747b4351afdca24587ec5c04a3cc3a2,
+      type: 3}
+    Chance: 0.01
   RoomPrefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,
     type: 3}
   StartRoomPrefab: {fileID: 1977446155243726721, guid: 6adcc69980e408d4583975c5d7fb9be1,
