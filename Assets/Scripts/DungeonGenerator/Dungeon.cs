@@ -11,10 +11,7 @@ namespace DungeonGenerator
     {
         [SerializeField] public List<RoomPrefabData> AllRooms;
 
-        [SerializeField] public GameObject RoomPrefab;
         [SerializeField] public GameObject StartRoomPrefab;
-        [SerializeField] public GameObject CorridorPrefab;
-        [SerializeField] public GameObject SecretRoomPrefab;
 
         [SerializeField] public GameObject ColumnPrefab;
         [SerializeField] public GameObject WallPrefab;
