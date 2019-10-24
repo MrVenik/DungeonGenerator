@@ -4,6 +4,20 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
+    public struct NextRoomData
+    {
+        public readonly int X;
+        public readonly int Y;
+        public readonly Side Side;
+
+        public NextRoomData(int x, int y, Side side)
+        {
+            X = x;
+            Y = y;
+            Side = side;
+        }
+    }
+
     public enum Side
     {
         Top,
@@ -38,7 +52,26 @@ namespace DungeonGenerator
 
         protected abstract void CreateConnections();
 
-        protected abstract void CreateNextRooms();
+        protected virtual void CreateNextRooms()
+        {
+            /*
+            if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1);
+            if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1);
+            if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y);
+            if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y);
+            */
+
+            List<NextRoomData> queue = new List<NextRoomData>();
+            if (CanCreateNextRoom(Connection.Top)) queue.Add(new NextRoomData(_x, _y + 1, Side.Top));
+            if (CanCreateNextRoom(Connection.Bottom)) queue.Add(new NextRoomData(_x, _y - 1, Side.Bottom));
+            if (CanCreateNextRoom(Connection.Left)) queue.Add(new NextRoomData(_x - 1, _y, Side.Left));
+            if (CanCreateNextRoom(Connection.Right)) queue.Add(new NextRoomData(_x + 1, _y, Side.Right));
+            queue.Shuffle();
+            foreach (var room in queue)
+            {
+                CreateNextRoom(room.X, room.Y, room.Side);
+            }
+        }
 
         protected virtual bool CanCreateNextRoom(ConnectionType type)
         {

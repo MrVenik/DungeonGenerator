@@ -23,14 +23,6 @@ namespace DungeonGenerator
         {
         }
 
-        protected override void CreateNextRooms()
-        {
-            if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1, Side.Top);
-            if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1, Side.Bottom);
-            if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y, Side.Left);
-            if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y, Side.Right);
-        }
-
         public override void Build()
         {
             int size = DungeonManager.Dungeon.RoomSize;

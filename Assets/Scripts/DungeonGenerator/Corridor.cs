@@ -28,11 +28,17 @@ namespace DungeonGenerator
 
         protected override ConnectionType CreateNewConnection()
         {
+            if (AmmountOfOpenConnections < 2)
+            {
+                AmmountOfOpenConnections++;
+                return ConnectionType.Small;
+            }
 
             float chance = UnityEngine.Random.Range(0f, 1f);
 
-            if (chance <= 0.5f)
+            if (chance < 0.34f)
             {
+                AmmountOfOpenConnections++;
                 return ConnectionType.Small;
             }
             else return ConnectionType.Wall;

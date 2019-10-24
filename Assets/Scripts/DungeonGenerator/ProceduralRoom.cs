@@ -9,6 +9,7 @@ namespace DungeonGenerator
 {
     public class ProceduralRoom : Room
     {
+        [SerializeField] protected List<ConnectionData> PossibleNextConnections;
         public override bool CanCreate(int x, int y)
         {
             return true;
@@ -24,12 +25,52 @@ namespace DungeonGenerator
             CreateNextRooms();
         }
 
+        [SerializeField] protected int AmmountOfOpenConnections = 0;
         protected override void CreateConnections()
         {
-            Connection.Top = GetOrCreateConnection(Side.Top);
-            Connection.Bottom = GetOrCreateConnection(Side.Bottom);
-            Connection.Left = GetOrCreateConnection(Side.Left);
-            Connection.Right = GetOrCreateConnection(Side.Right);
+            List<Side> queue = new List<Side>();
+
+            if (ConnectTo(Side.Top) == ConnectionType.None) queue.Add(Side.Top);
+            if (ConnectTo(Side.Bottom) == ConnectionType.None) queue.Add(Side.Bottom);
+            if (ConnectTo(Side.Left) == ConnectionType.None) queue.Add(Side.Left);
+            if (ConnectTo(Side.Right) == ConnectionType.None) queue.Add(Side.Right);
+
+            queue.Shuffle();
+            foreach (var side in queue)
+            {
+                ConnectionType conn = GetOrCreateConnection(side);
+            }
+        }
+
+        protected virtual ConnectionType ConnectTo(Side side)
+        {
+            Connection neighborConnection;
+            switch (side)
+            {
+                case Side.Top:
+                    neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x, _y + 1);
+                    Connection.Top = neighborConnection.Bottom;
+                    if (CanCreateNextRoom(Connection.Top)) AmmountOfOpenConnections++;
+                    return neighborConnection.Bottom;
+                case Side.Bottom:
+                    neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x, _y - 1);
+                    Connection.Bottom = neighborConnection.Top;
+                    if (CanCreateNextRoom(Connection.Bottom)) AmmountOfOpenConnections++;
+                    return neighborConnection.Top;
+                case Side.Left:
+                    neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x - 1, _y);
+                    Connection.Left = neighborConnection.Right;
+                    if (CanCreateNextRoom(Connection.Left)) AmmountOfOpenConnections++;
+                    return neighborConnection.Right;
+                case Side.Right:
+                    neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x + 1, _y);
+                    Connection.Right = neighborConnection.Left;
+                    if (CanCreateNextRoom(Connection.Right)) AmmountOfOpenConnections++;
+                    return neighborConnection.Left;
+                default:
+                    break;
+            }
+            throw new Exception("Invalid side type");
         }
 
         protected virtual ConnectionType GetOrCreateConnection(Side side)
@@ -39,20 +80,24 @@ namespace DungeonGenerator
             {
                 case Side.Top:
                     neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x, _y + 1);
-                    if (neighborConnection.Bottom != ConnectionType.None) return neighborConnection.Bottom;
-                    else return CreateNewConnection();
+                    if (neighborConnection.Bottom != ConnectionType.None) Connection.Top = neighborConnection.Bottom;
+                    else Connection.Top = CreateNewConnection();
+                    return Connection.Top;
                 case Side.Bottom:
                     neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x, _y - 1);
-                    if (neighborConnection.Top != ConnectionType.None) return neighborConnection.Top;
-                    else return CreateNewConnection();
+                    if (neighborConnection.Top != ConnectionType.None) Connection.Bottom = neighborConnection.Top;
+                    else Connection.Bottom = CreateNewConnection();
+                    return Connection.Bottom;
                 case Side.Left:
                     neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x - 1, _y);
-                    if (neighborConnection.Right != ConnectionType.None) return neighborConnection.Right;
-                    else return CreateNewConnection();
+                    if (neighborConnection.Right != ConnectionType.None) Connection.Left = neighborConnection.Right;
+                    else Connection.Left = CreateNewConnection();
+                    return Connection.Left;
                 case Side.Right:
                     neighborConnection = DungeonManager.Dungeon.GetRoomConnection(_x + 1, _y);
-                    if (neighborConnection.Left != ConnectionType.None) return neighborConnection.Left;
-                    else return CreateNewConnection();
+                    if (neighborConnection.Left != ConnectionType.None) Connection.Right = neighborConnection.Left;
+                    else Connection.Right = CreateNewConnection();
+                    return Connection.Right;
                 default:
                     break;
             }
@@ -61,7 +106,28 @@ namespace DungeonGenerator
 
         protected virtual ConnectionType CreateNewConnection()
         {
+            List<ConnectionType> nextConnections = new List<ConnectionType>();
+
             float chance = UnityEngine.Random.Range(0f, 1f);
+
+            foreach (var connection in PossibleNextConnections)
+            {
+                if (chance < connection.Chance)
+                {
+                    ConnectionType possibleNextConnection = connection.ConnectionType;
+                    nextConnections.Add(possibleNextConnection);
+                }
+            }
+
+            if (nextConnections.Count > 0)
+            {
+                int rndIndex = UnityEngine.Random.Range(0, nextConnections.Count);
+                return nextConnections[rndIndex];
+            }
+            else throw new Exception("There no connection to create");
+
+
+            /*float chance = UnityEngine.Random.Range(0f, 1f);
 
             if (chance <= 0.5f)
             {
@@ -79,42 +145,7 @@ namespace DungeonGenerator
                     return ConnectionType.SecretRoomDoor;
                 }
             }
-            else return ConnectionType.Wall;
-        }
-
-        struct NextRoomData
-        {
-            public readonly int X;
-            public readonly int Y;
-            public readonly Side Side;
-
-            public NextRoomData(int x, int y, Side side)
-            {
-                X = x;
-                Y = y;
-                Side = side;
-            }
-        }
-
-        protected override void CreateNextRooms()
-        {
-            /*
-            if (CanCreateNextRoom(Connection.Top)) CreateNextRoom(_x, _y + 1);
-            if (CanCreateNextRoom(Connection.Bottom)) CreateNextRoom(_x, _y - 1);
-            if (CanCreateNextRoom(Connection.Left)) CreateNextRoom(_x - 1, _y);
-            if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y);
-            */
-            
-            List<NextRoomData> queue = new List<NextRoomData>();
-            if (CanCreateNextRoom(Connection.Top)) queue.Add(new NextRoomData(_x, _y + 1, Side.Top));
-            if (CanCreateNextRoom(Connection.Bottom)) queue.Add(new NextRoomData(_x, _y - 1, Side.Bottom));
-            if (CanCreateNextRoom(Connection.Left)) queue.Add(new NextRoomData(_x - 1, _y, Side.Left));
-            if (CanCreateNextRoom(Connection.Right)) queue.Add(new NextRoomData(_x + 1, _y, Side.Right));
-            queue.Shuffle();
-            foreach (var room in queue)
-            {
-                CreateNextRoom(room.X, room.Y, room.Side);
-            }
+            else return ConnectionType.Wall;*/
         }
 
         public override void Build()
