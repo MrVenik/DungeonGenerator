@@ -5,8 +5,8 @@
         None,
         Border,
         Wall,
-        Open,
-        Door,
+        Medium,
+        Small,
         CorridorWall,
         SecretRoomDoor
     }
@@ -16,7 +16,7 @@
     {
         public static Connection Start = new Connection()
         {
-            Top = ConnectionType.Door,
+            Top = ConnectionType.Small,
             Bottom = ConnectionType.Wall,
             Left = ConnectionType.Wall,
             Right = ConnectionType.Wall

@@ -7,58 +7,42 @@ namespace DungeonGenerator
         public override bool CanCreate(int x, int y)
         {
             Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
-            if (topConnection.Bottom == ConnectionType.Door || topConnection.Bottom == ConnectionType.Open)
+            if (topConnection.Bottom == ConnectionType.Small || topConnection.Bottom == ConnectionType.Medium)
             {
                 Room room = DungeonManager.Dungeon.GetRoom(x, y + 1);
-                if (room != null)
-                {
-                    if (room is SecretRoom)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return CheckSecretRoom(room);
             }
             Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
-            if (bottomConnection.Top == ConnectionType.Door || bottomConnection.Top == ConnectionType.Open)
+            if (bottomConnection.Top == ConnectionType.Small || bottomConnection.Top == ConnectionType.Medium)
             {
                 Room room = DungeonManager.Dungeon.GetRoom(x, y - 1);
-                if (room != null)
-                {
-                    if (room is SecretRoom)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return CheckSecretRoom(room);
             }
             Connection leftConnection = DungeonManager.Dungeon.GetRoomConnection(x - 1, y);
-            if (leftConnection.Right == ConnectionType.Door || leftConnection.Right == ConnectionType.Open)
+            if (leftConnection.Right == ConnectionType.Small || leftConnection.Right == ConnectionType.Medium)
             {
                 Room room = DungeonManager.Dungeon.GetRoom(x - 1, y);
-                if (room != null)
-                {
-                    if (room is SecretRoom)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return CheckSecretRoom(room);
             }
             Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
-            if (rightConnection.Left == ConnectionType.Door || rightConnection.Left == ConnectionType.Open)
+            if (rightConnection.Left == ConnectionType.Small || rightConnection.Left == ConnectionType.Medium)
             {
                 Room room = DungeonManager.Dungeon.GetRoom(x + 1, y);
-                if (room != null)
-                {
-                    if (room is SecretRoom)
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return CheckSecretRoom(room);
             }
             return true;
+        }
+
+        private bool CheckSecretRoom(Room room)
+        {
+            if (room != null)
+            {
+                if (room is SecretRoom)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected override ConnectionType CreateNewConnection()
@@ -67,16 +51,13 @@ namespace DungeonGenerator
 
             if (chance > 0.1f && chance <= 0.2f)
             {
-                return ConnectionType.Open;
+                return ConnectionType.Medium;
             }
             else if (chance <= 0.1f)
             {
-                return ConnectionType.Door;
+                return ConnectionType.Small;
             }
             else return ConnectionType.Wall;
-
-            //int index = UnityEngine.Random.Range(0, PossibleConnectionTypes.Length);
-            //return PossibleConnectionTypes[index];
         }
     }
 }

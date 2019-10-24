@@ -33,7 +33,7 @@ namespace DungeonGenerator
 
             if (chance <= 0.5f)
             {
-                return ConnectionType.Door;
+                return ConnectionType.Small;
             }
             else return ConnectionType.Wall;
 
@@ -50,30 +50,30 @@ namespace DungeonGenerator
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size, Transform.position.y + size), Transform.rotation, Transform);
 
 
-            if (Connection.Top == ConnectionType.Open)
+            if (Connection.Top == ConnectionType.Medium)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size + 1), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Bottom == ConnectionType.Open)
+            if (Connection.Bottom == ConnectionType.Medium)
                 Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Left == ConnectionType.Open)
+            if (Connection.Left == ConnectionType.Medium)
                 Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
-            if (Connection.Right == ConnectionType.Open)
+            if (Connection.Right == ConnectionType.Medium)
                 Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size + 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
 
 
-            if (Connection.Top == ConnectionType.Door)
+            if (Connection.Top == ConnectionType.Small)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size + 1), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Bottom == ConnectionType.Door)
+            if (Connection.Bottom == ConnectionType.Small)
                 Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Left == ConnectionType.Door)
+            if (Connection.Left == ConnectionType.Small)
                 Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
-            if (Connection.Right == ConnectionType.Door)
+            if (Connection.Right == ConnectionType.Small)
                 Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size + 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
 
@@ -116,9 +116,9 @@ namespace DungeonGenerator
                     return DungeonManager.Dungeon.CorridorWallPrefab;
                 case ConnectionType.Wall:
                     return DungeonManager.Dungeon.CorridorWallPrefab;
-                case ConnectionType.Open:
+                case ConnectionType.Medium:
                     return DungeonManager.Dungeon.CorridorOpenPrefab;
-                case ConnectionType.Door:
+                case ConnectionType.Small:
                     return DungeonManager.Dungeon.CorridorDoorPrefab;
                 case ConnectionType.SecretRoomDoor:
                     return DungeonManager.Dungeon.SecretRoomDoorPrefab;

@@ -68,11 +68,11 @@ namespace DungeonGenerator
                 chance = UnityEngine.Random.Range(0f, 1f);
                 if (chance >= 0.50f)
                 {
-                    return ConnectionType.Open;
+                    return ConnectionType.Medium;
                 }
                 else if (chance >= 0.10f)
                 {
-                    return ConnectionType.Door;
+                    return ConnectionType.Small;
                 }
                 else
                 {
@@ -80,9 +80,6 @@ namespace DungeonGenerator
                 }
             }
             else return ConnectionType.Wall;
-
-            //int index = UnityEngine.Random.Range(0, PossibleConnectionTypes.Length);
-            //return PossibleConnectionTypes[index];
         }
 
         struct NextRoomData
@@ -116,7 +113,6 @@ namespace DungeonGenerator
             queue.Shuffle();
             foreach (var room in queue)
             {
-                //Debug.Log(room);
                 CreateNextRoom(room.X, room.Y, room.Side);
             }
         }
@@ -129,16 +125,16 @@ namespace DungeonGenerator
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y), Transform.rotation, Transform);
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y + size - 1), Transform.rotation, Transform);
 
-            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Door || Connection.Top == ConnectionType.SecretRoomDoor || Connection.Top == ConnectionType.Border)
+            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Small || Connection.Top == ConnectionType.SecretRoomDoor || Connection.Top == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size - 1), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Door || Connection.Bottom == ConnectionType.SecretRoomDoor || Connection.Bottom == ConnectionType.Border)
+            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Small || Connection.Bottom == ConnectionType.SecretRoomDoor || Connection.Bottom == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
 
-            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Door || Connection.Left == ConnectionType.SecretRoomDoor || Connection.Left == ConnectionType.Border)
+            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Small || Connection.Left == ConnectionType.SecretRoomDoor || Connection.Left == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
-            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Door || Connection.Right == ConnectionType.SecretRoomDoor || Connection.Right == ConnectionType.Border)
+            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Small || Connection.Right == ConnectionType.SecretRoomDoor || Connection.Right == ConnectionType.Border)
                 Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size - 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
 
         }
@@ -153,9 +149,9 @@ namespace DungeonGenerator
                     return DungeonManager.Dungeon.WallPrefab;
                 case ConnectionType.Wall:
                     return DungeonManager.Dungeon.WallPrefab;
-                case ConnectionType.Open:
+                case ConnectionType.Medium:
                     break;
-                case ConnectionType.Door:
+                case ConnectionType.Small:
                     return DungeonManager.Dungeon.DoorPrefab;
                 case ConnectionType.SecretRoomDoor:
                     return DungeonManager.Dungeon.SecretRoomDoorPrefab;
