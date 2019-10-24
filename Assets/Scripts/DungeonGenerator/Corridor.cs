@@ -13,13 +13,13 @@ namespace DungeonGenerator
         {
             int connections = 0;
 
-            Connection topConnection = DungeonManager.Dungeon.GetRoom(x, y + 1).Connection;
+            Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
             if (topConnection.Bottom != ConnectionType.Wall && topConnection.Bottom != ConnectionType.Border) connections++;
-            Connection bottomConnection = DungeonManager.Dungeon.GetRoom(x, y - 1).Connection;
+            Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
             if (bottomConnection.Top != ConnectionType.Wall && bottomConnection.Top != ConnectionType.Border) connections++;
-            Connection leftConnection = DungeonManager.Dungeon.GetRoom(x - 1, y).Connection;
+            Connection leftConnection = DungeonManager.Dungeon.GetRoomConnection(x - 1, y);
             if (leftConnection.Right != ConnectionType.Wall && leftConnection.Right != ConnectionType.Border) connections++;
-            Connection rightConnection = DungeonManager.Dungeon.GetRoom(x + 1, y).Connection;
+            Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
             if (rightConnection.Left != ConnectionType.Wall && rightConnection.Left != ConnectionType.Border) connections++;
 
             Debug.Log(connections >= 2);

@@ -15,17 +15,12 @@ namespace DungeonGenerator
     public abstract class Room : MonoBehaviour, IRoom
     {
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
+        [SerializeField] public Side Entrance;
         [SerializeField] private Connection _connection;
         public Connection Connection
         {
-            get
-            {
-                return _connection;
-            }
-            protected set
-            {
-                _connection = value;
-            }
+            get => _connection;
+            set => _connection = value;
         }
 
         public Transform Transform { get; private set; }
@@ -45,7 +40,17 @@ namespace DungeonGenerator
 
         protected abstract void CreateNextRooms();
 
-        protected abstract void CreateNextRoom(int x, int y);
+        protected virtual bool CanCreateNextRoom(ConnectionType type)
+        {
+            return type != ConnectionType.Wall
+                && type != ConnectionType.None
+                && type != ConnectionType.Border;
+        }
+
+        protected virtual void CreateNextRoom(int x, int y, Side side)
+        {
+            RoomSpawnPoint.Spawn(x, y, PossibleNextRooms, side);
+        }
 
         public abstract void Build();
     }

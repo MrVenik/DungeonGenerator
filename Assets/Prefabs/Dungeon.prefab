@@ -54,7 +54,11 @@ MonoBehaviour:
   - Name: SecretRoom
     Prefab: {fileID: 1811533191166877106, guid: 2747b4351afdca24587ec5c04a3cc3a2,
       type: 3}
-    Chance: 0.01
+    Chance: 0.1
+  - Name: SquareRoom
+    Prefab: {fileID: 1592907436983119729, guid: 6fcd71bf013537f45967de66ed56876f,
+      type: 3}
+    Chance: 0.5
   RoomPrefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,
     type: 3}
   StartRoomPrefab: {fileID: 1977446155243726721, guid: 6adcc69980e408d4583975c5d7fb9be1,
@@ -76,6 +80,8 @@ MonoBehaviour:
   CorridorOpenPrefab: {fileID: 5595796165803689315, guid: b25a94453f7a2b74694c438a6f7b6c6c,
     type: 3}
   SecretRoomDoorPrefab: {fileID: 531516176756141088, guid: 3a45a22f1ee82c14eb6002ab13262dfc,
+    type: 3}
+  StartRoomBuildingPrefab: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
     type: 3}
   RoomSize: 7
   CorridorSize: 5

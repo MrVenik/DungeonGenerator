@@ -1,10 +1,8 @@
-﻿namespace DungeonGenerator
+﻿using UnityEngine;
+
+namespace DungeonGenerator
 {
-    internal class StartRoom : TemplateRoom
+    public class StartRoom : TemplateRoom
     {
-        protected override void CreateConnections()
-        {
-            Connection = Connection.Start;
-        }
     }
 }

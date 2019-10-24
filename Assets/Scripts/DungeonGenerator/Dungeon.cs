@@ -23,6 +23,7 @@ namespace DungeonGenerator
         [SerializeField] public GameObject CorridorDoorPrefab;
         [SerializeField] public GameObject CorridorOpenPrefab;
         [SerializeField] public GameObject SecretRoomDoorPrefab;
+        [SerializeField] public GameObject StartRoomBuildingPrefab;
 
         [SerializeField] public int RoomSize;
         [SerializeField] public int CorridorSize;
@@ -30,7 +31,7 @@ namespace DungeonGenerator
         [SerializeField] private int _heigth;
         [SerializeField] private int _width;
 
-        private IRoom[,] _rooms;
+        private Room[,] _rooms;
 
         public Transform Transform { get; private set; }
 
@@ -40,7 +41,10 @@ namespace DungeonGenerator
             {
                 for (int y = 0; y < _heigth; y++)
                 {
-                    _rooms[x, y].Build();
+                    if (_rooms[x, y] != null)
+                    {
+                        _rooms[x, y].Build();
+                    }
                 }
             }
         }
@@ -49,37 +53,48 @@ namespace DungeonGenerator
         {
             Transform = transform;
 
-            _rooms = new IRoom[_width, _heigth];
-
-            for (int x = 0; x < _width; x++)
-            {
-                for (int y = 0; y < _heigth; y++)
-                {
-                    _rooms[x, y] = new EmptyRoom();
-                }
-            }
+            _rooms = new Room[_width, _heigth];
         }
 
         public void CreateStartRoom(int x, int y)
         {
-            IRoom startRoom = Instantiate(StartRoomPrefab, Transform.position, Transform.rotation, Transform).GetComponent<StartRoom>();
-            SetRoom(startRoom, x, y);
+            RoomPrefabData startRoomData = new RoomPrefabData()
+            {
+                Name = "StartRoom",
+                Prefab = StartRoomPrefab,
+                Chance = 1f
+            };
+
+            RoomSpawnPoint.Spawn(x, y, startRoomData, Side.Bottom);
         }
 
-        internal IRoom GetRoom(int x, int y)
+        public Room GetRoom(int x, int y)
         {
             if (CheckBorders(x, y))
             {
                 return _rooms[x, y];
             }
-            else return new BorderRoom();
+            else return null;
         }
 
-        internal void SetRoom(IRoom room, int x, int y)
+        public Connection GetRoomConnection(int x, int y)
         {
             if (CheckBorders(x, y))
             {
-                if (_rooms[x, y] is EmptyRoom)
+                if (_rooms[x, y] != null)
+                {
+                    return _rooms[x, y].Connection;
+                }
+                else return Connection.None;
+            }
+            else return Connection.Border;
+        }
+
+        public void SetRoom(Room room, int x, int y)
+        {
+            if (CheckBorders(x, y))
+            {
+                if (_rooms[x, y] == null)
                 {
                     _rooms[x, y] = room;
                     _rooms[x, y].Create(x, y);
