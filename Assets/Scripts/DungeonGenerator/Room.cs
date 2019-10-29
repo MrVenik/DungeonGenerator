@@ -4,14 +4,6 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public enum Side
-    {
-        Top,
-        Bottom,
-        Left,
-        Right
-    }
-
     public abstract class Room : MonoBehaviour, IRoom
     {
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;

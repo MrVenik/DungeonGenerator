@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PossibleNextRooms: []
-  Entrance: 1
+  Entrance: 0
   _connection:
-    Top: 4
-    Bottom: 2
+    Top: 2
+    Bottom: 4
     Left: 2
     Right: 2
   _templatePrefab: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,

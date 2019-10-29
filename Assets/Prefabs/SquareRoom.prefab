@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PossibleNextRooms: []
-  Entrance: 1
+  Entrance: 0
   _connection:
     Top: 4
     Bottom: 4

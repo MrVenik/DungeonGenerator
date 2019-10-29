@@ -4,6 +4,24 @@ namespace DungeonGenerator
 {
     public static class MyExtensions
     {
+        public static Side Oposite(this Side side)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    return Side.Bottom;
+                case Side.Bottom:
+                    return  Side.Top;
+                case Side.Left:
+                    return Side.Right;
+                case Side.Right:
+                    return Side.Left;
+                default:
+                    break;
+            }
+            throw new System.Exception("Invalid side type");
+        }
+
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
