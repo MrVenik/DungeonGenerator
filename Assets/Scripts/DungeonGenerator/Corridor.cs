@@ -27,7 +27,7 @@ namespace DungeonGenerator
 
         protected override ConnectionType CreateNewConnection()
         {
-            if (AmmountOfOpenConnections < 2) return ConnectionType.Small;
+            if (AmountOfOpenConnections < 2) return ConnectionType.Small;
             return base.CreateNewConnection();
         }
 

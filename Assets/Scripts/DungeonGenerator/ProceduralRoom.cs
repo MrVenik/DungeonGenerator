@@ -10,7 +10,16 @@ namespace DungeonGenerator
     public class ProceduralRoom : Room
     {
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
-        [SerializeField] protected int AmmountOfOpenConnections = 0;
+        [SerializeField] private int _amountOfOpenConnections;
+        public int AmountOfOpenConnections 
+        { 
+            get => _amountOfOpenConnections; 
+            protected set
+            {
+                if (value > 4) throw new Exception("Amount of open connections cant be more than 4");
+                else _amountOfOpenConnections = value;
+            }
+        }
 
         public override bool CanCreate(int x, int y)
         {
@@ -19,6 +28,8 @@ namespace DungeonGenerator
 
         public override void Create(int x, int y)
         {
+            AmountOfOpenConnections = 0;
+
             _x = x;
             _y = y;
 
@@ -55,7 +66,7 @@ namespace DungeonGenerator
                     if (neighborConnection.Bottom != ConnectionType.None) Connection.Top = neighborConnection.Bottom;
                     else Connection.Top = CreateNewConnection();
 
-                    if (CanCreateNextRoom(Connection.Top)) AmmountOfOpenConnections++;
+                    if (CanCreateNextRoom(Connection.Top)) AmountOfOpenConnections++;
 
                     return Connection.Top;
                 case Side.Bottom:
@@ -64,7 +75,7 @@ namespace DungeonGenerator
                     if (neighborConnection.Top != ConnectionType.None) Connection.Bottom = neighborConnection.Top;
                     else Connection.Bottom = CreateNewConnection();
 
-                    if (CanCreateNextRoom(Connection.Bottom)) AmmountOfOpenConnections++;
+                    if (CanCreateNextRoom(Connection.Bottom)) AmountOfOpenConnections++;
 
                     return Connection.Bottom;
                 case Side.Left:
@@ -73,7 +84,7 @@ namespace DungeonGenerator
                     if (neighborConnection.Right != ConnectionType.None) Connection.Left = neighborConnection.Right;
                     else Connection.Left = CreateNewConnection();
 
-                    if (CanCreateNextRoom(Connection.Left)) AmmountOfOpenConnections++;
+                    if (CanCreateNextRoom(Connection.Left)) AmountOfOpenConnections++;
 
                     return Connection.Left;
                 case Side.Right:
@@ -82,7 +93,7 @@ namespace DungeonGenerator
                     if (neighborConnection.Left != ConnectionType.None) Connection.Right = neighborConnection.Left;
                     else Connection.Right = CreateNewConnection();
 
-                    if (CanCreateNextRoom(Connection.Right)) AmmountOfOpenConnections++;
+                    if (CanCreateNextRoom(Connection.Right)) AmountOfOpenConnections++;
 
                     return Connection.Right;
                 default:
