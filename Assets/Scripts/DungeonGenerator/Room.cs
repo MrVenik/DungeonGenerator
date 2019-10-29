@@ -4,20 +4,6 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public struct NextRoomData
-    {
-        public readonly int X;
-        public readonly int Y;
-        public readonly Side Side;
-
-        public NextRoomData(int x, int y, Side side)
-        {
-            X = x;
-            Y = y;
-            Side = side;
-        }
-    }
-
     public enum Side
     {
         Top,
@@ -61,15 +47,15 @@ namespace DungeonGenerator
             if (CanCreateNextRoom(Connection.Right)) CreateNextRoom(_x + 1, _y);
             */
 
-            List<NextRoomData> queue = new List<NextRoomData>();
-            if (CanCreateNextRoom(Connection.Top)) queue.Add(new NextRoomData(_x, _y + 1, Side.Top));
-            if (CanCreateNextRoom(Connection.Bottom)) queue.Add(new NextRoomData(_x, _y - 1, Side.Bottom));
-            if (CanCreateNextRoom(Connection.Left)) queue.Add(new NextRoomData(_x - 1, _y, Side.Left));
-            if (CanCreateNextRoom(Connection.Right)) queue.Add(new NextRoomData(_x + 1, _y, Side.Right));
+            var queue = new List<(int, int, Side)>();
+            if (CanCreateNextRoom(Connection.Top)) queue.Add((_x, _y + 1, Side.Top));
+            if (CanCreateNextRoom(Connection.Bottom)) queue.Add((_x, _y - 1, Side.Bottom));
+            if (CanCreateNextRoom(Connection.Left)) queue.Add((_x - 1, _y, Side.Left));
+            if (CanCreateNextRoom(Connection.Right)) queue.Add((_x + 1, _y, Side.Right));
             queue.Shuffle();
             foreach (var room in queue)
             {
-                CreateNextRoom(room.X, room.Y, room.Side);
+                CreateNextRoom(room.Item1, room.Item2, room.Item3);
             }
         }
 
