@@ -44,20 +44,5 @@ namespace DungeonGenerator
             }
             return false;
         }
-
-        protected override ConnectionType CreateNewConnection()
-        {
-            float chance = UnityEngine.Random.Range(0f, 1f);
-
-            if (chance > 0.1f && chance <= 0.2f)
-            {
-                return ConnectionType.Medium;
-            }
-            else if (chance <= 0.1f)
-            {
-                return ConnectionType.Small;
-            }
-            else return ConnectionType.Wall;
-        }
     }
 }

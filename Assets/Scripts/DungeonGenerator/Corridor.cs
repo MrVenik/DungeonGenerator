@@ -22,29 +22,13 @@ namespace DungeonGenerator
             Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
             if (rightConnection.Left != ConnectionType.Wall && rightConnection.Left != ConnectionType.Border) connections++;
 
-            Debug.Log(connections >= 2);
             return connections >= 2;
         }
 
         protected override ConnectionType CreateNewConnection()
         {
-            if (AmmountOfOpenConnections < 2)
-            {
-                AmmountOfOpenConnections++;
-                return ConnectionType.Small;
-            }
-
-            float chance = UnityEngine.Random.Range(0f, 1f);
-
-            if (chance < 0.34f)
-            {
-                AmmountOfOpenConnections++;
-                return ConnectionType.Small;
-            }
-            else return ConnectionType.Wall;
-
-            //int index = UnityEngine.Random.Range(0, PossibleConnectionTypes.Length);
-            //return PossibleConnectionTypes[index];
+            if (AmmountOfOpenConnections < 2) return ConnectionType.Small;
+            return base.CreateNewConnection();
         }
 
         public override void Build()
