@@ -54,4 +54,5 @@ MonoBehaviour:
   - ConnectionType: 2
     Chance: 1
   - ConnectionType: 4
-    Chance: 0.75
+    Chance: 0.3
+  AmmountOfOpenConnections: 0
