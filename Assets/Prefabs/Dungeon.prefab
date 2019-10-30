@@ -63,21 +63,6 @@ MonoBehaviour:
     type: 3}
   ColumnPrefab: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
     type: 3}
-  WallPrefab: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
-    type: 3}
-  DoorPrefab: {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98,
-    type: 3}
-  CorridorWallPrefab: {fileID: 2550542356135359241, guid: b51b7e4eb37506d49810bfdd36c96da5,
-    type: 3}
-  CorridorDoorPrefab: {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98,
-    type: 3}
-  CorridorOpenPrefab: {fileID: 5595796165803689315, guid: b25a94453f7a2b74694c438a6f7b6c6c,
-    type: 3}
-  SecretRoomDoorPrefab: {fileID: 531516176756141088, guid: 3a45a22f1ee82c14eb6002ab13262dfc,
-    type: 3}
-  StartRoomBuildingPrefab: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
-    type: 3}
-  RoomSize: 7
-  CorridorSize: 5
+  MaximumRoomSize: 9
   _heigth: 16
   _width: 16

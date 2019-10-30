@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
+
     public class Dungeon : MonoBehaviour
     {
         [SerializeField] public List<RoomPrefabData> AllRooms;
@@ -14,16 +15,8 @@ namespace DungeonGenerator
         [SerializeField] public GameObject StartRoomPrefab;
 
         [SerializeField] public GameObject ColumnPrefab;
-        [SerializeField] public GameObject WallPrefab;
-        [SerializeField] public GameObject DoorPrefab;
-        [SerializeField] public GameObject CorridorWallPrefab;
-        [SerializeField] public GameObject CorridorDoorPrefab;
-        [SerializeField] public GameObject CorridorOpenPrefab;
-        [SerializeField] public GameObject SecretRoomDoorPrefab;
-        [SerializeField] public GameObject StartRoomBuildingPrefab;
 
-        [SerializeField] public int RoomSize;
-        [SerializeField] public int CorridorSize;
+        [SerializeField] public RoomSize MaximumRoomSize;
 
         [SerializeField] private int _heigth;
         [SerializeField] private int _width;

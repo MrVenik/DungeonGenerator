@@ -30,7 +30,7 @@ namespace DungeonGenerator
             if (AmountOfOpenConnections < 2) return ConnectionType.Small;
             return base.CreateNewConnection();
         }
-
+        /*
         public override void Build()
         {
             int size = DungeonManager.Dungeon.CorridorSize;
@@ -116,6 +116,6 @@ namespace DungeonGenerator
                     break;
             }
             throw new Exception("Invalid connection type " + type);
-        }
+        }*/
     }
 }

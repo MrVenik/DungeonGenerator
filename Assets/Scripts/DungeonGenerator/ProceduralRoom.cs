@@ -9,11 +9,17 @@ namespace DungeonGenerator
 {
     public class ProceduralRoom : Room
     {
+        [SerializeField] protected List<GameObject> WallConnectionVariants;
+        [SerializeField] protected List<GameObject> SmallConnectionVariants;
+        [SerializeField] protected List<GameObject> MediumConnectionVariants;
+        [SerializeField] protected List<GameObject> BigConnectionVariants;
+        [SerializeField] protected List<GameObject> SecretConnectionVariants;
+
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
         [SerializeField] private int _amountOfOpenConnections;
-        public int AmountOfOpenConnections 
-        { 
-            get => _amountOfOpenConnections; 
+        public int AmountOfOpenConnections
+        {
+            get => _amountOfOpenConnections;
             protected set
             {
                 if (value > 4) throw new Exception("Amount of open connections cant be more than 4");
@@ -127,23 +133,24 @@ namespace DungeonGenerator
 
         public override void Build()
         {
-            int size = DungeonManager.Dungeon.RoomSize;
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x, Transform.position.y), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x, Transform.position.y + size - 1), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(Transform.position.x + size - 1, Transform.position.y + size - 1), Transform.rotation, Transform);
+            int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
+            int roomSize = (int)Size;
 
-            if (Connection.Top == ConnectionType.Wall || Connection.Top == ConnectionType.Small || Connection.Top == ConnectionType.SecretRoomDoor || Connection.Top == ConnectionType.Border)
-                Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(Transform.position.x, Transform.position.y + size - 1), Quaternion.Euler(0, 0, 0), Transform);
+            int diff = (maximumSize - roomSize) / 2;
 
-            if (Connection.Bottom == ConnectionType.Wall || Connection.Bottom == ConnectionType.Small || Connection.Bottom == ConnectionType.SecretRoomDoor || Connection.Bottom == ConnectionType.Border)
-                Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 0), Transform);
+            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + diff), Transform.rotation, Transform);
+            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Transform.rotation, Transform);
+            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + diff), Transform.rotation, Transform);
+            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Transform.rotation, Transform);
 
-            if (Connection.Left == ConnectionType.Wall || Connection.Left == ConnectionType.Small || Connection.Left == ConnectionType.SecretRoomDoor || Connection.Left == ConnectionType.Border)
-                Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(Transform.position.x, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
-
-            if (Connection.Right == ConnectionType.Wall || Connection.Right == ConnectionType.Small || Connection.Right == ConnectionType.SecretRoomDoor || Connection.Right == ConnectionType.Border)
-                Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(Transform.position.x + size - 1, Transform.position.y), Quaternion.Euler(0, 0, 90), Transform);
+            // Top connection
+            Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(0.5f + Transform.position.x + 1 + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 0), Transform);
+            // Bottom connection
+            Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(0.5f + Transform.position.x + maximumSize - 2 - diff, 0.5f + Transform.position.y + diff), Quaternion.Euler(0, 0, 180), Transform);
+            // Left connection
+            Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), Transform);
+            // Ritght connection
+            Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 2 - diff), Quaternion.Euler(0, 0, -90), Transform);
 
         }
 
@@ -154,19 +161,29 @@ namespace DungeonGenerator
                 case ConnectionType.None:
                     break;
                 case ConnectionType.Border:
-                    return DungeonManager.Dungeon.WallPrefab;
+                    return GetVariantFrom(WallConnectionVariants);
                 case ConnectionType.Wall:
-                    return DungeonManager.Dungeon.WallPrefab;
+                    return GetVariantFrom(WallConnectionVariants);
                 case ConnectionType.Medium:
-                    break;
+                    return GetVariantFrom(MediumConnectionVariants);
                 case ConnectionType.Small:
-                    return DungeonManager.Dungeon.DoorPrefab;
+                    return GetVariantFrom(SmallConnectionVariants);
                 case ConnectionType.SecretRoomDoor:
-                    return DungeonManager.Dungeon.SecretRoomDoorPrefab;
+                    return GetVariantFrom(SecretConnectionVariants);
                 default:
                     break;
             }
             throw new Exception("Invalid connection type " + type);
+        }
+
+        protected virtual GameObject GetVariantFrom(List<GameObject> variants)
+        {
+            if (variants != null && variants.Count > 0)
+            {
+                int rndIndex = UnityEngine.Random.Range(0, variants.Count);
+                return variants[rndIndex];
+            }
+            throw new Exception("No prefab variants in variants list");
         }
     }
 }

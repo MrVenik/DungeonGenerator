@@ -73,7 +73,7 @@ namespace DungeonGenerator
             if (nextRoom == null)
             {
                 GameObject nextRoomPrefab = room.Prefab;
-                Vector3 nextRoomPosition = new Vector3(x * DungeonManager.Dungeon.RoomSize, y * DungeonManager.Dungeon.RoomSize);
+                Vector3 nextRoomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
                 nextRoom = UnityEngine.Object.Instantiate(nextRoomPrefab, nextRoomPosition, Quaternion.identity, DungeonManager.Dungeon.Transform).GetComponent<Room>();
                 nextRoom.name = nextRoomPrefab.name;
                 nextRoom.Entrance = side.Oposite();

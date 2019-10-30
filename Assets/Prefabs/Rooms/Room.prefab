@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1811533191166877106
+--- !u!1 &4837491194264574418
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3291694582091039164}
-  - component: {fileID: 5037240253750850321}
+  - component: {fileID: 8972478394527334616}
+  - component: {fileID: 1594104982930803665}
   m_Layer: 0
-  m_Name: SecretRoom
+  m_Name: Room
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3291694582091039164
+--- !u!4 &8972478394527334616
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1811533191166877106}
+  m_GameObject: {fileID: 4837491194264574418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,33 +31,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5037240253750850321
+--- !u!114 &1594104982930803665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1811533191166877106}
+  m_GameObject: {fileID: 4837491194264574418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a72ef89b57e2fe4a8288e139f9c69ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e0855cc1ae18b4f8d4615b5178fc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PossibleNextRooms:
-  - Name: SecretRoom
-    Prefab: {fileID: 1811533191166877106}
-    Chance: 1
+  _size: 7
+  PossibleNextRooms: []
   Entrance: 0
   _connection:
     Top: 0
     Bottom: 0
     Left: 0
     Right: 0
+  WallConnectionVariants:
+  - {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d, type: 3}
+  SmallConnectionVariants:
+  - {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98, type: 3}
+  MediumConnectionVariants:
+  - {fileID: 7197192265152858997, guid: a03d4cde28227704a98267cf764a93ed, type: 3}
+  BigConnectionVariants: []
+  SecretConnectionVariants:
+  - {fileID: 531516176756141088, guid: 3a45a22f1ee82c14eb6002ab13262dfc, type: 3}
   PossibleNextConnections:
   - ConnectionType: 2
     Chance: 1
-  - ConnectionType: 3
-    Chance: 0.1
   - ConnectionType: 4
+    Chance: 0.5
+  - ConnectionType: 3
+    Chance: 0.25
+  - ConnectionType: 6
     Chance: 0.1
-  AmmountOfOpenConnections: 0
+  _amountOfOpenConnections: 0

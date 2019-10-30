@@ -6,6 +6,7 @@ namespace DungeonGenerator
 {
     public abstract class Room : MonoBehaviour, IRoom
     {
+        [SerializeField] private RoomSize _size;
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
         [SerializeField] public Side Entrance;
         [SerializeField] private Connection _connection;
@@ -13,6 +14,12 @@ namespace DungeonGenerator
         {
             get => _connection;
             set => _connection = value;
+        }
+
+        public RoomSize Size
+        {
+            get => _size;
+            protected set => _size = value;
         }
 
         public Transform Transform { get; private set; }
