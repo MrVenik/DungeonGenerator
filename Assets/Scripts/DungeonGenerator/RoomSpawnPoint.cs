@@ -46,13 +46,16 @@ namespace DungeonGenerator
                     if (chance < room.Chance)
                     {
                         Room possibleNextRoom = room.Prefab.GetComponent<Room>();
-                        if (possibleNextRoom is TemplateRoom)
+                        if (possibleNextRoom.Size <= DungeonManager.Dungeon.MaximumRoomSize)
                         {
-                            possibleNextRoom.Rotate(side);
-                        }
-                        if (possibleNextRoom.CanCreate(x, y))
-                        {
-                            nextRooms.Add(room);
+                            if (possibleNextRoom is TemplateRoom)
+                            {
+                                possibleNextRoom.Rotate(side);
+                            }
+                            if (possibleNextRoom.CanCreate(x, y))
+                            {
+                                nextRooms.Add(room);
+                            }
                         }
                     }
                 }
