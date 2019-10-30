@@ -50,7 +50,8 @@ namespace DungeonGenerator
                         {
                             if (possibleNextRoom is TemplateRoom)
                             {
-                                possibleNextRoom.Rotate(side);
+                                possibleNextRoom.Rotate(side.Oposite());
+                                possibleNextRoom.Entrance = side.Oposite();
                             }
                             if (possibleNextRoom.CanCreate(x, y))
                             {
@@ -79,8 +80,6 @@ namespace DungeonGenerator
                 Vector3 nextRoomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
                 nextRoom = UnityEngine.Object.Instantiate(nextRoomPrefab, nextRoomPosition, Quaternion.identity, DungeonManager.Dungeon.Transform).GetComponent<Room>();
                 nextRoom.name = nextRoomPrefab.name;
-                nextRoom.Entrance = side.Oposite();
-                nextRoom.Rotate(side);
                 DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
             }
         }

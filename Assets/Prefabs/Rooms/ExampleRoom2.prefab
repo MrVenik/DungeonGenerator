@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1592907436983119729
+--- !u!1 &6901139062326134520
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8311484760084179098}
-  - component: {fileID: 2815036214941087857}
+  - component: {fileID: 8845822096175843476}
+  - component: {fileID: 4414551193209950717}
   m_Layer: 0
-  m_Name: SquareRoom
+  m_Name: ExampleRoom2
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8311484760084179098
+--- !u!4 &8845822096175843476
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592907436983119729}
+  m_GameObject: {fileID: 6901139062326134520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.050328, y: 5.6664467, z: -2.7774434}
+  m_LocalPosition: {x: 4.697715, y: 3.3615236, z: -238.56445}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2815036214941087857
+--- !u!114 &4414551193209950717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592907436983119729}
+  m_GameObject: {fileID: 6901139062326134520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8966d37e6964071418ad472d264e2a76, type: 3}
+  m_Script: {fileID: 11500000, guid: 60cef9146e23785468504da0ca48b94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: 9
+  _size: 7
   PossibleNextRooms: []
   Entrance: 1
   _connection:
-    Top: 4
+    Top: 2
     Bottom: 4
-    Left: 4
+    Left: 2
     Right: 4
-  _templatePrefab: {fileID: 3714116030602386548, guid: 6f3fda6f982471d4f86493ea02e3ef00,
+  _templatePrefab: {fileID: 8506602432709151980, guid: 2c2df8c7d77f2b943aea825fa5470622,
     type: 3}

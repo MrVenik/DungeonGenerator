@@ -37,19 +37,79 @@ namespace DungeonGenerator
 
         public static void Rotate(this Room room, Side side)
         {
-            switch (side)
+            switch (room.Entrance)
             {
                 case Side.Top:
-                    room.Rotate(180f);
+                    switch (side)
+                    {
+                        case Side.Top:
+                            break;
+                        case Side.Bottom:
+                            room.Rotate(2);
+                            break;
+                        case Side.Left:
+                            room.Rotate(1);
+                            break;
+                        case Side.Right:
+                            room.Rotate(3);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case Side.Bottom:
-                    //room.Rotate(0);
+                    switch (side)
+                    {
+                        case Side.Top:
+                            room.Rotate(2);
+                            break;
+                        case Side.Bottom:
+                            break;
+                        case Side.Left:
+                            room.Rotate(3);
+                            break;
+                        case Side.Right:
+                            room.Rotate(1);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case Side.Left:
-                    room.Rotate(270f);
+                    switch (side)
+                    {
+                        case Side.Top:
+                            room.Rotate(3);
+                            break;
+                        case Side.Bottom:
+                            room.Rotate(1);
+                            break;
+                        case Side.Left:
+                            break;
+                        case Side.Right:
+                            room.Rotate(2);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case Side.Right:
-                    room.Rotate(90f);
+                    switch (side)
+                    {
+                        case Side.Top:
+                            room.Rotate(1);
+                            break;
+                        case Side.Bottom:
+                            room.Rotate(3);
+                            break;
+                        case Side.Left:
+                            room.Rotate(2);
+                            break;
+                        case Side.Right:
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
