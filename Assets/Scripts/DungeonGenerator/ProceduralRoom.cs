@@ -143,15 +143,23 @@ namespace DungeonGenerator
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + diff), Transform.rotation, Transform);
             Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Transform.rotation, Transform);
 
+            GameObject element;
             // Top connection
-            Instantiate(GetConnectionGameObject(Connection.Top), new Vector3(0.5f + Transform.position.x + 1 + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 0), Transform);
+            element = GetConnectionGameObject(Connection.Top);
+            if (element != null)
+                Instantiate(element, new Vector3(0.5f + Transform.position.x + 1 + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 0), Transform);
             // Bottom connection
-            Instantiate(GetConnectionGameObject(Connection.Bottom), new Vector3(0.5f + Transform.position.x + maximumSize - 2 - diff, 0.5f + Transform.position.y + diff), Quaternion.Euler(0, 0, 180), Transform);
+            element = GetConnectionGameObject(Connection.Bottom);
+            if (element != null)
+                Instantiate(element, new Vector3(0.5f + Transform.position.x + maximumSize - 2 - diff, 0.5f + Transform.position.y + diff), Quaternion.Euler(0, 0, 180), Transform);
             // Left connection
-            Instantiate(GetConnectionGameObject(Connection.Left), new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), Transform);
+            element = GetConnectionGameObject(Connection.Left);
+            if (element != null)
+                Instantiate(element, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), Transform);
             // Ritght connection
-            Instantiate(GetConnectionGameObject(Connection.Right), new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 2 - diff), Quaternion.Euler(0, 0, -90), Transform);
-
+            element = GetConnectionGameObject(Connection.Right);
+            if (element != null)
+                Instantiate(element, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 2 - diff), Quaternion.Euler(0, 0, -90), Transform);
         }
 
         protected virtual GameObject GetConnectionGameObject(ConnectionType type)
@@ -168,6 +176,8 @@ namespace DungeonGenerator
                     return GetVariantFrom(MediumConnectionVariants);
                 case ConnectionType.Small:
                     return GetVariantFrom(SmallConnectionVariants);
+                case ConnectionType.Big:
+                    return GetVariantFrom(BigConnectionVariants);
                 case ConnectionType.SecretRoomDoor:
                     return GetVariantFrom(SecretConnectionVariants);
                 default:
@@ -183,7 +193,7 @@ namespace DungeonGenerator
                 int rndIndex = UnityEngine.Random.Range(0, variants.Count);
                 return variants[rndIndex];
             }
-            throw new Exception("No prefab variants in variants list");
+            return null;
         }
     }
 }

@@ -5,9 +5,9 @@
         None,
         Border,
         Wall,
-        Medium,
         Small,
-        CorridorWall,
+        Medium,
+        Big,
         SecretRoomDoor
     }
 

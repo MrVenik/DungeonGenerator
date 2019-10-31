@@ -47,7 +47,7 @@ MonoBehaviour:
   PossibleNextRooms: []
   Entrance: 1
   _connection:
-    Top: 4
+    Top: 3
     Bottom: 2
     Left: 2
     Right: 2
