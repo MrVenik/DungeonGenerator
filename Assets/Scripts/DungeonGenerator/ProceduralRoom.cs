@@ -16,6 +16,7 @@ namespace DungeonGenerator
         [SerializeField] protected List<GameObject> SecretConnectionVariants;
 
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
+
         [SerializeField] private int _amountOfOpenConnections;
         public int AmountOfOpenConnections
         {
