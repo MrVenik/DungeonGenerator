@@ -51,8 +51,10 @@ namespace DungeonGenerator
                             if (possibleNextRoom is TemplateRoom)
                             {
                                 possibleNextRoom.Rotate(side.Oposite());
-                                possibleNextRoom.Entrance = side.Oposite();
                             }
+
+                            possibleNextRoom.Entrance = side.Oposite();
+
                             if (possibleNextRoom.CanCreate(x, y))
                             {
                                 nextRooms.Add(room);
