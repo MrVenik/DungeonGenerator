@@ -9,7 +9,7 @@ namespace DungeonGenerator
         [SerializeField] private RoomSize _size;
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
         [SerializeField] public Side Entrance;
-        [SerializeField] private Connection _connection = new Connection();
+        [SerializeField] private Connection _connection;
         public Connection Connection
         {
             get => _connection;
@@ -34,6 +34,8 @@ namespace DungeonGenerator
         public abstract bool CanCreate(int x, int y);
 
         public abstract void Create(int x, int y);
+
+        protected abstract void CreateConnections();
 
         protected virtual void CreateNextRooms()
         {
