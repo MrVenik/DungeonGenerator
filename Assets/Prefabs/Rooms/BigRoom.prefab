@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: 9
   PossibleNextRooms: []
-  Entrance: 0
+  Entrance: 2
   _connection:
     Top: 0
     Bottom: 0
@@ -60,9 +60,8 @@ MonoBehaviour:
   BigConnectionVariants: []
   SecretConnectionVariants:
   - {fileID: 3922192756920817657, guid: 462a56535c18f9c4bb5847fdad4c51aa, type: 3}
+  PossibleConnections: 0200000003000000040000000500000000000000
   PossibleNextConnections:
-  - ConnectionType: 2
-    Chance: 1
   - ConnectionType: 3
     Chance: 0.25
   - ConnectionType: 4

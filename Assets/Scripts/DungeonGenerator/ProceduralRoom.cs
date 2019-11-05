@@ -15,6 +15,7 @@ namespace DungeonGenerator
         [SerializeField] protected List<GameObject> BigConnectionVariants;
         [SerializeField] protected List<GameObject> SecretConnectionVariants;
 
+        [SerializeField] protected List<ConnectionType> PossibleConnections;
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
 
         [SerializeField] private int _amountOfOpenConnections;
@@ -30,6 +31,17 @@ namespace DungeonGenerator
 
         public override bool CanCreate(int x, int y)
         {
+            // TODO: Create normal checking for procedural room
+            /*
+            Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
+            if (!PossibleConnections.Contains(topConnection.Bottom)) return false;
+            Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
+            if (!PossibleConnections.Contains(bottomConnection.Top)) return false;
+            Connection leftConnection = DungeonManager.Dungeon.GetRoomConnection(x - 1, y);
+            if (!PossibleConnections.Contains(leftConnection.Right)) return false;
+            Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
+            if (!PossibleConnections.Contains(rightConnection.Left)) return false;
+            */
             return true;
         }
 
@@ -40,12 +52,11 @@ namespace DungeonGenerator
             _x = x;
             _y = y;
 
-            Connection = new Connection();
             CreateConnections();
             CreateNextRooms();
         }
 
-        protected override void CreateConnections()
+        protected virtual void CreateConnections()
         {
             List<Side> queue = new List<Side>
             {
@@ -129,7 +140,7 @@ namespace DungeonGenerator
                 int rndIndex = UnityEngine.Random.Range(0, nextConnections.Count);
                 return nextConnections[rndIndex];
             }
-            else throw new Exception("There no connection to create");
+            else return ConnectionType.Wall;
         }
 
         public override void Build()
@@ -179,7 +190,7 @@ namespace DungeonGenerator
                     return GetVariantFrom(SmallConnectionVariants);
                 case ConnectionType.Big:
                     return GetVariantFrom(BigConnectionVariants);
-                case ConnectionType.SecretRoomDoor:
+                case ConnectionType.Secret:
                     return GetVariantFrom(SecretConnectionVariants);
                 default:
                     break;
