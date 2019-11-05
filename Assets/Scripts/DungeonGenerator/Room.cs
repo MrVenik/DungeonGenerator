@@ -23,8 +23,8 @@ namespace DungeonGenerator
         }
 
         public Transform Transform { get; private set; }
-
-        protected int _x, _y;
+        protected int X { get; set; }
+        protected int Y { get; set; }
 
         private void Awake()
         {
@@ -47,10 +47,10 @@ namespace DungeonGenerator
             */
 
             var queue = new List<(int, int, Side)>();
-            if (CanCreateNextRoom(Connection.Top)) queue.Add((_x, _y + 1, Side.Top));
-            if (CanCreateNextRoom(Connection.Bottom)) queue.Add((_x, _y - 1, Side.Bottom));
-            if (CanCreateNextRoom(Connection.Left)) queue.Add((_x - 1, _y, Side.Left));
-            if (CanCreateNextRoom(Connection.Right)) queue.Add((_x + 1, _y, Side.Right));
+            if (CanCreateNextRoom(Connection.Top)) queue.Add((X, Y + 1, Side.Top));
+            if (CanCreateNextRoom(Connection.Bottom)) queue.Add((X, Y - 1, Side.Bottom));
+            if (CanCreateNextRoom(Connection.Left)) queue.Add((X - 1, Y, Side.Left));
+            if (CanCreateNextRoom(Connection.Right)) queue.Add((X + 1, Y, Side.Right));
             queue.Shuffle();
             foreach (var room in queue)
             {

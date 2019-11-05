@@ -68,7 +68,7 @@ namespace DungeonGenerator
                     int rndIndex = UnityEngine.Random.Range(0, nextRooms.Count);
                     Spawn(x, y, nextRooms[rndIndex], side);
                 }
-                else throw new Exception("There no room to create");
+                //else throw new Exception("There no room to create");
             }
         }
 
