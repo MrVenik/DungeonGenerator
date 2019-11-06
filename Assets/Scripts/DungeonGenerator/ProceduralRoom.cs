@@ -111,17 +111,6 @@ namespace DungeonGenerator
             }
         }
 
-        protected override void CreateConnections()
-        {
-            Connection = new Connection
-            {
-                Top = ConnectTo(Side.Top),
-                Bottom = ConnectTo(Side.Bottom),
-                Left = ConnectTo(Side.Left),
-                Right = ConnectTo(Side.Right)
-            };
-        }
-
         private ConnectionType ConnectTo(Side side)
         {
             switch (side)

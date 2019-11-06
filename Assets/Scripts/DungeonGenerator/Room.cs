@@ -35,8 +35,6 @@ namespace DungeonGenerator
 
         public abstract void Create(int x, int y);
 
-        protected abstract void CreateConnections();
-
         protected virtual void CreateNextRooms()
         {
             /*

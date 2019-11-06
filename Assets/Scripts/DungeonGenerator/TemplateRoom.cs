@@ -24,12 +24,10 @@ namespace DungeonGenerator
         {
             X = x;
             Y = y;
+
             CreateNextRooms();
         }
 
-        protected override void CreateConnections()
-        {
-        }
         public override void Build()
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
