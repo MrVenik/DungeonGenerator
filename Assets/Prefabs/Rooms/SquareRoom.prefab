@@ -44,11 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _size: 9
-  PossibleNextRooms:
-  - Name: Corridor
-    Prefab: {fileID: 390632652426117184, guid: 43c18a4b30525054b8360a62255886b3, type: 3}
-    Chance: 1
-  Entrance: 1
+  PossibleNextRooms: []
+  Entrance: 0
   _connection:
     Top: 3
     Bottom: 3

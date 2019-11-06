@@ -28,6 +28,18 @@ namespace DungeonGenerator
             CreateNextRooms();
         }
 
+        protected override void CreateNextRoom(int x, int y, Side side)
+        {
+            base.CreateNextRoom(x, y, side);
+
+            Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+
+            if (nextRoom == null)
+            {
+                CreateNextRoom(x, y, side);
+            }
+        }
+
         public override void Build()
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
