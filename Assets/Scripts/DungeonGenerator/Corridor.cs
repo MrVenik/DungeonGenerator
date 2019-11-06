@@ -22,7 +22,22 @@ namespace DungeonGenerator
             Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
             if (rightConnection.Left != ConnectionType.Wall && rightConnection.Left != ConnectionType.Border) connections++;
 
-            return connections >= 2;
+            return connections >= 2 && connections < 4;
+        }
+
+        protected override void CreateNextRoom(int x, int y, Side side)
+        {
+            if (AmountOfOpenConnections < 4)
+            {
+                base.CreateNextRoom(x, y, side);
+
+                Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+
+                if (AmountOfOpenConnections < 2 && nextRoom == null)
+                {
+                    CreateNextRoom(x, y, side);
+                }
+            }
         }
     }
 }

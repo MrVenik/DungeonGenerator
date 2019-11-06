@@ -42,6 +42,16 @@ namespace DungeonGenerator
 
             Connection = new Connection();
 
+            Connection.Top = ConnectTo(Side.Top);
+            Connection.Bottom = ConnectTo(Side.Bottom);
+            Connection.Left = ConnectTo(Side.Left);
+            Connection.Right = ConnectTo(Side.Right);
+
+            if (CanCreateNextRoom(Connection.Top)) AmountOfOpenConnections++;
+            if (CanCreateNextRoom(Connection.Bottom)) AmountOfOpenConnections++;
+            if (CanCreateNextRoom(Connection.Left)) AmountOfOpenConnections++;
+            if (CanCreateNextRoom(Connection.Right)) AmountOfOpenConnections++;
+
             CreateNextRooms();
         }
 
@@ -62,48 +72,52 @@ namespace DungeonGenerator
                 switch (side)
                 {
                     case Side.Top:
-                        Connection.Top = ConnectTo(Side.Top);
+                        
                         if (Connection.Top == ConnectionType.None)
                         {
                             CreateNextRoom(X, Y + 1, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(X, Y + 1);
                             if (nextRoom == null) Connection.Top = ConnectionType.Wall;
                             else Connection.Top = nextRoom.Connection.Bottom;
+                            if (CanCreateNextRoom(Connection.Top)) AmountOfOpenConnections++;
                         }
-                        if (CanCreateNextRoom(Connection.Top)) AmountOfOpenConnections++;
+                        
                         break;
                     case Side.Bottom:
-                        Connection.Bottom = ConnectTo(Side.Bottom);
+                        
                         if (Connection.Bottom == ConnectionType.None)
                         {
                             CreateNextRoom(X, Y - 1, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(X, Y - 1);
                             if (nextRoom == null) Connection.Bottom = ConnectionType.Wall;
                             else Connection.Bottom = nextRoom.Connection.Top;
+                            if (CanCreateNextRoom(Connection.Bottom)) AmountOfOpenConnections++;
                         }
-                        if (CanCreateNextRoom(Connection.Bottom)) AmountOfOpenConnections++;
+                        
                         break;
                     case Side.Left:
-                        Connection.Left = ConnectTo(Side.Left);
+                        
                         if (Connection.Left == ConnectionType.None)
                         {
                             CreateNextRoom(X - 1, Y, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(X - 1, Y);
                             if (nextRoom == null) Connection.Left = ConnectionType.Wall;
                             else Connection.Left = nextRoom.Connection.Right;
+                            if (CanCreateNextRoom(Connection.Left)) AmountOfOpenConnections++;
                         }
-                        if (CanCreateNextRoom(Connection.Left)) AmountOfOpenConnections++;
+                        
                         break;
                     case Side.Right:
-                        Connection.Right = ConnectTo(Side.Right);
+                        
                         if (Connection.Right == ConnectionType.None)
                         {
                             CreateNextRoom(X + 1, Y, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(X + 1, Y);
                             if (nextRoom == null) Connection.Right = ConnectionType.Wall;
                             else Connection.Right = nextRoom.Connection.Left;
+                            if (CanCreateNextRoom(Connection.Right)) AmountOfOpenConnections++;
                         }
-                        if (CanCreateNextRoom(Connection.Right)) AmountOfOpenConnections++;
+                        
                         break;
                     default:
                         break;

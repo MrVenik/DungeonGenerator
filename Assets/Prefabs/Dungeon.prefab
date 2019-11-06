@@ -58,7 +58,7 @@ MonoBehaviour:
   - Name: SquareRoom
     Prefab: {fileID: 1592907436983119729, guid: 6fcd71bf013537f45967de66ed56876f,
       type: 3}
-    Chance: 0.25
+    Chance: 0.05
   - Name: ExampleRoom
     Prefab: {fileID: 112529703064834606, guid: 446fef1d8a9f77a45a43bd966a8d80c8, type: 3}
     Chance: 0.1
@@ -73,7 +73,7 @@ MonoBehaviour:
   - Name: BigRoom
     Prefab: {fileID: 5058010005803485836, guid: 17c46c3c9f524334ab4146840cd2dfc9,
       type: 3}
-    Chance: 0.25
+    Chance: 0.1
   StartRoomPrefab: {fileID: 1977446155243726721, guid: 6adcc69980e408d4583975c5d7fb9be1,
     type: 3}
   ColumnPrefab: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
