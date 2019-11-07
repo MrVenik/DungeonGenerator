@@ -8,6 +8,12 @@ namespace DungeonGenerator
     {
         [SerializeField] private RoomSize _size;
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
+        [SerializeField] private float _chanceOfNextRoom = 0.0f;
+        protected virtual float ChanceOfNextRoom
+        {
+            get => _chanceOfNextRoom;
+        }
+
         [SerializeField] public Side Entrance;
         [SerializeField] private Connection _connection;
         public Connection Connection
@@ -65,7 +71,11 @@ namespace DungeonGenerator
 
         protected virtual void CreateNextRoom(int x, int y, Side side)
         {
-            RoomSpawnPoint.Spawn(x, y, PossibleNextRooms, side);
+            float chance = UnityEngine.Random.Range(0f, 1f);
+            if (chance <= ChanceOfNextRoom)
+            {
+                RoomSpawnPoint.Spawn(x, y, PossibleNextRooms, side);
+            }
         }
 
         public abstract void Build();

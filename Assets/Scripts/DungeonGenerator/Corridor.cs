@@ -25,6 +25,15 @@ namespace DungeonGenerator
             return connections >= 2 && connections < 4;
         }
 
+        protected override float ChanceOfNextRoom 
+        { 
+            get
+            {
+                if (AmountOfOpenConnections < 2) return 1.0f;
+                return base.ChanceOfNextRoom;
+            }
+        }
+
         protected override void CreateNextRoom(int x, int y, Side side)
         {
             if (AmountOfOpenConnections < 4)
@@ -33,7 +42,7 @@ namespace DungeonGenerator
 
                 Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
-                if (AmountOfOpenConnections < 2 && nextRoom == null)
+                if (nextRoom == null)
                 {
                     CreateNextRoom(x, y, side);
                 }

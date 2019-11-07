@@ -45,11 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: 7
   PossibleNextRooms: []
-  Entrance: 0
+  Entrance: 2
   _connection:
-    Top: 3
-    Bottom: 3
-    Left: 2
-    Right: 2
+    Top: 2
+    Bottom: 2
+    Left: 3
+    Right: 3
+  _chanceOfNextRoom: 1
   _templatePrefab: {fileID: 942924484520089041, guid: 3a1e53c14f092a84fadf79e1048ee580,
     type: 3}

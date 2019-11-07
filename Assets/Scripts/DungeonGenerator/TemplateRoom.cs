@@ -7,6 +7,8 @@ namespace DungeonGenerator
     {
         [SerializeField] private GameObject _templatePrefab;
 
+        protected override float ChanceOfNextRoom => 1.0f;
+
         public override bool CanCreate(int x, int y)
         {
             Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
