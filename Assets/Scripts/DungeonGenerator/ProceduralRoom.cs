@@ -15,7 +15,7 @@ namespace DungeonGenerator
         [SerializeField] protected List<GameObject> BigConnectionVariants;
         [SerializeField] protected List<GameObject> SecretConnectionVariants;
 
-        [SerializeField] protected List<ConnectionType> PossibleConnectionTypes;
+        [SerializeField] public List<ConnectionType> PossibleConnectionTypes;
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
 
         [SerializeField] private int _amountOfOpenConnections;
@@ -166,7 +166,7 @@ namespace DungeonGenerator
                 rightConnection = rightRoom.Connection.Left;
                 if (rightConnection == ConnectionType.None)
                 {
-                    rightConnection = CreateNewConnection();
+                    rightConnection = CreateNewConnection(rightRoom as ProceduralRoom);
                 }
             }
             else
@@ -185,7 +185,7 @@ namespace DungeonGenerator
                 bottomConnection = bottomRoom.Connection.Top;
                 if (bottomConnection == ConnectionType.None)
                 {
-                    bottomConnection = CreateNewConnection();
+                    bottomConnection = CreateNewConnection(bottomRoom as ProceduralRoom);
                 }
             }
             else
@@ -204,7 +204,7 @@ namespace DungeonGenerator
                 leftConnection = leftRoom.Connection.Right;
                 if (leftConnection == ConnectionType.None)
                 {
-                    leftConnection = CreateNewConnection();
+                    leftConnection = CreateNewConnection(leftRoom as ProceduralRoom);
                 }
             }
             else
@@ -223,7 +223,7 @@ namespace DungeonGenerator
                 topConnection = topRoom.Connection.Bottom;
                 if (topConnection == ConnectionType.None)
                 {
-                    topConnection = CreateNewConnection();
+                    topConnection = CreateNewConnection(topRoom as ProceduralRoom);
                 }
             }
             else
@@ -233,27 +233,45 @@ namespace DungeonGenerator
             return topConnection;
         }
 
-        protected virtual ConnectionType CreateNewConnection()
+        protected virtual ConnectionType CreateNewConnection(ProceduralRoom room)
         {
-            List<ConnectionType> nextConnections = new List<ConnectionType>();
-
-            float chance = UnityEngine.Random.Range(0f, 1f);
-
-            foreach (var connection in PossibleNextConnections)
+            List<ConnectionData> possibleConnections = new List<ConnectionData>();
+            foreach (var connectionData in PossibleNextConnections)
             {
-                if (chance < connection.Chance)
+                if (room.PossibleConnectionTypes.Contains(connectionData.ConnectionType))
                 {
-                    ConnectionType possibleNextConnection = connection.ConnectionType;
-                    nextConnections.Add(possibleNextConnection);
+                    possibleConnections.Add(connectionData);
                 }
             }
 
-            if (nextConnections.Count > 0)
+            return GetRandomConnection(possibleConnections);
+        }
+
+        private ConnectionType GetRandomConnection(List<ConnectionData> possibleConnections)
+        {
+            if (possibleConnections.Count > 0)
             {
-                int rndIndex = UnityEngine.Random.Range(0, nextConnections.Count);
-                return nextConnections[rndIndex];
+                List<ConnectionType> nextConnections = new List<ConnectionType>();
+
+                float chance = UnityEngine.Random.Range(0f, 1f);
+
+                foreach (var connection in possibleConnections)
+                {
+                    if (chance < connection.Chance)
+                    {
+                        ConnectionType possibleNextConnection = connection.ConnectionType;
+                        nextConnections.Add(possibleNextConnection);
+                    }
+                }
+
+                if (nextConnections.Count > 0)
+                {
+                    int rndIndex = UnityEngine.Random.Range(0, nextConnections.Count);
+                    return nextConnections[rndIndex];
+                }
+                return GetRandomConnection(possibleConnections);
             }
-            else throw new Exception("There no connection to create");
+            else throw new Exception("Possible connection types list is empty");
         }
 
         public override void Build()
