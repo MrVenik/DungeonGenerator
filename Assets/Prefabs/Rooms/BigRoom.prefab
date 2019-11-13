@@ -45,8 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: 9
   PossibleNextRooms: []
-  _chanceOfNextRoom: 0.75
-  Entrance: 0
+  _chanceOfNextRoom: 0
+  Entrance: 2
   _connection:
     Top: 0
     Bottom: 0

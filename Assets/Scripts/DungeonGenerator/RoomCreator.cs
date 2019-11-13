@@ -90,7 +90,9 @@ namespace DungeonGenerator
 
             foreach (var room in possibleRooms)
             {
-                if (chance < room.Chance)
+                float chanceMultiplier = room.IsPlug ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
+
+                if (chance < (room.Chance * chanceMultiplier))
                 {
                     Room possibleNextRoom = room.Prefab.GetComponent<Room>();
                     if (CheckRoom(x, y, side, possibleNextRoom)) nextRooms.Add(room);

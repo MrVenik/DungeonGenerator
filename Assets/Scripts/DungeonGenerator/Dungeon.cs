@@ -28,6 +28,38 @@ namespace DungeonGenerator
 
         public Transform Transform { get; private set; }
 
+        [SerializeField] private float _dungeonFilling;
+        [SerializeField] private int _maximumAmountOfRooms;
+        [SerializeField] private int _predicatedAmountOfRooms;
+        [SerializeField] private int _currentAmountOfRooms;
+
+        //public float PlugChance => _currentAmountOfRooms < (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
+        //public float FillingChance => _currentAmountOfRooms > (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
+
+        public float PlugChance
+        {
+            get
+            {
+                if (_currentAmountOfRooms < (_predicatedAmountOfRooms / 4))
+                {
+                    return (_currentAmountOfRooms / (_predicatedAmountOfRooms / 4));
+                }
+                else return 1.0f;
+            }
+        }
+
+        public float FillingChance
+        {
+            get
+            {
+                if (_currentAmountOfRooms > (_predicatedAmountOfRooms / 4))
+                {
+                    return ((_currentAmountOfRooms - (_predicatedAmountOfRooms / 4)) / (_predicatedAmountOfRooms / 4));
+                }
+                else return 1.0f;
+            }
+        }
+
         public void BuildDungeon()
         {
             for (int x = 0; x < Width; x++)
@@ -45,6 +77,9 @@ namespace DungeonGenerator
         public void Awake()
         {
             Transform = transform;
+
+            _maximumAmountOfRooms = Heigth * Width;
+            _predicatedAmountOfRooms = (int)(_maximumAmountOfRooms * _dungeonFilling);
 
             _rooms = new Room[Width, Heigth];
         }
@@ -91,6 +126,7 @@ namespace DungeonGenerator
                 {
                     _rooms[x, y] = room;
                     _rooms[x, y].Create(x, y);
+                    _currentAmountOfRooms++;
                 }
             }
         }
