@@ -18,8 +18,11 @@ namespace DungeonGenerator
 
         [SerializeField] public RoomSize MaximumRoomSize;
 
-        [SerializeField] private int _heigth;
-        [SerializeField] private int _width;
+        [SerializeField] private int _heigth = 0;
+        [SerializeField] private int _width = 0;
+
+        public int Heigth { get => _heigth; set => _heigth = value; }
+        public int Width { get => _width; set => _width = value; }
 
         private Room[,] _rooms;
 
@@ -27,9 +30,9 @@ namespace DungeonGenerator
 
         public void BuildDungeon()
         {
-            for (int x = 0; x < _width; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < _heigth; y++)
+                for (int y = 0; y < Heigth; y++)
                 {
                     if (_rooms[x, y] != null)
                     {
@@ -43,7 +46,7 @@ namespace DungeonGenerator
         {
             Transform = transform;
 
-            _rooms = new Room[_width, _heigth];
+            _rooms = new Room[Width, Heigth];
         }
 
         public void CreateStartRoom(int x, int y)
@@ -94,7 +97,7 @@ namespace DungeonGenerator
 
         private bool CheckBorders(int x, int y)
         {
-            return (x >= 0 && x < _width) && (y >= 0 && y < _heigth);
+            return (x >= 0 && x < Width) && (y >= 0 && y < Heigth);
         }
     }
 }

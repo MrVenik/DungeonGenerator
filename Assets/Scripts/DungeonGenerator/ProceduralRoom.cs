@@ -31,8 +31,6 @@ namespace DungeonGenerator
 
         public override bool CanCreate(int x, int y)
         {
-            // TODO: Create normal checking for procedural room
-
             Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
             if (!PossibleConnectionTypes.Contains(topConnection.Bottom) && topConnection.Bottom != ConnectionType.None) return false;
             Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
@@ -52,12 +50,13 @@ namespace DungeonGenerator
             X = x;
             Y = y;
 
-            Connection = new Connection();
-
-            Connection.Top = ConnectTo(Side.Top);
-            Connection.Bottom = ConnectTo(Side.Bottom);
-            Connection.Left = ConnectTo(Side.Left);
-            Connection.Right = ConnectTo(Side.Right);
+            Connection = new Connection
+            {
+                Top = ConnectTo(Side.Top),
+                Bottom = ConnectTo(Side.Bottom),
+                Left = ConnectTo(Side.Left),
+                Right = ConnectTo(Side.Right)
+            };
 
             if (CanCreateNextRoom(Connection.Top)) AmountOfOpenConnections++;
             if (CanCreateNextRoom(Connection.Bottom)) AmountOfOpenConnections++;
