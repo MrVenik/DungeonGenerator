@@ -24,10 +24,10 @@
 
         public static Connection Border = new Connection()
         {
-            Top = ConnectionType.Border,
-            Bottom = ConnectionType.Border,
-            Left = ConnectionType.Border,
-            Right = ConnectionType.Border
+            Top = ConnectionType.Wall,
+            Bottom = ConnectionType.Wall,
+            Left = ConnectionType.Wall,
+            Right = ConnectionType.Wall
         };
 
         public static Connection None = new Connection()
