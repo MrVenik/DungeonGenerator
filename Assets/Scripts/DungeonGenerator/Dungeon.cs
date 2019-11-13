@@ -55,7 +55,7 @@ namespace DungeonGenerator
                 Chance = 1f
             };
 
-            RoomSpawnPoint.Spawn(x, y, startRoomData, Side.Top);
+            RoomCreator.Create(x, y, Side.Top, startRoomData);
         }
 
         public Room GetRoom(int x, int y)

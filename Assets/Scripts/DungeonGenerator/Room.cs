@@ -74,7 +74,7 @@ namespace DungeonGenerator
             float chance = UnityEngine.Random.Range(0f, 1f);
             if (chance <= ChanceOfNextRoom)
             {
-                RoomSpawnPoint.Spawn(x, y, PossibleNextRooms, side);
+                RoomCreator.Create(x, y, side, PossibleNextRooms);
             }
         }
 
