@@ -15,6 +15,7 @@ namespace DungeonGenerator
         [SerializeField] protected List<GameObject> BigConnectionVariants;
         [SerializeField] protected List<GameObject> SecretConnectionVariants;
 
+        [SerializeField] protected List<ConnectionType> PossibleConnectionTypes;
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
 
         [SerializeField] private int _amountOfOpenConnections;
@@ -30,6 +31,17 @@ namespace DungeonGenerator
 
         public override bool CanCreate(int x, int y)
         {
+            // TODO: Create normal checking for procedural room
+
+            Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
+            if (!PossibleConnectionTypes.Contains(topConnection.Bottom) && topConnection.Bottom != ConnectionType.None) return false;
+            Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
+            if (!PossibleConnectionTypes.Contains(bottomConnection.Top) && bottomConnection.Top != ConnectionType.None) return false;
+            Connection leftConnection = DungeonManager.Dungeon.GetRoomConnection(x - 1, y);
+            if (!PossibleConnectionTypes.Contains(leftConnection.Right) && leftConnection.Right != ConnectionType.None) return false;
+            Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
+            if (!PossibleConnectionTypes.Contains(rightConnection.Left) && rightConnection.Left != ConnectionType.None) return false;
+
             return true;
         }
 

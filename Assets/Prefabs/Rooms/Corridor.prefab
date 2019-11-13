@@ -45,13 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: 5
   PossibleNextRooms: []
+  _chanceOfNextRoom: 0.75
   Entrance: 1
   _connection:
     Top: 0
     Bottom: 0
     Left: 0
     Right: 0
-  _chanceOfNextRoom: 0.75
   WallConnectionVariants:
   - {fileID: 2550542356135359241, guid: b51b7e4eb37506d49810bfdd36c96da5, type: 3}
   SmallConnectionVariants:
@@ -62,6 +62,7 @@ MonoBehaviour:
   - {fileID: 165212539251002875, guid: 58f46f422563ad94383aaf0fb6ce07e7, type: 3}
   SecretConnectionVariants:
   - {fileID: 316343554806888331, guid: 6f82a53e5b3d18b48b15ee1e3100a959, type: 3}
+  PossibleConnectionTypes: 0200000003000000
   PossibleNextConnections:
   - ConnectionType: 3
     Chance: 1
