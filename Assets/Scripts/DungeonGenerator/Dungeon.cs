@@ -40,9 +40,9 @@ namespace DungeonGenerator
         {
             get
             {
-                if (_currentAmountOfRooms < (_predicatedAmountOfRooms / 4))
+                if (_currentAmountOfRooms < (_predicatedAmountOfRooms / 2))
                 {
-                    return (_currentAmountOfRooms / (_predicatedAmountOfRooms / 4));
+                    return (_currentAmountOfRooms / (_predicatedAmountOfRooms / 2));
                 }
                 else return 1.0f;
             }
@@ -52,9 +52,9 @@ namespace DungeonGenerator
         {
             get
             {
-                if (_currentAmountOfRooms > (_predicatedAmountOfRooms / 4))
+                if (_currentAmountOfRooms > (_predicatedAmountOfRooms / 2))
                 {
-                    return ((_currentAmountOfRooms - (_predicatedAmountOfRooms / 4)) / (_predicatedAmountOfRooms / 4));
+                    return ((_currentAmountOfRooms - (_predicatedAmountOfRooms / 2)) / (_predicatedAmountOfRooms / 2));
                 }
                 else return 1.0f;
             }

@@ -84,27 +84,27 @@ namespace DungeonGenerator
 
         private static RoomPrefabData GetRandomRoom(int x, int y, Side side, List<RoomPrefabData> possibleRooms)
         {
-            List<RoomPrefabData> nextRooms = new List<RoomPrefabData>();
+            RoomPrefabData nextRoom = null;
 
-            float chance = UnityEngine.Random.Range(0f, 1f);
+            float total = 0;
+
+            foreach (var item in possibleRooms) total += item.Chance;
+
+            float chance = UnityEngine.Random.Range(0f, total);
 
             foreach (var room in possibleRooms)
             {
                 float chanceMultiplier = room.IsPlug ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
 
-                if (chance < (room.Chance * chanceMultiplier))
+                if (chance > 0 && chance <= (room.Chance * chanceMultiplier))
                 {
                     Room possibleNextRoom = room.Prefab.GetComponent<Room>();
-                    if (CheckRoom(x, y, side, possibleNextRoom)) nextRooms.Add(room);
+                    if (CheckRoom(x, y, side, possibleNextRoom)) nextRoom = room;
+                    break;
                 }
+                chance -= room.Chance;
             }
-
-            if (nextRooms.Count > 0)
-            {
-                int rndIndex = UnityEngine.Random.Range(0, nextRooms.Count);
-                return nextRooms[rndIndex];
-            }
-            return null;
+            return nextRoom;
         }
     }
 }
