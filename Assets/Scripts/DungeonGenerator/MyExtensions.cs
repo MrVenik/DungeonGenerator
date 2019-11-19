@@ -22,6 +22,24 @@ namespace DungeonGenerator
             throw new System.Exception("Invalid side type");
         }
 
+        public static Side Rotate(this Side side, bool clockwise = false)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    return clockwise ? Side.Right : Side.Left;
+                case Side.Bottom:
+                    return clockwise ? Side.Left : Side.Right;
+                case Side.Left:
+                    return clockwise ? Side.Top : Side.Bottom;
+                case Side.Right:
+                    return clockwise ? Side.Bottom : Side.Top;
+                default:
+                    break;
+            }
+            throw new System.Exception("Invalid side type");
+        }
+
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
@@ -48,10 +66,10 @@ namespace DungeonGenerator
                             room.Rotate(2);
                             break;
                         case Side.Left:
-                            room.Rotate(1);
+                            room.Rotate(1, false);
                             break;
                         case Side.Right:
-                            room.Rotate(3);
+                            room.Rotate(1, true);
                             break;
                         default:
                             break;
@@ -66,10 +84,10 @@ namespace DungeonGenerator
                         case Side.Bottom:
                             break;
                         case Side.Left:
-                            room.Rotate(3);
+                            room.Rotate(1, true);
                             break;
                         case Side.Right:
-                            room.Rotate(1);
+                            room.Rotate(1, false);
                             break;
                         default:
                             break;
@@ -79,10 +97,10 @@ namespace DungeonGenerator
                     switch (side)
                     {
                         case Side.Top:
-                            room.Rotate(3);
+                            room.Rotate(1, true);
                             break;
                         case Side.Bottom:
-                            room.Rotate(1);
+                            room.Rotate(1, false);
                             break;
                         case Side.Left:
                             break;
@@ -97,10 +115,10 @@ namespace DungeonGenerator
                     switch (side)
                     {
                         case Side.Top:
-                            room.Rotate(1);
+                            room.Rotate(1, false);
                             break;
                         case Side.Bottom:
-                            room.Rotate(3);
+                            room.Rotate(1, true);
                             break;
                         case Side.Left:
                             room.Rotate(2);
@@ -121,24 +139,25 @@ namespace DungeonGenerator
             room.Rotate((int)degrees / 90);
         }
 
-        public static void Rotate(this Room room, int steps)
+        public static void Rotate(this Room room, int steps, bool clockwise = false)
         {
             for (int i = 0; i < steps; i++)
             {
-                room.Rotate();
+                room.Rotate(clockwise);
             }
         }
 
-        public static void Rotate(this Room room)
+        public static void Rotate(this Room room, bool clockwise = false)
         {
             Connection newConnection = new Connection()
             {
-                Left = room.Connection.Top,
-                Bottom = room.Connection.Left,
-                Right = room.Connection.Bottom,
-                Top = room.Connection.Right
+                Top = clockwise ? room.Connection.Left : room.Connection.Right,
+                Bottom = clockwise ? room.Connection.Right : room.Connection.Left,
+                Left = clockwise ? room.Connection.Bottom : room.Connection.Top,
+                Right = clockwise ? room.Connection.Top : room.Connection.Bottom,
             };
             room.Connection = newConnection;
+            room.Entrance = room.Entrance.Rotate(clockwise);
         }
     }
 }

@@ -74,8 +74,10 @@ namespace DungeonGenerator
                 {
                     possibleNextRoom.Rotate(side.Oposite());
                 }
-
-                possibleNextRoom.Entrance = side.Oposite();
+                else
+                {
+                    possibleNextRoom.Entrance = side.Oposite();
+                }
 
                 return possibleNextRoom.CanCreate(x, y);
             }
