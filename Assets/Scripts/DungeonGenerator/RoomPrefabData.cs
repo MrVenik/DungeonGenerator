@@ -14,5 +14,6 @@ namespace DungeonGenerator
         public GameObject Prefab;
         public float Chance;
         public bool IsPlug;
+        public bool IsGroup;
     }
 }

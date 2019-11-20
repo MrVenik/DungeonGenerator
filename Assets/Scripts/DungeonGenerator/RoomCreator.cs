@@ -22,19 +22,71 @@ namespace DungeonGenerator
             {
                 if (roomPrefabData != null)
                 {
-                    Room possibleNextRoom = roomPrefabData.Prefab.GetComponent<Room>();
-
-                    if (CheckRoom(x, y, side, possibleNextRoom))
+                    if (roomPrefabData.IsGroup)
                     {
-                        CreateRoom(x, y, roomPrefabData);
+                        RoomGroup possibleNextRoom = roomPrefabData.Prefab.GetComponent<RoomGroup>();
+
+                        if (CheckRoomGroup(x, y, side, possibleNextRoom))
+                        {
+                            CreateRoomGroup(x, y, roomPrefabData);
+                        }
+                        else throw new Exception($"Cant create room: {roomPrefabData.Name} on X={x}, Y={y}");
                     }
-                    else throw new Exception($"Cant create room: {roomPrefabData.Name} on X={x}, Y={y}");
+                    else
+                    {
+                        Room possibleNextRoom = roomPrefabData.Prefab.GetComponent<Room>();
+
+                        if (CheckRoom(x, y, side, possibleNextRoom))
+                        {
+                            CreateRoom(x, y, roomPrefabData);
+                        }
+                        else throw new Exception($"Cant create room: {roomPrefabData.Name} on X={x}, Y={y}");
+                    }
                 }
             }
         }
 
+        private static void CreateRoomGroup(int x, int y, RoomPrefabData roomPrefabData)
+        {
+            Debug.Log($"I creating room group on {x},{y}");
+            RoomGroup roomGroup = roomPrefabData.Prefab.GetComponent<RoomGroup>();
+            for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
+            {
+                for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
+                {
+                    GameObject nextRoomPrefab = roomGroup.Rooms[j + k * roomGroup.ArraySize].Prefab;
+                    Vector3 nextRoomPosition = new Vector3(ix * (int)DungeonManager.Dungeon.MaximumRoomSize, iy * (int)DungeonManager.Dungeon.MaximumRoomSize);
+                    Room nextRoom = RoomSpawner.Spawn(nextRoomPosition, nextRoomPrefab);
+                    nextRoom.Entrance = roomGroup.Rooms[j + k * roomGroup.ArraySize].Entrance;
+                    nextRoom.Connection = roomGroup.Rooms[j + k * roomGroup.ArraySize].Connection;
+                    DungeonManager.Dungeon.SetRoom(nextRoom, ix, iy);
+                }
+            }
+        }
+
+        private static bool CheckRoomGroup(int x, int y, Side side, RoomGroup possibleNextRoom)
+        {
+            Debug.Log("Check if i can create room group");
+
+            foreach (var item in possibleNextRoom.Rooms)
+            {
+                if (item.Room.Size > DungeonManager.Dungeon.MaximumRoomSize) return false;
+            }
+
+            possibleNextRoom.Rotate(side.Oposite());
+            possibleNextRoom.RotateRooms();
+
+            return possibleNextRoom.CanCreate(x, y);
+
+        }
+
         public static void Create(int x, int y, Side side, List<RoomPrefabData> possibleRooms)
         {
+            if (possibleRooms.Count == 1)
+            {
+                Create(x, y, side, possibleRooms[0]);
+            }
+
             Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
             if (nextRoom == null)
@@ -49,7 +101,14 @@ namespace DungeonGenerator
                     RoomPrefabData nextRoomPrefabData = GetRandomRoom(x, y, side, possibleRooms);
                     if (nextRoomPrefabData != null)
                     {
-                        CreateRoom(x, y, nextRoomPrefabData);
+                        if (nextRoomPrefabData.IsGroup)
+                        {
+                            CreateRoomGroup(x, y, nextRoomPrefabData);
+                        }
+                        else
+                        {
+                            CreateRoom(x, y, nextRoomPrefabData);
+                        }
                     }
                 }
                 else throw new Exception("Possible Rooms array is null");
@@ -100,8 +159,16 @@ namespace DungeonGenerator
 
                 if (chance > 0 && chance <= (room.Chance * chanceMultiplier))
                 {
-                    Room possibleNextRoom = room.Prefab.GetComponent<Room>();
-                    if (CheckRoom(x, y, side, possibleNextRoom)) nextRoom = room;
+                    if (room.IsGroup)
+                    {
+                        RoomGroup possibleNextRoom = room.Prefab.GetComponent<RoomGroup>();
+                        if (CheckRoomGroup(x, y, side, possibleNextRoom)) nextRoom = room;
+                    }
+                    else
+                    {
+                        Room possibleNextRoom = room.Prefab.GetComponent<Room>();
+                        if (CheckRoom(x, y, side, possibleNextRoom)) nextRoom = room;
+                    }
                     break;
                 }
                 chance -= room.Chance;

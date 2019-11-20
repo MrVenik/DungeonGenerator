@@ -159,5 +159,25 @@ namespace DungeonGenerator
             room.Connection = newConnection;
             room.Entrance = room.Entrance.Rotate(clockwise);
         }
+
+        public static T[] Rotate<T>(this T[] array, bool clockwise = false)
+        {
+            int size = (int)System.Math.Sqrt(array.Length);
+
+            T[] newArray = new T[size * size];
+
+            for (int x = 0; x < size; x++)
+            {
+                for (int y = 0; y < size; y++)
+                {
+                    int i = x + y * size;
+                    int nx = clockwise ? y : size - 1 - y;
+                    int ny = clockwise ? size - 1 - x : x;
+                    int ni = nx + ny * size;
+                    newArray[ni] = array[i];
+                }
+            }
+            return newArray;
+        }
     }
 }
