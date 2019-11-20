@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &930317137519529702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5768857822473608234}
+  - component: {fileID: 3557053215380959678}
+  m_Layer: 0
+  m_Name: RoomGroup3x3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5768857822473608234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930317137519529702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 86.19638, y: 128.14706, z: -1327.245}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3557053215380959678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930317137519529702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7d20ad82c119947a3a3c9d7dd2ffaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArraySize: 3
+  EntranceX: 1
+  EntranceY: 0
+  Entrance: 1
+  Rooms:
+  - Name: Turn
+    Entrance: 3
+    Connection:
+      Top: 5
+      Bottom: 2
+      Left: 2
+      Right: 5
+    Prefab: {fileID: 4024030235329151355, guid: d3d5aa86ba6ef4a499e858778a8ed696,
+      type: 3}
+  - Name: Entrance
+    Entrance: 1
+    Connection:
+      Top: 5
+      Bottom: 3
+      Left: 5
+      Right: 5
+    Prefab: {fileID: 6449015624157284307, guid: dbb7874acc6e50943b6840fb1c37635c,
+      type: 3}
+  - Name: Turn
+    Entrance: 0
+    Connection:
+      Top: 5
+      Bottom: 2
+      Left: 5
+      Right: 2
+    Prefab: {fileID: 4024030235329151355, guid: d3d5aa86ba6ef4a499e858778a8ed696,
+      type: 3}
+  - Name: Side
+    Entrance: 1
+    Connection:
+      Top: 5
+      Bottom: 5
+      Left: 2
+      Right: 5
+    Prefab: {fileID: 4024030235329151355, guid: feb0d2f3cea509647961a496173fe59a,
+      type: 3}
+  - Name: Center
+    Entrance: 1
+    Connection:
+      Top: 5
+      Bottom: 5
+      Left: 5
+      Right: 5
+    Prefab: {fileID: 6449015624157284307, guid: c5693a6a33053be49837e74a4a97d381,
+      type: 3}
+  - Name: Side
+    Entrance: 0
+    Connection:
+      Top: 5
+      Bottom: 5
+      Left: 5
+      Right: 2
+    Prefab: {fileID: 4024030235329151355, guid: feb0d2f3cea509647961a496173fe59a,
+      type: 3}
+  - Name: Turn
+    Entrance: 1
+    Connection:
+      Top: 2
+      Bottom: 5
+      Left: 2
+      Right: 5
+    Prefab: {fileID: 4024030235329151355, guid: d3d5aa86ba6ef4a499e858778a8ed696,
+      type: 3}
+  - Name: Side
+    Entrance: 2
+    Connection:
+      Top: 2
+      Bottom: 5
+      Left: 5
+      Right: 5
+    Prefab: {fileID: 4024030235329151355, guid: feb0d2f3cea509647961a496173fe59a,
+      type: 3}
+  - Name: Turn
+    Entrance: 2
+    Connection:
+      Top: 2
+      Bottom: 5
+      Left: 5
+      Right: 2
+    Prefab: {fileID: 4024030235329151355, guid: d3d5aa86ba6ef4a499e858778a8ed696,
+      type: 3}
