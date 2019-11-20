@@ -125,7 +125,7 @@ namespace DungeonGenerator
                 if (_rooms[x, y] == null)
                 {
                     _rooms[x, y] = room;
-                    _rooms[x, y].Create(x, y);
+                    //_rooms[x, y].Create(x, y);
                     _currentAmountOfRooms++;
                 }
             }

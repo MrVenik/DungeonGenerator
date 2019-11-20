@@ -62,6 +62,14 @@ namespace DungeonGenerator
                     DungeonManager.Dungeon.SetRoom(nextRoom, ix, iy);
                 }
             }
+
+            for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
+            {
+                for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
+                {
+                    DungeonManager.Dungeon.GetRoom(ix, iy).Create(ix, iy);
+                }
+            }
         }
 
         private static bool CheckRoomGroup(int x, int y, Side side, RoomGroup possibleNextRoom)
@@ -122,6 +130,7 @@ namespace DungeonGenerator
             Vector3 nextRoomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
             nextRoom = RoomSpawner.Spawn(nextRoomPosition, nextRoomPrefab);
             DungeonManager.Dungeon.SetRoom(nextRoom, x, y);
+            DungeonManager.Dungeon.GetRoom(x, y).Create(x, y);
             return nextRoom;
         }
 

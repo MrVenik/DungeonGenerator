@@ -101,6 +101,11 @@ MonoBehaviour:
     Chance: 0.5
     IsPlug: 1
     IsGroup: 1
+  - Name: ProceduralRoomGroup
+    Prefab: {fileID: 930317137519529702, guid: 5e6e9cf6107d49d4aa51340c11d45e65, type: 3}
+    Chance: 0.5
+    IsPlug: 1
+    IsGroup: 1
   - Name: RoomGroup3x3
     Prefab: {fileID: 930317137519529702, guid: 6d51bc58b800909469834e17e2d6fa83, type: 3}
     Chance: 0.5
