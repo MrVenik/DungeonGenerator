@@ -67,7 +67,11 @@ namespace DungeonGenerator
             {
                 for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
                 {
-                    DungeonManager.Dungeon.GetRoom(ix, iy).Create(ix, iy);
+                    Room room = DungeonManager.Dungeon.GetRoom(ix, iy);
+                    if (room != null)
+                    {
+                        room.Create(ix, iy);
+                    }
                 }
             }
         }
