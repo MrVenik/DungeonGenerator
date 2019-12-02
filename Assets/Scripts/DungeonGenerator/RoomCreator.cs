@@ -48,8 +48,10 @@ namespace DungeonGenerator
 
         private static void CreateRoomGroup(int x, int y, RoomPrefabData roomPrefabData)
         {
-            Debug.Log($"I creating room group on {x},{y}");
             RoomGroup roomGroup = roomPrefabData.Prefab.GetComponent<RoomGroup>();
+
+            List<(Room, int, int)> roomsToCreate = new List<(Room, int, int)>();
+
             for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
             {
                 for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
@@ -60,26 +62,21 @@ namespace DungeonGenerator
                     nextRoom.Entrance = roomGroup.Rooms[j + k * roomGroup.ArraySize].Entrance;
                     nextRoom.Connection = roomGroup.Rooms[j + k * roomGroup.ArraySize].Connection;
                     DungeonManager.Dungeon.SetRoom(nextRoom, ix, iy);
+                    roomsToCreate.Add((DungeonManager.Dungeon.GetRoom(ix, iy), ix, iy));
                 }
             }
 
-            for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
+            foreach (var roomData in roomsToCreate)
             {
-                for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
-                {
-                    Room room = DungeonManager.Dungeon.GetRoom(ix, iy);
-                    if (room != null)
-                    {
-                        room.Create(ix, iy);
-                    }
-                }
+                Room room = roomData.Item1;
+                int ix = roomData.Item2;
+                int iy = roomData.Item3;
+                room.Create(ix, iy);
             }
         }
 
         private static bool CheckRoomGroup(int x, int y, Side side, RoomGroup possibleNextRoom)
         {
-            Debug.Log("Check if i can create room group");
-
             foreach (var item in possibleNextRoom.Rooms)
             {
                 if (item.Room.Size > DungeonManager.Dungeon.MaximumRoomSize) return false;

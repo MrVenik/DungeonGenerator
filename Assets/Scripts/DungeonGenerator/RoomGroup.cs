@@ -46,7 +46,6 @@ namespace DungeonGenerator
                     if (!Rooms[j + k * ArraySize].Room.CanCreate(ix, iy)) return false;
                 }
             }
-            Debug.Log("I can create room group");
             return true;
         }
 
