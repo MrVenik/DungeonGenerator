@@ -2,7 +2,7 @@
 
 namespace DungeonGenerator
 {
-    public static class MyExtensions
+    public static class ArrayExtensions
     {
         public static void Shuffle<T>(this IList<T> list)
         {
