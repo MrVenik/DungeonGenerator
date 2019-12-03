@@ -53,7 +53,7 @@ namespace DungeonGenerator
             }
         }
 
-        public static void Rotate(this Room room, Side side)
+        public static void Rotate(this RoomBehaviour room, Side side)
         {
             switch (room.Entrance)
             {
@@ -134,12 +134,12 @@ namespace DungeonGenerator
             }
         }
 
-        public static void Rotate(this Room room, float degrees)
+        public static void Rotate(this RoomBehaviour room, float degrees)
         {
             room.Rotate((int)degrees / 90);
         }
 
-        public static void Rotate(this Room room, int steps, bool clockwise = false)
+        public static void Rotate(this RoomBehaviour room, int steps, bool clockwise = false)
         {
             for (int i = 0; i < steps; i++)
             {
@@ -147,7 +147,7 @@ namespace DungeonGenerator
             }
         }
 
-        public static void Rotate(this Room room, bool clockwise = false)
+        public static void Rotate(this RoomBehaviour room, bool clockwise = false)
         {
             Connection newConnection = new Connection()
             {

@@ -16,7 +16,7 @@ namespace DungeonGenerator
 
         public static void Create(int x, int y, Side side, RoomPrefabData roomPrefabData)
         {
-            Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+            RoomBehaviour nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
             if (nextRoom == null)
             {
@@ -34,7 +34,7 @@ namespace DungeonGenerator
                     }
                     else
                     {
-                        Room possibleNextRoom = roomPrefabData.Prefab.GetComponent<Room>();
+                        RoomBehaviour possibleNextRoom = roomPrefabData.Prefab.GetComponent<RoomBehaviour>();
 
                         if (CheckRoom(x, y, side, possibleNextRoom))
                         {
@@ -50,7 +50,7 @@ namespace DungeonGenerator
         {
             RoomGroup roomGroup = roomPrefabData.Prefab.GetComponent<RoomGroup>();
 
-            List<(Room, int, int)> roomsToCreate = new List<(Room, int, int)>();
+            List<(RoomBehaviour, int, int)> roomsToCreate = new List<(RoomBehaviour, int, int)>();
 
             for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
             {
@@ -58,7 +58,7 @@ namespace DungeonGenerator
                 {
                     GameObject nextRoomPrefab = roomGroup.Rooms[j + k * roomGroup.ArraySize].Prefab;
                     Vector3 nextRoomPosition = new Vector3(ix * (int)DungeonManager.Dungeon.MaximumRoomSize, iy * (int)DungeonManager.Dungeon.MaximumRoomSize);
-                    Room nextRoom = RoomSpawner.Spawn(nextRoomPosition, nextRoomPrefab);
+                    RoomBehaviour nextRoom = RoomSpawner.Spawn(nextRoomPosition, nextRoomPrefab);
                     nextRoom.Entrance = roomGroup.Rooms[j + k * roomGroup.ArraySize].Entrance;
                     nextRoom.Connection = roomGroup.Rooms[j + k * roomGroup.ArraySize].Connection;
                     DungeonManager.Dungeon.SetRoom(nextRoom, ix, iy);
@@ -68,7 +68,7 @@ namespace DungeonGenerator
 
             foreach (var roomData in roomsToCreate)
             {
-                Room room = roomData.Item1;
+                RoomBehaviour room = roomData.Item1;
                 int ix = roomData.Item2;
                 int iy = roomData.Item3;
                 room.Create(ix, iy);
@@ -96,7 +96,7 @@ namespace DungeonGenerator
                 Create(x, y, side, possibleRooms[0]);
             }
 
-            Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+            RoomBehaviour nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
             if (nextRoom == null)
             {
@@ -124,9 +124,9 @@ namespace DungeonGenerator
             }
         }
 
-        private static Room CreateRoom(int x, int y, RoomPrefabData roomPrefabData)
+        private static RoomBehaviour CreateRoom(int x, int y, RoomPrefabData roomPrefabData)
         {
-            Room nextRoom;
+            RoomBehaviour nextRoom;
             GameObject nextRoomPrefab = roomPrefabData.Prefab;
             Vector3 nextRoomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
             nextRoom = RoomSpawner.Spawn(nextRoomPosition, nextRoomPrefab);
@@ -135,7 +135,7 @@ namespace DungeonGenerator
             return nextRoom;
         }
 
-        private static bool CheckRoom(int x, int y, Side side, Room possibleNextRoom)
+        private static bool CheckRoom(int x, int y, Side side, RoomBehaviour possibleNextRoom)
         {
             if (possibleNextRoom.Size <= DungeonManager.Dungeon.MaximumRoomSize)
             {
@@ -176,7 +176,7 @@ namespace DungeonGenerator
                     }
                     else
                     {
-                        Room possibleNextRoom = room.Prefab.GetComponent<Room>();
+                        RoomBehaviour possibleNextRoom = room.Prefab.GetComponent<RoomBehaviour>();
                         if (CheckRoom(x, y, side, possibleNextRoom)) nextRoom = room;
                     }
                     break;

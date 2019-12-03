@@ -24,7 +24,7 @@ namespace DungeonGenerator
         public int Heigth { get => _heigth; set => _heigth = value; }
         public int Width { get => _width; set => _width = value; }
 
-        private Room[,] _rooms;
+        private RoomBehaviour[,] _rooms;
 
         public Transform Transform { get; private set; }
 
@@ -81,7 +81,7 @@ namespace DungeonGenerator
             _maximumAmountOfRooms = Heigth * Width;
             _predicatedAmountOfRooms = (int)(_maximumAmountOfRooms * _dungeonFilling);
 
-            _rooms = new Room[Width, Heigth];
+            _rooms = new RoomBehaviour[Width, Heigth];
         }
 
         public void CreateStartRoom(int x, int y)
@@ -96,7 +96,7 @@ namespace DungeonGenerator
             RoomCreator.Create(x, y, Side.Top, startRoomData);
         }
 
-        public Room GetRoom(int x, int y)
+        public RoomBehaviour GetRoom(int x, int y)
         {
             if (CheckBorders(x, y))
             {
@@ -118,7 +118,7 @@ namespace DungeonGenerator
             else return Connection.Border;
         }
 
-        public void SetRoom(Room room, int x, int y)
+        public void SetRoom(RoomBehaviour room, int x, int y)
         {
             if (CheckBorders(x, y))
             {

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class ProceduralRoom : Room
+    public class ProceduralRoom : RoomBehaviour
     {
         [SerializeField] protected List<GameObject> WallConnectionVariants;
         [SerializeField] protected List<GameObject> SmallConnectionVariants;
@@ -79,7 +79,7 @@ namespace DungeonGenerator
             queue.Shuffle();
             foreach (var side in queue)
             {
-                Room nextRoom = null;
+                RoomBehaviour nextRoom = null;
                 switch (side)
                 {
                     case Side.Top:
@@ -159,7 +159,7 @@ namespace DungeonGenerator
 
         private ConnectionType ConnectToRight()
         {
-            Room rightRoom = DungeonManager.Dungeon.GetRoom(X + 1, Y);
+            RoomBehaviour rightRoom = DungeonManager.Dungeon.GetRoom(X + 1, Y);
             ConnectionType rightConnection;
             if (rightRoom != null)
             {
@@ -178,7 +178,7 @@ namespace DungeonGenerator
 
         private ConnectionType ConnectToBottom()
         {
-            Room bottomRoom = DungeonManager.Dungeon.GetRoom(X, Y - 1);
+            RoomBehaviour bottomRoom = DungeonManager.Dungeon.GetRoom(X, Y - 1);
             ConnectionType bottomConnection;
             if (bottomRoom != null)
             {
@@ -197,7 +197,7 @@ namespace DungeonGenerator
 
         private ConnectionType ConnectToLeft()
         {
-            Room leftRoom = DungeonManager.Dungeon.GetRoom(X - 1, Y);
+            RoomBehaviour leftRoom = DungeonManager.Dungeon.GetRoom(X - 1, Y);
             ConnectionType leftConnection;
             if (leftRoom != null)
             {
@@ -216,7 +216,7 @@ namespace DungeonGenerator
 
         private ConnectionType ConnectToTop()
         {
-            Room topRoom = DungeonManager.Dungeon.GetRoom(X, Y + 1);
+            RoomBehaviour topRoom = DungeonManager.Dungeon.GetRoom(X, Y + 1);
             ConnectionType topConnection;
             if (topRoom != null)
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public abstract class Room : MonoBehaviour, IRoom
+    public abstract class RoomBehaviour : MonoBehaviour
     {
         [SerializeField] private RoomSize _size;
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;

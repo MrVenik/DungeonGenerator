@@ -14,12 +14,12 @@ namespace DungeonGenerator
         public Side Entrance;
         public Connection Connection;
         public GameObject Prefab;
-        private Room _room = null;
-        public Room Room
+        private RoomBehaviour _room = null;
+        public RoomBehaviour Room
         {
             get
             {
-                if (_room == null) _room = Prefab.GetComponent<Room>();
+                if (_room == null) _room = Prefab.GetComponent<RoomBehaviour>();
                 return _room;
             }
         }

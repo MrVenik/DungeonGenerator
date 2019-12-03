@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class TemplateRoom : Room
+    public class TemplateRoom : RoomBehaviour
     {
         [SerializeField] private GameObject _templatePrefab;
 
@@ -34,7 +34,7 @@ namespace DungeonGenerator
         {
             base.CreateNextRoom(x, y, side);
 
-            Room nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+            RoomBehaviour nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
 
             if (nextRoom == null)
             {
