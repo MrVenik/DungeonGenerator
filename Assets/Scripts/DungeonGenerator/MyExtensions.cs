@@ -4,42 +4,6 @@ namespace DungeonGenerator
 {
     public static class MyExtensions
     {
-        public static Side Oposite(this Side side)
-        {
-            switch (side)
-            {
-                case Side.Top:
-                    return Side.Bottom;
-                case Side.Bottom:
-                    return  Side.Top;
-                case Side.Left:
-                    return Side.Right;
-                case Side.Right:
-                    return Side.Left;
-                default:
-                    break;
-            }
-            throw new System.Exception("Invalid side type");
-        }
-
-        public static Side Rotate(this Side side, bool clockwise = false)
-        {
-            switch (side)
-            {
-                case Side.Top:
-                    return clockwise ? Side.Right : Side.Left;
-                case Side.Bottom:
-                    return clockwise ? Side.Left : Side.Right;
-                case Side.Left:
-                    return clockwise ? Side.Top : Side.Bottom;
-                case Side.Right:
-                    return clockwise ? Side.Bottom : Side.Top;
-                default:
-                    break;
-            }
-            throw new System.Exception("Invalid side type");
-        }
-
         public static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
@@ -149,14 +113,7 @@ namespace DungeonGenerator
 
         public static void Rotate(this RoomBehaviour room, bool clockwise = false)
         {
-            Connection newConnection = new Connection()
-            {
-                Top = clockwise ? room.Connection.Left : room.Connection.Right,
-                Bottom = clockwise ? room.Connection.Right : room.Connection.Left,
-                Left = clockwise ? room.Connection.Bottom : room.Connection.Top,
-                Right = clockwise ? room.Connection.Top : room.Connection.Bottom,
-            };
-            room.Connection = newConnection;
+            room.Connection = room.Connection.Rotate(clockwise);
             room.Entrance = room.Entrance.Rotate(clockwise);
         }
 

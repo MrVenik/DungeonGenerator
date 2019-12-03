@@ -14,14 +14,6 @@
     [System.Serializable]
     public class Connection
     {
-        public static Connection Start = new Connection()
-        {
-            Top = ConnectionType.Small,
-            Bottom = ConnectionType.Wall,
-            Left = ConnectionType.Wall,
-            Right = ConnectionType.Wall
-        };
-
         public static Connection Border = new Connection()
         {
             Top = ConnectionType.Wall,
@@ -42,5 +34,17 @@
         public ConnectionType Bottom;
         public ConnectionType Left;
         public ConnectionType Right;
+
+        public Connection Rotate(bool clockwise = false)
+        {
+            Connection newConnection = new Connection()
+            {
+                Top = clockwise ? Left : Right,
+                Bottom = clockwise ? Right : Left,
+                Left = clockwise ? Bottom : Top,
+                Right = clockwise ? Top : Bottom,
+            };
+            return newConnection;
+        }
     }
 }
