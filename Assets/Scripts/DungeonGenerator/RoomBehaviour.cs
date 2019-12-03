@@ -85,5 +85,107 @@ namespace DungeonGenerator
         }
 
         public abstract void Build();
+
+
+
+        public void Rotate(Side side)
+        {
+            switch (Entrance)
+            {
+                case Side.Top:
+                    switch (side)
+                    {
+                        case Side.Top:
+                            break;
+                        case Side.Bottom:
+                            Rotate(2);
+                            break;
+                        case Side.Left:
+                            Rotate(1, false);
+                            break;
+                        case Side.Right:
+                            Rotate(1, true);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Side.Bottom:
+                    switch (side)
+                    {
+                        case Side.Top:
+                            Rotate(2);
+                            break;
+                        case Side.Bottom:
+                            break;
+                        case Side.Left:
+                            Rotate(1, true);
+                            break;
+                        case Side.Right:
+                            Rotate(1, false);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Side.Left:
+                    switch (side)
+                    {
+                        case Side.Top:
+                            Rotate(1, true);
+                            break;
+                        case Side.Bottom:
+                            Rotate(1, false);
+                            break;
+                        case Side.Left:
+                            break;
+                        case Side.Right:
+                            Rotate(2);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Side.Right:
+                    switch (side)
+                    {
+                        case Side.Top:
+                            Rotate(1, false);
+                            break;
+                        case Side.Bottom:
+                            Rotate(1, true);
+                            break;
+                        case Side.Left:
+                            Rotate(2);
+                            break;
+                        case Side.Right:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void Rotate(float degrees)
+        {
+            Rotate((int)degrees / 90);
+        }
+
+        public void Rotate(int steps, bool clockwise = false)
+        {
+            for (int i = 0; i < steps; i++)
+            {
+                Rotate(clockwise);
+            }
+        }
+
+        public void Rotate(bool clockwise = false)
+        {
+            Connection = Connection.Rotate(clockwise);
+            Entrance = Entrance.Rotate(clockwise);
+        }
     }
 }
