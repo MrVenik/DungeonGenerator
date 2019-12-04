@@ -2,7 +2,7 @@
 
 namespace DungeonGenerator
 {
-    public class StartRoom : TemplateRoom
+    public class StartRoom : TemplateRoomBehaviour
     {
     }
 }

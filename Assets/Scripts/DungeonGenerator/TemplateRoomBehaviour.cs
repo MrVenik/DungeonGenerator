@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class TemplateRoom : RoomBehaviour
+    public class TemplateRoomBehaviour : RoomBehaviour
     {
         [SerializeField] private GameObject _templatePrefab;
 

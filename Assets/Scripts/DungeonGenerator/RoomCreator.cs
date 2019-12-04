@@ -139,7 +139,7 @@ namespace DungeonGenerator
         {
             if (possibleNextRoom.Size <= DungeonManager.Dungeon.MaximumRoomSize)
             {
-                if (possibleNextRoom is TemplateRoom)
+                if (possibleNextRoom is TemplateRoomBehaviour)
                 {
                     possibleNextRoom.Rotate(side.Oposite());
                 }

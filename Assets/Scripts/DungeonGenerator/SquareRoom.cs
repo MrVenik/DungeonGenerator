@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class SquareRoom : TemplateRoom
+    public class SquareRoom : TemplateRoomBehaviour
     {
         public override bool CanCreate(int x, int y)
         {

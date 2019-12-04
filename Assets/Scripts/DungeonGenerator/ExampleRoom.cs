@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonGenerator
 {
-    public class ExampleRoom : TemplateRoom
+    public class ExampleRoom : TemplateRoomBehaviour
     {
     }
 }
