@@ -10,7 +10,10 @@ namespace DungeonGenerator
         [SerializeField] protected List<RoomPrefabData> PossibleNextRooms;
         [SerializeField] private float _chanceOfNextRoom = 0.0f;
         [SerializeField] private bool ShouldCreateNextRoom = true;
+
+        [SerializeField] private RoomChecker _checker;
         [SerializeField] private RoomBuilder _builder;
+
         protected virtual float ChanceOfNextRoom
         {
             get => _chanceOfNextRoom;
@@ -39,7 +42,10 @@ namespace DungeonGenerator
             Transform = transform;
         }
 
-        public abstract bool CanCreate(int x, int y);
+        public virtual bool CanCreate(int x, int y)
+        {
+            return _checker.CanCreate(x, y, this);
+        }
 
         public abstract void Create(int x, int y);
 
