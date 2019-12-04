@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class ProceduralRoom : RoomBehaviour
+    public class ProceduralRoomBehaviour : RoomBehaviour
     {
         [SerializeField] protected List<GameObject> WallConnectionVariants;
         [SerializeField] protected List<GameObject> SmallConnectionVariants;
@@ -166,7 +166,7 @@ namespace DungeonGenerator
                 rightConnection = rightRoom.Connection.Left;
                 if (rightConnection == ConnectionType.None)
                 {
-                    rightConnection = CreateNewConnection(rightRoom as ProceduralRoom);
+                    rightConnection = CreateNewConnection(rightRoom as ProceduralRoomBehaviour);
                 }
             }
             else
@@ -185,7 +185,7 @@ namespace DungeonGenerator
                 bottomConnection = bottomRoom.Connection.Top;
                 if (bottomConnection == ConnectionType.None)
                 {
-                    bottomConnection = CreateNewConnection(bottomRoom as ProceduralRoom);
+                    bottomConnection = CreateNewConnection(bottomRoom as ProceduralRoomBehaviour);
                 }
             }
             else
@@ -204,7 +204,7 @@ namespace DungeonGenerator
                 leftConnection = leftRoom.Connection.Right;
                 if (leftConnection == ConnectionType.None)
                 {
-                    leftConnection = CreateNewConnection(leftRoom as ProceduralRoom);
+                    leftConnection = CreateNewConnection(leftRoom as ProceduralRoomBehaviour);
                 }
             }
             else
@@ -223,7 +223,7 @@ namespace DungeonGenerator
                 topConnection = topRoom.Connection.Bottom;
                 if (topConnection == ConnectionType.None)
                 {
-                    topConnection = CreateNewConnection(topRoom as ProceduralRoom);
+                    topConnection = CreateNewConnection(topRoom as ProceduralRoomBehaviour);
                 }
             }
             else
@@ -233,7 +233,7 @@ namespace DungeonGenerator
             return topConnection;
         }
 
-        protected virtual ConnectionType CreateNewConnection(ProceduralRoom room)
+        protected virtual ConnectionType CreateNewConnection(ProceduralRoomBehaviour room)
         {
             List<ConnectionData> possibleConnections = new List<ConnectionData>();
             foreach (var connectionData in PossibleNextConnections)

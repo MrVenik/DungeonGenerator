@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public class Corridor : ProceduralRoom
+    public class Corridor : ProceduralRoomBehaviour
     {
         public override bool CanCreate(int x, int y)
         {

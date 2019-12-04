@@ -2,7 +2,7 @@
 
 namespace DungeonGenerator
 {
-    public class SecretRoom : ProceduralRoom
+    public class SecretRoom : ProceduralRoomBehaviour
     {
         public override bool CanCreate(int x, int y)
         {
