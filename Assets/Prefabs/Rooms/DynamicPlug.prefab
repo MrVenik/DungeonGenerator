@@ -46,6 +46,8 @@ MonoBehaviour:
   _size: 7
   PossibleNextRooms: []
   _chanceOfNextRoom: 0
+  ShouldCreateNextRoom: 1
+  _builder: {fileID: 11400000, guid: 3a10eda56ee0e9d4cb1cf4ec5fc1a23e, type: 2}
   Entrance: 1
   _connection:
     Top: 0

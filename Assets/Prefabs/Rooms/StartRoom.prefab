@@ -47,11 +47,12 @@ MonoBehaviour:
   PossibleNextRooms: []
   _chanceOfNextRoom: 1
   ShouldCreateNextRoom: 1
-  Entrance: 3
+  _builder: {fileID: 11400000, guid: ab7300af67a5cac46b5d98de17178de6, type: 2}
+  Entrance: 1
   _connection:
-    Top: 2
+    Top: 3
     Bottom: 2
-    Left: 3
+    Left: 2
     Right: 2
-  _templatePrefab: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
+  TemplatePrefab: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
     type: 3}

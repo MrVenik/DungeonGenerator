@@ -274,38 +274,7 @@ namespace DungeonGenerator
             else throw new Exception("Possible connection types list is empty");
         }
 
-        public override void Build()
-        {
-            int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
-            int roomSize = (int)Size;
-
-            int diff = (maximumSize - roomSize) / 2;
-
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + diff), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + diff), Transform.rotation, Transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Transform.rotation, Transform);
-
-            GameObject element;
-            // Top connection
-            element = GetConnectionGameObject(Connection.Top);
-            if (element != null)
-                Instantiate(element, new Vector3(0.5f + Transform.position.x + 1 + diff, 0.5f + Transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 0), Transform);
-            // Bottom connection
-            element = GetConnectionGameObject(Connection.Bottom);
-            if (element != null)
-                Instantiate(element, new Vector3(0.5f + Transform.position.x + maximumSize - 2 - diff, 0.5f + Transform.position.y + diff), Quaternion.Euler(0, 0, 180), Transform);
-            // Left connection
-            element = GetConnectionGameObject(Connection.Left);
-            if (element != null)
-                Instantiate(element, new Vector3(0.5f + Transform.position.x + diff, 0.5f + Transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), Transform);
-            // Ritght connection
-            element = GetConnectionGameObject(Connection.Right);
-            if (element != null)
-                Instantiate(element, new Vector3(0.5f + Transform.position.x + maximumSize - 1 - diff, 0.5f + Transform.position.y + maximumSize - 2 - diff), Quaternion.Euler(0, 0, -90), Transform);
-        }
-
-        protected virtual GameObject GetConnectionGameObject(ConnectionType type)
+        public virtual GameObject GetConnectionGameObject(ConnectionType type)
         {
             switch (type)
             {
@@ -329,7 +298,7 @@ namespace DungeonGenerator
             throw new Exception("Invalid connection type " + type);
         }
 
-        protected virtual GameObject GetVariantFrom(List<GameObject> variants)
+        public virtual GameObject GetVariantFrom(List<GameObject> variants)
         {
             if (variants != null && variants.Count > 0)
             {
