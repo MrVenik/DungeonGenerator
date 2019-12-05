@@ -84,7 +84,7 @@ namespace DungeonGenerator
             _rooms = new RoomBehaviour[Width, Heigth];
         }
 
-        public void CreateStartRoom(int x, int y)
+        public void CreateStartRoom(int x, int y, Side side)
         {
             RoomPrefabData startRoomData = new RoomPrefabData()
             {
@@ -93,7 +93,7 @@ namespace DungeonGenerator
                 Chance = 1f
             };
 
-            RoomCreator.Create(x, y, Side.Top, startRoomData);
+            RoomCreator.Create(x, y, side, startRoomData);
         }
 
         public RoomBehaviour GetRoom(int x, int y)

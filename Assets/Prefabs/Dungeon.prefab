@@ -47,7 +47,7 @@ MonoBehaviour:
   - Name: Room
     Prefab: {fileID: 4837491194264574418, guid: a1cb2f0a854bd3f4aab081b77535c37a,
       type: 3}
-    Chance: 0.25
+    Chance: 0.5
     IsPlug: 0
     IsGroup: 0
   - Name: Plug
@@ -98,12 +98,12 @@ MonoBehaviour:
     IsGroup: 0
   - Name: RoomGroup
     Prefab: {fileID: 930317137519529702, guid: 61ddbe0053e42ed448ec96b27eb652d4, type: 3}
-    Chance: 0.5
+    Chance: 0.2
     IsPlug: 1
     IsGroup: 1
   - Name: ProceduralRoomGroup
     Prefab: {fileID: 930317137519529702, guid: 5e6e9cf6107d49d4aa51340c11d45e65, type: 3}
-    Chance: 0.5
+    Chance: 0.15
     IsPlug: 1
     IsGroup: 1
   - Name: NonPlugRoomGroup
@@ -118,7 +118,7 @@ MonoBehaviour:
     IsGroup: 1
   - Name: RoomGroup3x3
     Prefab: {fileID: 930317137519529702, guid: 6d51bc58b800909469834e17e2d6fa83, type: 3}
-    Chance: 0.5
+    Chance: 0.1
     IsPlug: 1
     IsGroup: 1
   StartRoomPrefab: {fileID: 1977446155243726721, guid: 6adcc69980e408d4583975c5d7fb9be1,

@@ -17,7 +17,21 @@ namespace DungeonGenerator
         {
             Debug.Log(System.DateTime.Now);
             Dungeon = Instantiate(_dungeonPrefab, transform.position, transform.rotation, transform).GetComponent<Dungeon>();
-            Dungeon.CreateStartRoom(0, 0);
+
+            int rndX = UnityEngine.Random.Range(1, Dungeon.Width - 1);
+            int rndY = UnityEngine.Random.Range(1, Dungeon.Heigth - 1);
+
+            List<Side> sides = new List<Side>
+            {
+                Side.Top,
+                Side.Bottom,
+                Side.Left,
+                Side.Right
+            };
+
+            Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
+
+            Dungeon.CreateStartRoom(rndX, rndY, rndSide);
             Dungeon.BuildDungeon();
             Debug.Log(System.DateTime.Now);
         }
