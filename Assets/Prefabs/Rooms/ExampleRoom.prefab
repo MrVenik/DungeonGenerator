@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6703205192146907933}
-  - component: {fileID: 1279349299030590492}
+  - component: {fileID: -21196793117868476}
   m_Layer: 0
   m_Name: ExampleRoom
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279349299030590492
+--- !u!114 &-21196793117868476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 112529703064834606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60cef9146e23785468504da0ca48b94d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cce830797c3e954e9d415818f654be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _size: 7
@@ -49,7 +49,7 @@ MonoBehaviour:
   ShouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: 475594dba2c12854d8aeec4adcc98a6d, type: 2}
   _builder: {fileID: 11400000, guid: ab7300af67a5cac46b5d98de17178de6, type: 2}
-  Entrance: 0
+  Entrance: 1
   _connection:
     Top: 3
     Bottom: 3

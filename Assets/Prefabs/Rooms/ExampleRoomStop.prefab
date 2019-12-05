@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2798607282644946980}
-  - component: {fileID: 3387876489699929713}
+  - component: {fileID: -3257676155129602662}
   m_Layer: 0
   m_Name: ExampleRoomStop
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3387876489699929713
+--- !u!114 &-3257676155129602662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,20 +40,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 6084678411062146640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60cef9146e23785468504da0ca48b94d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cce830797c3e954e9d415818f654be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _size: 7
   PossibleNextRooms: []
   _chanceOfNextRoom: 1
-  ShouldCreateNextRoom: 1
+  ShouldCreateNextRoom: 0
   _checker: {fileID: 11400000, guid: 475594dba2c12854d8aeec4adcc98a6d, type: 2}
   _builder: {fileID: 11400000, guid: ab7300af67a5cac46b5d98de17178de6, type: 2}
-  Entrance: 1
+  Entrance: 2
   _connection:
     Top: 2
-    Bottom: 3
-    Left: 2
+    Bottom: 2
+    Left: 3
     Right: 2
   TemplatePrefab: {fileID: 7355629288733540915, guid: 71f16f34f55d1d94091ae5895ba7829e,
     type: 3}
