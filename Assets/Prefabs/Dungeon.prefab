@@ -128,7 +128,7 @@ MonoBehaviour:
   MaximumRoomSize: 9
   _heigth: 32
   _width: 32
-  _dungeonFilling: 0.25
+  _dungeonFilling: 1
   _maximumAmountOfRooms: 0
   _predicatedAmountOfRooms: 0
   _currentAmountOfRooms: 0

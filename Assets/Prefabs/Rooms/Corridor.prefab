@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1441680084479693211}
-  - component: {fileID: 6406545270903931046}
+  - component: {fileID: 5422860134640780476}
   m_Layer: 0
   m_Name: Corridor
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6406545270903931046
+--- !u!114 &5422860134640780476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 390632652426117184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ee8f8735493aa944b50c9d2569c4088, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e0855cc1ae18b4f8d4615b5178fc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _size: 5
@@ -49,24 +49,15 @@ MonoBehaviour:
   ShouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: a8a111dc9aff758429506afa8ff1628a, type: 2}
   _builder: {fileID: 11400000, guid: 3a10eda56ee0e9d4cb1cf4ec5fc1a23e, type: 2}
-  Entrance: 0
+  Entrance: 1
   _connection:
     Top: 0
     Bottom: 0
     Left: 0
     Right: 0
-  WallConnectionVariants:
-  - {fileID: 2550542356135359241, guid: b51b7e4eb37506d49810bfdd36c96da5, type: 3}
-  SmallConnectionVariants:
-  - {fileID: 1391292881652923551, guid: 0e49b8fa88bfbf6418c1cd8348f185fd, type: 3}
-  MediumConnectionVariants:
-  - {fileID: 5595796165803689315, guid: b25a94453f7a2b74694c438a6f7b6c6c, type: 3}
-  BigConnectionVariants:
-  - {fileID: 165212539251002875, guid: 58f46f422563ad94383aaf0fb6ce07e7, type: 3}
-  SecretConnectionVariants:
-  - {fileID: 316343554806888331, guid: 6f82a53e5b3d18b48b15ee1e3100a959, type: 3}
   PossibleConnectionTypes: 0200000003000000
   PossibleNextConnections:
   - ConnectionType: 3
     Chance: 1
+  _amountOfNeededRooms: 2
   _amountOfOpenConnections: 0

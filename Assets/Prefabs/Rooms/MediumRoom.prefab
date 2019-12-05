@@ -49,7 +49,7 @@ MonoBehaviour:
   ShouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: 95769f22d679ba14885c313b1cee95e3, type: 2}
   _builder: {fileID: 11400000, guid: 2e583ff68c79dbc42a613208b12cf3b0, type: 2}
-  Entrance: 1
+  Entrance: 2
   _connection:
     Top: 0
     Bottom: 0
@@ -61,4 +61,5 @@ MonoBehaviour:
     Chance: 1
   - ConnectionType: 3
     Chance: 0.25
+  _amountOfNeededRooms: 0
   _amountOfOpenConnections: 0

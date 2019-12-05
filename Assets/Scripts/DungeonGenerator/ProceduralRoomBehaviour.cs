@@ -12,6 +12,8 @@ namespace DungeonGenerator
         [SerializeField] public List<ConnectionType> PossibleConnectionTypes;
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
 
+        [SerializeField] private int _amountOfNeededRooms;
+
         [SerializeField] private int _amountOfOpenConnections;
         public int AmountOfOpenConnections
         {
@@ -20,6 +22,15 @@ namespace DungeonGenerator
             {
                 if (value > 4) throw new Exception("Amount of open connections cant be more than 4");
                 else _amountOfOpenConnections = value;
+            }
+        }
+        
+        protected override float ChanceOfNextRoom
+        {
+            get
+            {
+                if (AmountOfOpenConnections < _amountOfNeededRooms) return 1.0f;
+                return base.ChanceOfNextRoom;
             }
         }
 
@@ -44,6 +55,22 @@ namespace DungeonGenerator
             if (CanCreateNextRoom(Connection.Right)) AmountOfOpenConnections++;
 
             CreateNextRooms();
+        }
+
+        protected override void CreateNextRoom(int x, int y, Side side)
+        {
+            if (AmountOfOpenConnections < _amountOfNeededRooms)
+            {
+                base.CreateNextRoom(x, y, side);
+
+                RoomBehaviour nextRoom = DungeonManager.Dungeon.GetRoom(x, y);
+
+                if (nextRoom == null)
+                {
+                    CreateNextRoom(x, y, side);
+                }
+            }
+            else base.CreateNextRoom(x, y, side);
         }
 
         protected override void CreateNextRooms()
