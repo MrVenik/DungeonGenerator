@@ -10,5 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a42abbcf4bd03914f81ef4a816988637, type: 3}
-  m_Name: ProceduralRoomBuilder
+  m_Name: SmallProceduralRoomBuilder
   m_EditorClassIdentifier: 
+  _wallConnectionVariants:
+  - {fileID: 2550542356135359241, guid: b51b7e4eb37506d49810bfdd36c96da5, type: 3}
+  _smallConnectionVariants:
+  - {fileID: 1391292881652923551, guid: 0e49b8fa88bfbf6418c1cd8348f185fd, type: 3}
+  _mediumConnectionVariants:
+  - {fileID: 5595796165803689315, guid: b25a94453f7a2b74694c438a6f7b6c6c, type: 3}
+  _bigConnectionVariants:
+  - {fileID: 165212539251002875, guid: 58f46f422563ad94383aaf0fb6ce07e7, type: 3}
+  _secretConnectionVariants: []

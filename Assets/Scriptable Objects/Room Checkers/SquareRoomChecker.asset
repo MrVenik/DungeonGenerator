@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72928a030385edd4eba6de388f94d6e2, type: 3}
   m_Name: SquareRoomChecker
   m_EditorClassIdentifier: 
-  _radius: 0
+  _radius: 1

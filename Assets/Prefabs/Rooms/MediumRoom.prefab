@@ -61,5 +61,5 @@ MonoBehaviour:
     Chance: 1
   - ConnectionType: 3
     Chance: 0.25
-  _amountOfNeededRooms: 0
+  _amountOfNeededRooms: 2
   _amountOfOpenConnections: 0

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42abbcf4bd03914f81ef4a816988637, type: 3}
   m_Name: MediumProceduralRoomBuilder
   m_EditorClassIdentifier: 
-  _wallConnectionVariants: []
-  _smallConnectionVariants: []
-  _mediumConnectionVariants: []
-  _bigConnectionVariants: []
+  _wallConnectionVariants:
+  - {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d, type: 3}
+  _smallConnectionVariants:
+  - {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98, type: 3}
+  _mediumConnectionVariants:
+  - {fileID: 7197192265152858997, guid: a03d4cde28227704a98267cf764a93ed, type: 3}
+  _bigConnectionVariants:
+  - {fileID: 2564746597879532969, guid: 854241c233846fd4ea41bb7221f05162, type: 3}
   _secretConnectionVariants: []

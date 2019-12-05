@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0edc1a42ac77aaa418eeb41c5af86365, type: 3}
   m_Name: CorridorRoomChecker
   m_EditorClassIdentifier: 
-  _minAmountOfOpenConnections: 0
-  _maxAmountOfOpenConnections: 0
+  _radius: 0
+  _minAmountOfOpenConnections: 2
+  _maxAmountOfOpenConnections: 3
