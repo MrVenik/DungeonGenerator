@@ -15,6 +15,16 @@ namespace DungeonGenerator
 
         private void Awake()
         {
+            CreateDungeon();
+        }
+
+        public void CreateDungeon()
+        {
+            if (Dungeon != null)
+            {
+                Destroy(Dungeon.gameObject);
+            }
+
             Debug.Log(System.DateTime.Now);
             Dungeon = Instantiate(_dungeonPrefab, transform.position, transform.rotation, transform).GetComponent<Dungeon>();
 
