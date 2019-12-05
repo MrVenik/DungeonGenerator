@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b1e45426c75e3149bc426d905cb121c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72928a030385edd4eba6de388f94d6e2, type: 3}
   m_Name: SquareRoomChecker
   m_EditorClassIdentifier: 
+  _radius: 0
