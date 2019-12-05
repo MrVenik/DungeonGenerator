@@ -9,12 +9,6 @@ namespace DungeonGenerator
 {
     public class ProceduralRoomBehaviour : RoomBehaviour
     {
-        [SerializeField] protected List<GameObject> WallConnectionVariants;
-        [SerializeField] protected List<GameObject> SmallConnectionVariants;
-        [SerializeField] protected List<GameObject> MediumConnectionVariants;
-        [SerializeField] protected List<GameObject> BigConnectionVariants;
-        [SerializeField] protected List<GameObject> SecretConnectionVariants;
-
         [SerializeField] public List<ConnectionType> PossibleConnectionTypes;
         [SerializeField] protected List<ConnectionData> PossibleNextConnections;
 
@@ -258,40 +252,6 @@ namespace DungeonGenerator
                 return GetRandomConnection(possibleConnections);
             }
             else throw new Exception("Possible connection types list is empty");
-        }
-
-        public virtual GameObject GetConnectionGameObject(ConnectionType type)
-        {
-            switch (type)
-            {
-                case ConnectionType.None:
-                    break;
-                case ConnectionType.Border:
-                    return GetVariantFrom(WallConnectionVariants);
-                case ConnectionType.Wall:
-                    return GetVariantFrom(WallConnectionVariants);
-                case ConnectionType.Medium:
-                    return GetVariantFrom(MediumConnectionVariants);
-                case ConnectionType.Small:
-                    return GetVariantFrom(SmallConnectionVariants);
-                case ConnectionType.Big:
-                    return GetVariantFrom(BigConnectionVariants);
-                case ConnectionType.SecretRoomDoor:
-                    return GetVariantFrom(SecretConnectionVariants);
-                default:
-                    break;
-            }
-            throw new Exception("Invalid connection type " + type);
-        }
-
-        public virtual GameObject GetVariantFrom(List<GameObject> variants)
-        {
-            if (variants != null && variants.Count > 0)
-            {
-                int rndIndex = UnityEngine.Random.Range(0, variants.Count);
-                return variants[rndIndex];
-            }
-            return null;
         }
     }
 }

@@ -48,23 +48,13 @@ MonoBehaviour:
   _chanceOfNextRoom: 0
   ShouldCreateNextRoom: 0
   _checker: {fileID: 11400000, guid: 95769f22d679ba14885c313b1cee95e3, type: 2}
-  _builder: {fileID: 11400000, guid: 3a10eda56ee0e9d4cb1cf4ec5fc1a23e, type: 2}
-  Entrance: 2
+  _builder: {fileID: 11400000, guid: 2e583ff68c79dbc42a613208b12cf3b0, type: 2}
+  Entrance: 1
   _connection:
     Top: 0
     Bottom: 0
     Left: 0
     Right: 0
-  WallConnectionVariants:
-  - {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d, type: 3}
-  SmallConnectionVariants:
-  - {fileID: 2510860748885495568, guid: 33aea0b70e3542844b07178a12421e98, type: 3}
-  MediumConnectionVariants:
-  - {fileID: 7197192265152858997, guid: a03d4cde28227704a98267cf764a93ed, type: 3}
-  BigConnectionVariants:
-  - {fileID: 2564746597879532969, guid: 854241c233846fd4ea41bb7221f05162, type: 3}
-  SecretConnectionVariants:
-  - {fileID: 531516176756141088, guid: 3a45a22f1ee82c14eb6002ab13262dfc, type: 3}
   PossibleConnectionTypes: 020000000300000004000000
   PossibleNextConnections:
   - ConnectionType: 4
