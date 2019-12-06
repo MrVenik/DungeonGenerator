@@ -33,6 +33,15 @@ namespace DungeonGenerator
         [SerializeField] private int _predicatedAmountOfRooms;
         [SerializeField] private int _currentAmountOfRooms;
 
+        public int PredicatedAmountOfRooms
+        {
+            get => _predicatedAmountOfRooms;
+        }
+        public int AmountOfRooms
+        {
+            get => _currentAmountOfRooms;
+        }
+
         //public float PlugChance => _currentAmountOfRooms < (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
         //public float FillingChance => _currentAmountOfRooms > (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
 
@@ -40,9 +49,9 @@ namespace DungeonGenerator
         {
             get
             {
-                if (_currentAmountOfRooms < (_predicatedAmountOfRooms / 2))
+                if (_currentAmountOfRooms < _predicatedAmountOfRooms)
                 {
-                    return (_currentAmountOfRooms / (_predicatedAmountOfRooms / 2));
+                    return (_currentAmountOfRooms / _predicatedAmountOfRooms);
                 }
                 else return 1.0f;
             }
@@ -52,9 +61,9 @@ namespace DungeonGenerator
         {
             get
             {
-                if (_currentAmountOfRooms > (_predicatedAmountOfRooms / 2))
+                if (_currentAmountOfRooms > _predicatedAmountOfRooms)
                 {
-                    return ((_currentAmountOfRooms - (_predicatedAmountOfRooms / 2)) / (_predicatedAmountOfRooms / 2));
+                    return ((_currentAmountOfRooms - _predicatedAmountOfRooms) / _predicatedAmountOfRooms);
                 }
                 else return 1.0f;
             }

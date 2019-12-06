@@ -12,6 +12,7 @@ namespace DungeonGenerator
         public static Dungeon Dungeon { get; private set; }
 
         [SerializeField] private GameObject _dungeonPrefab;
+        [SerializeField] private int _currentAmountOfRooms;
 
         private void Awake()
         {
@@ -42,8 +43,15 @@ namespace DungeonGenerator
             Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
 
             Dungeon.CreateStartRoom(rndX, rndY, rndSide);
+            if (Math.Abs(Dungeon.PredicatedAmountOfRooms - Dungeon.AmountOfRooms) > Dungeon.PredicatedAmountOfRooms / 2)
+            {
+                CreateDungeon();
+            }
+
             Dungeon.BuildDungeon();
             Debug.Log(System.DateTime.Now);
+
+            _currentAmountOfRooms = Dungeon.AmountOfRooms;
         }
     }
 }
