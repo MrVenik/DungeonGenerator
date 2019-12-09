@@ -5,14 +5,6 @@ namespace DungeonGenerator
 {
     public class TemplateRoomBehaviour : RoomBehaviour
     {
-        public override void Create(int x, int y)
-        {
-            X = x;
-            Y = y;
-
-            CreateNextRooms();
-        }
-
         protected override void CreateNextRoom(int x, int y, Side side)
         {
             base.CreateNextRoom(x, y, side);

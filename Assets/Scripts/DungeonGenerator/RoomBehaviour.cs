@@ -47,7 +47,13 @@ namespace DungeonGenerator
             return _checker.CanCreate(x, y, this);
         }
 
-        public abstract void Create(int x, int y);
+        public virtual void Create(int x, int y)
+        {
+            X = x;
+            Y = y;
+
+            CreateNextRooms();
+        }
 
         protected virtual void CreateNextRooms()
         {
