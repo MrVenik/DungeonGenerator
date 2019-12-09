@@ -32,6 +32,8 @@ namespace DungeonGenerator
         [SerializeField] private int _maximumAmountOfRooms;
         [SerializeField] private int _predicatedAmountOfRooms;
         [SerializeField] private int _currentAmountOfRooms;
+        [Range(0.2f, 1.0f)]
+        [SerializeField] private float _maximumDeviation;
 
         public int PredicatedAmountOfRooms
         {
@@ -40,6 +42,10 @@ namespace DungeonGenerator
         public int AmountOfRooms
         {
             get => _currentAmountOfRooms;
+        }
+        public float MaximumDeviation
+        {
+            get => _maximumDeviation;
         }
 
         //public float PlugChance => _currentAmountOfRooms < (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
@@ -84,6 +90,11 @@ namespace DungeonGenerator
         }
 
         public void Awake()
+        {
+            Create();
+        }
+
+        public void Create()
         {
             Transform = transform;
 
