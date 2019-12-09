@@ -48,12 +48,10 @@ MonoBehaviour:
   _chanceOfNextRoom: 1
   ShouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: 475594dba2c12854d8aeec4adcc98a6d, type: 2}
-  _builder: {fileID: 11400000, guid: ab7300af67a5cac46b5d98de17178de6, type: 2}
-  Entrance: 2
+  _builder: {fileID: 11400000, guid: 50f37e616881a054da434dee1b2e4ac9, type: 2}
+  Entrance: 3
   _connection:
-    Top: 2
-    Bottom: 5
-    Left: 3
-    Right: 5
-  TemplatePrefab: {fileID: 5890313988608653278, guid: 0d2b213885b52be44aa6b16d2343efb0,
-    type: 3}
+    Top: 5
+    Bottom: 2
+    Left: 5
+    Right: 3

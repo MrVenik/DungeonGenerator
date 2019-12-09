@@ -5,11 +5,6 @@ namespace DungeonGenerator
 {
     public class TemplateRoomBehaviour : RoomBehaviour
     {
-        [SerializeField] public GameObject TemplatePrefab;
-
-
-        protected override float ChanceOfNextRoom => 1.0f;
-
         public override void Create(int x, int y)
         {
             X = x;
