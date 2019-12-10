@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9a30bb47904584d83bd27afef42afa, type: 3}
   m_Name: CorridorRoomFactory
   m_EditorClassIdentifier: 
-  _amountOfOpenConnections: 0
   _amountOfNeededRooms: 2
-  _chanceOfNextRoom: 0.75
+  _maximumAmountOfCreatedRooms: 2
+  _chanceOfNextRoom: 0.5
   _possibleNextConnectionTypes:
   - ConnectionType: 3
     Chance: 1

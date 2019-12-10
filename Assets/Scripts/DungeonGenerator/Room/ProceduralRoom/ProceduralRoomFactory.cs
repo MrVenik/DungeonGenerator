@@ -17,15 +17,19 @@ namespace DungeonGenerator
     [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Rooms/Room Factory/Procedural RoomFactory")]
     public class ProceduralRoomFactory : RoomFacroty
     {
-        [SerializeField] private int _amountOfOpenConnections;
+        [Range(0, 4)]
         [SerializeField] private int _amountOfNeededRooms;
+        [Range(0, 4)]
+        [SerializeField] private int _maximumAmountOfCreatedRooms;
+        [Range(0.0f, 1.0f)]
         [SerializeField] private float _chanceOfNextRoom;
         [SerializeField] private List<ConnectionData> _possibleNextConnectionTypes;
 
-        public int AmountOfOpenConnections { get => _amountOfOpenConnections; private set => _amountOfOpenConnections = value; }
+        public int AmountOfOpenConnections { get; private set; }
         public int AmountOfNeededRooms { get => _amountOfNeededRooms; private set => _amountOfNeededRooms = value; }
         public float ChanceOfNextRoom { get => _chanceOfNextRoom; private set => _chanceOfNextRoom = value; }
         public List<ConnectionData> PossibleNextConnectionTypes { get => _possibleNextConnectionTypes; private set => _possibleNextConnectionTypes = value; }
+        public int MaximumAmountOfCreatedRooms { get => _maximumAmountOfCreatedRooms; private set => _maximumAmountOfCreatedRooms = value; }
 
         public override void Create(int x, int y, RoomData roomData)
         {
@@ -119,18 +123,21 @@ namespace DungeonGenerator
 
         protected override void CreateNextRoom(int x, int y, Side side, RoomData roomData)
         {
-            if (AmountOfOpenConnections < AmountOfNeededRooms)
+            if (AmountOfOpenConnections < MaximumAmountOfCreatedRooms)
             {
-                roomData.Creator.Create(x, y, side);
-                RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
-                if (nextRoomData == null) CreateNextRoom(x, y, side, roomData);
-            }
-            else
-            {
-                float chance = UnityEngine.Random.Range(0f, 1f);
-                if (chance <= ChanceOfNextRoom)
+                if (AmountOfOpenConnections < AmountOfNeededRooms)
                 {
                     roomData.Creator.Create(x, y, side);
+                    RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
+                    if (nextRoomData == null) CreateNextRoom(x, y, side, roomData);
+                }
+                else
+                {
+                    float chance = UnityEngine.Random.Range(0f, 1f);
+                    if (chance <= ChanceOfNextRoom)
+                    {
+                        roomData.Creator.Create(x, y, side);
+                    }
                 }
             }
         }
