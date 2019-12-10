@@ -121,7 +121,7 @@ namespace DungeonGenerator
                 Chance = 1f
             };
 
-            RoomCreator.Create(x, y, side, startRoomData);
+            StaticRoomCreator.Create(x, y, side, startRoomData);
         }
 
         public RoomBehaviour GetRoom(int x, int y)

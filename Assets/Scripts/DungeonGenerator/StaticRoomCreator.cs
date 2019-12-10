@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    public static class RoomCreator
+    public static class StaticRoomCreator
     {
         public static void Create(int x, int y, Side side)
         {
