@@ -10,6 +10,7 @@ namespace DungeonGenerator
     [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Room Builders/Procedural Room Builder")]
     public class ProceduralRoomBuilder : RoomBuilder
     {
+        [SerializeField] private List<GameObject> _columnVariants;
         [SerializeField] private List<GameObject> _wallConnectionVariants;
         [SerializeField] private List<GameObject> _smallConnectionVariants;
         [SerializeField] private List<GameObject> _mediumConnectionVariants;
@@ -23,10 +24,10 @@ namespace DungeonGenerator
 
             int diff = (maximumSize - roomSize) / 2;
 
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
-            Instantiate(DungeonManager.Dungeon.ColumnPrefab, new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
 
             GameObject element;
             // Top connection

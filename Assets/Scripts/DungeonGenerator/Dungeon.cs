@@ -14,8 +14,6 @@ namespace DungeonGenerator
 
         [SerializeField] public RoomData StartRoom;
 
-        [SerializeField] public GameObject ColumnPrefab;
-
         [SerializeField] public RoomSize MaximumRoomSize;
 
         [SerializeField] private int _heigth = 0;
