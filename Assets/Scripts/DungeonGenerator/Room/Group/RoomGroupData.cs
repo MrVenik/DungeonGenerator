@@ -68,7 +68,7 @@ namespace DungeonGenerator
         {
             foreach (var item in _elements)
             {
-                if (item != null && item.RoomData != null) Destroy(item.RoomData);
+                if (item != null && item.RoomData != null) DestroyImmediate(item.RoomData);
             }
         }
 

@@ -75,7 +75,7 @@ namespace DungeonGenerator
                                 }
                                 roomData.Create(x, y);
                             }
-                            else Destroy(roomData);
+                            else DestroyImmediate(roomData);
                         }
                     }
                     else throw new Exception("Possible Next Rooms list is empty");
