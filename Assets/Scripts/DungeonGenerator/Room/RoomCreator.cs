@@ -60,9 +60,10 @@ namespace DungeonGenerator
                                     {
                                         for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
                                         {
-                                            if (roomGroup.Elements[j + k * roomGroup.ArraySize].RoomData != null)
+                                            GroupElementData groupElement = roomGroup.Elements[j + k * roomGroup.ArraySize];
+                                            if (groupElement != null && groupElement.RoomData != null)
                                             {
-                                                RoomData room = roomGroup.Elements[j + k * roomGroup.ArraySize].RoomData;
+                                                RoomData room = groupElement.RoomData;
                                                 DungeonManager.Dungeon.SetRoom(ix, iy, room);
                                             }
                                         }

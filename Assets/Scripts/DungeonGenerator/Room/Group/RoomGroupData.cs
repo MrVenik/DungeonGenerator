@@ -41,11 +41,14 @@ namespace DungeonGenerator
                     {
                         for (int y = 0; y < ArraySize; y++)
                         {
-                            _elements[x + y * ArraySize] = new GroupElementData
+                            if (_defaultElements[x + y * ArraySize].RoomData != null)
                             {
-                                Entrance = _defaultElements[x + y * ArraySize].Entrance,
-                                RoomData = Instantiate(_defaultElements[x + y * ArraySize].RoomData)
-                            };
+                                _elements[x + y * ArraySize] = new GroupElementData
+                                {
+                                    Entrance = _defaultElements[x + y * ArraySize].Entrance,
+                                    RoomData = Instantiate(_defaultElements[x + y * ArraySize].RoomData)
+                                };
+                            }
                         }
                     }
                 }
@@ -65,7 +68,7 @@ namespace DungeonGenerator
         {
             foreach (var item in _elements)
             {
-                Destroy(item.RoomData);
+                if (item != null && item.RoomData != null) Destroy(item.RoomData);
             }
         }
 
@@ -75,9 +78,10 @@ namespace DungeonGenerator
             {
                 for (int iy = y - EntranceY, k = 0; iy < y + ArraySize - EntranceY; iy++, k++)
                 {
-                    if (Elements[j + k * ArraySize].RoomData != null)
+                    GroupElementData groupElement = Elements[j + k * ArraySize];
+                    if (groupElement != null && groupElement.RoomData != null)
                     {
-                        RoomData room = Elements[j + k * ArraySize].RoomData;
+                        RoomData room = groupElement.RoomData;
                         room.Create(ix, iy);
                     }
                 }
@@ -90,9 +94,10 @@ namespace DungeonGenerator
             {
                 for (int iy = y - EntranceY, k = 0; iy < y + ArraySize - EntranceY; iy++, k++)
                 {
-                    if (Elements[j + k * ArraySize].RoomData != null)
+                    GroupElementData groupElement = Elements[j + k * ArraySize];
+                    if (groupElement != null && groupElement.RoomData != null)
                     {
-                        RoomData room = Elements[j + k * ArraySize].RoomData;
+                        RoomData room = groupElement.RoomData;
                         if (!room.CanCreate(ix, iy)) return false;
                     }
                 }
@@ -201,7 +206,10 @@ namespace DungeonGenerator
 
             foreach (var room in Elements)
             {
-                room.Entrance = room.Entrance.Rotate(clockwise);
+                if (room != null && room.RoomData != null)
+                {
+                    room.Entrance = room.Entrance.Rotate(clockwise);
+                }
             }
 
         }
@@ -210,7 +218,10 @@ namespace DungeonGenerator
         {
             foreach (var room in Elements)
             {
-                room.RoomData.Rotate(room.Entrance);
+                if (room != null && room.RoomData != null)
+                {
+                    room.RoomData.Rotate(room.Entrance);
+                }
             }
         }
 

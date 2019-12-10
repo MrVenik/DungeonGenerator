@@ -33,3 +33,5 @@ MonoBehaviour:
     Chance: 0.5
   - Data: {fileID: 11400000, guid: 9b09ad607e9b7d040af6ad142135dcb4, type: 2}
     Chance: 1
+  - Data: {fileID: 11400000, guid: 2774bdb0ceac9d64c9f6687412173e1b, type: 2}
+    Chance: 1
