@@ -235,6 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dungeonPrefab: {fileID: 4788935126168272057, guid: b7145189084debe48b058a62b4207b4b,
     type: 3}
+  _currentAmountOfRooms: 0
 --- !u!4 &2052712550
 Transform:
   m_ObjectHideFlags: 0

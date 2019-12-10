@@ -22,7 +22,7 @@ namespace DungeonGenerator
                     for (int iy = y - _radius; iy <= y + _radius; iy++)
                     {
                         RoomData nextRoom = DungeonManager.Dungeon.GetRoom(ix, iy);
-                        if (nextRoom != null && nextRoom.GetType() == room.GetType()) return false;
+                        if (nextRoom != null && nextRoom.Name == room.Name) return false;
                     }
                 }
             }

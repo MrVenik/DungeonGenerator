@@ -16,10 +16,10 @@ MonoBehaviour:
   _size: 9
   _entrance: 0
   _connection:
-    Top: 0
-    Bottom: 0
-    Left: 0
-    Right: 0
+    Top: 3
+    Bottom: 3
+    Left: 3
+    Right: 3
   _shouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: 838accbd8ebda6649b80fc6681f3625c, type: 2}
   _builder: {fileID: 11400000, guid: 25e107f665a89d04cb436cba4f88d8b9, type: 2}

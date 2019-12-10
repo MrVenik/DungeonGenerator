@@ -42,6 +42,8 @@ namespace DungeonGenerator
             if (roomData.Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
 
             CreateNextRooms(x, y, roomData);
+
+            AmountOfOpenConnections = 0;
         }
 
         public override void CreateNextRooms(int x, int y, RoomData roomData)
