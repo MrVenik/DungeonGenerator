@@ -20,6 +20,7 @@ namespace DungeonGenerator
 
         [SerializeField] private RoomChecker _checker;
         [SerializeField] private RoomBuilder _builder;
+        [SerializeField] private RoomCreator _creator;
 
         public string Name { get => _name; private set => _name = value; }
         public Connection Connection { get => _connection; private set => _connection = value; }
@@ -29,6 +30,7 @@ namespace DungeonGenerator
         public RoomBuilder Builder { get => _builder; private set => _builder = value; }
         public float Chance { get => _chance; private set => _chance = value; }
         public bool ShouldCreateNextRoom { get => _shouldCreateNextRoom; private set => _shouldCreateNextRoom = value; }
+        public RoomCreator Creator { get => _creator; private set => _creator = value; }
 
         //public bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
         //public void Build(RoomBehaviour roomBehaviour) => Builder.Build(roomBehaviour);
