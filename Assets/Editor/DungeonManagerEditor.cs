@@ -11,14 +11,18 @@ namespace DungeonGenerator.Editor
         {
             DrawDefaultInspector();
 
-            DungeonManager myScript = (DungeonManager)target;
+            DungeonManager dungeonManager = (DungeonManager)target;
+            if (GUILayout.Button("Create and Build Dungeon"))
+            {
+                dungeonManager.CreateAndBuild();
+            }
             if (GUILayout.Button("Create Dungeon"))
             {
-                myScript.CreateDungeon();
+                dungeonManager.CreateDungeon();
             }
             if (GUILayout.Button("Build Dungeon"))
             {
-                myScript.BuildDungeon();
+                dungeonManager.BuildDungeon();
             }
         }
     }

@@ -17,7 +17,13 @@ namespace DungeonGenerator
 
         private void Awake()
         {
+            CreateAndBuild();
+        }
+
+        public void CreateAndBuild()
+        {
             CreateDungeon();
+            BuildDungeon();
         }
 
         public void CreateDungeon()
