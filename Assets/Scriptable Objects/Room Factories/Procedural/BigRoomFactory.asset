@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9a30bb47904584d83bd27afef42afa, type: 3}
   m_Name: BigRoomFactory
   m_EditorClassIdentifier: 
-  _amountOfNeededRooms: 0
-  _maximumAmountOfCreatedRooms: 4
-  _chanceOfNextRoom: 0.15
+  _amountOfNeededRooms: 2
+  _maximumAmountOfCreatedRooms: 2
+  _chanceOfNextRoom: 0.1
   _possibleNextConnectionTypes:
   - ConnectionType: 3
     Chance: 1

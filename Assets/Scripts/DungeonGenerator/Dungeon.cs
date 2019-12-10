@@ -87,6 +87,8 @@ namespace DungeonGenerator
                             RoomBehaviour roomBehaviour = Instantiate(RoomBehaviour, roomPosition, Quaternion.identity, Transform);
                             roomBehaviour.name = _rooms[x, y].Name;
                             roomBehaviour.Connection = _rooms[x, y].Connection;
+                            roomBehaviour.Entrance = _rooms[x, y].Entrance;
+                            roomBehaviour.ID = _rooms[x, y].ID;
                             _rooms[x, y].Build(roomBehaviour.transform);
                         }
                     }
@@ -150,6 +152,7 @@ namespace DungeonGenerator
                 {
                     _rooms[x, y] = roomData;
                     _currentAmountOfRooms++;
+                    _rooms[x, y].ID = _currentAmountOfRooms;
                 }
             }
         }

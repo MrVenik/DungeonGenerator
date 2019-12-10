@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8889c981a88064b9116df8e44a7723, type: 3}
   m_Name: MediumRoomChecker
   m_EditorClassIdentifier: 
-  _radius: 0
+  _radius: 1
   _minAmountOfOpenConnections: 0
   _maxAmountOfOpenConnections: 4
   _possibleConnectionTypes: 0300000004000000

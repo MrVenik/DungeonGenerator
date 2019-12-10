@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d9a30bb47904584d83bd27afef42afa, type: 3}
   m_Name: BigPlugRoomFactory
   m_EditorClassIdentifier: 
-  _amountOfOpenConnections: 0
   _amountOfNeededRooms: 0
+  _maximumAmountOfCreatedRooms: 0
   _chanceOfNextRoom: 0
   _possibleNextConnectionTypes:
   - ConnectionType: 3
