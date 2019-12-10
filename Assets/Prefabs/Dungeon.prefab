@@ -43,11 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eacff6eab1d9a804593d7671b8e2d9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomBehaviour: {fileID: 1296783323371637852, guid: a22bad8ab94990c42b7286ecec1ef15a,
+  _roomBehaviour: {fileID: 1144740577148955269, guid: a22bad8ab94990c42b7286ecec1ef15a,
     type: 3}
-  StartRoom: {fileID: 11400000, guid: 9dd668b4b50d6354e863a84d7325b05e, type: 2}
-  ColumnPrefab: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
-    type: 3}
+  StartRoom: {fileID: 11400000, guid: d91b86b623f8f80469a456c61e0427e4, type: 2}
   MaximumRoomSize: 9
   _heigth: 32
   _width: 32

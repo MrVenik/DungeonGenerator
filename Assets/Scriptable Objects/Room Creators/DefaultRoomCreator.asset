@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9473b26111620af42a0a6049374f8e52, type: 3}
+  m_Name: DefaultRoomCreator
+  m_EditorClassIdentifier: 
+  _possibleNextRooms:
+  - RoomData: {fileID: 11400000, guid: a1dee29354208284791c17ece6c73ccc, type: 2}
+    Chance: 0.75
+  - RoomData: {fileID: 11400000, guid: fdd83d37ad2ebce4ca6f476b945ea015, type: 2}
+    Chance: 0.5
+  - RoomData: {fileID: 11400000, guid: 3e4c0040d9dc6444f84dda9fd4472915, type: 2}
+    Chance: 0.5
+  - RoomData: {fileID: 11400000, guid: 7351bc548633b04468890ca260d4ac48, type: 2}
+    Chance: 0.25
+  - RoomData: {fileID: 11400000, guid: d173afc1c38e05642aea8aa357f7f45f, type: 2}
+    Chance: 0.25
+  - RoomData: {fileID: 11400000, guid: a56d1278f0735a2408d39c6d4b676a5e, type: 2}
+    Chance: 0.25
+  - RoomData: {fileID: 11400000, guid: 567ef02f2735dd341975889d48d38189, type: 2}
+    Chance: 0.5
+  - RoomData: {fileID: 11400000, guid: 3bac09b4b9bafd541bff26a1b92cb88a, type: 2}
+    Chance: 0.5
+  - RoomData: {fileID: 11400000, guid: 630f098b44ce8594abba92d5a57b358f, type: 2}
+    Chance: 0.5

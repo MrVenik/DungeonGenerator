@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Name: CorridorRoom
+  m_EditorClassIdentifier: 
+  _name: Corridor
+  _size: 5
+  _entrance: 0
+  _connection:
+    Top: 0
+    Bottom: 0
+    Left: 0
+    Right: 0
+  _shouldCreateNextRoom: 1
+  _checker: {fileID: 11400000, guid: 00a8eeca7980cc9499840d441cdc7985, type: 2}
+  _builder: {fileID: 11400000, guid: 61a68528e94b5ed45ac4c84213974c95, type: 2}
+  _creator: {fileID: 11400000, guid: 2ac59e1609975a849a9112d5efd209e3, type: 2}
+  _factory: {fileID: 11400000, guid: 0bca9cd78e7e123419f996d57ff5ad51, type: 2}
