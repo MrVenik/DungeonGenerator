@@ -10,9 +10,9 @@ namespace DungeonGenerator
 
     public class Dungeon : MonoBehaviour
     {
-        [SerializeField] public List<RoomPrefabData> AllRooms;
+        [SerializeField] private RoomBehaviour _roomBehaviour;
 
-        [SerializeField] public GameObject StartRoomPrefab;
+        [SerializeField] public RoomData StartRoom;
 
         [SerializeField] public GameObject ColumnPrefab;
 
@@ -24,8 +24,7 @@ namespace DungeonGenerator
         public int Heigth { get => _heigth; set => _heigth = value; }
         public int Width { get => _width; set => _width = value; }
 
-        private RoomBehaviour[,] _rooms;
-
+        private RoomData[,] _rooms;
         public Transform Transform { get; private set; }
 
         [SerializeField] private float _dungeonFilling;
@@ -49,9 +48,6 @@ namespace DungeonGenerator
         {
             get => _maximumDeviation;
         }
-
-        //public float PlugChance => _currentAmountOfRooms < (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
-        //public float FillingChance => _currentAmountOfRooms > (_predicatedAmountOfRooms / 4) ? 0.0f : 1.0f;
 
         public float PlugChance
         {
@@ -77,6 +73,8 @@ namespace DungeonGenerator
             }
         }
 
+        public RoomBehaviour RoomBehaviour { get => _roomBehaviour; private set => _roomBehaviour = value; }
+
         public void BuildDungeon()
         {
             if (!_builded)
@@ -87,7 +85,11 @@ namespace DungeonGenerator
                     {
                         if (_rooms[x, y] != null)
                         {
-                            _rooms[x, y].Build();
+                            Vector3 roomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
+                            RoomBehaviour roomBehaviour = Instantiate(RoomBehaviour, roomPosition, Quaternion.identity, Transform);
+                            roomBehaviour.name = _rooms[x, y].Name;
+                            roomBehaviour.Connection = _rooms[x, y].Connection;
+                            _rooms[x, y].Build(roomBehaviour.transform);
                         }
                     }
                 }
@@ -109,22 +111,19 @@ namespace DungeonGenerator
             _maximumAmountOfRooms = Heigth * Width;
             _predicatedAmountOfRooms = (int)(_maximumAmountOfRooms * _dungeonFilling);
 
-            _rooms = new RoomBehaviour[Width, Heigth];
+            _rooms = new RoomData[Width, Heigth];
         }
 
         public void CreateStartRoom(int x, int y, Side side)
         {
-            RoomPrefabData startRoomData = new RoomPrefabData()
-            {
-                Name = "StartRoom",
-                Prefab = StartRoomPrefab,
-                Chance = 1f
-            };
-
-            StaticRoomCreator.Create(x, y, side, startRoomData);
+            Debug.Log($"Creating start room on {x}, {y}");
+            RoomData startRoom = Instantiate(StartRoom);
+            startRoom.Rotate(side);
+            SetRoom(x, y, startRoom);
+            startRoom.Create(x, y);
         }
 
-        public RoomBehaviour GetRoom(int x, int y)
+        public RoomData GetRoom(int x, int y)
         {
             if (CheckBorders(x, y))
             {
@@ -146,14 +145,13 @@ namespace DungeonGenerator
             else return Connection.Border;
         }
 
-        public void SetRoom(RoomBehaviour room, int x, int y)
+        public void SetRoom(int x, int y, RoomData roomData)
         {
             if (CheckBorders(x, y))
             {
                 if (_rooms[x, y] == null)
                 {
-                    _rooms[x, y] = room;
-                    //_rooms[x, y].Create(x, y);
+                    _rooms[x, y] = roomData;
                     _currentAmountOfRooms++;
                 }
             }
