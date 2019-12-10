@@ -10,6 +10,11 @@ namespace DungeonGenerator
     [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Rooms/Room Factory/Template RoomFactory")]
     public class TemplateRoomFactory : RoomFacroty
     {
+        public override void Create(int x, int y, RoomData roomData)
+        {
+            CreateNextRooms(x, y, roomData);
+        }
+
         public override void CreateNextRooms(int x, int y, RoomData roomData)
         {
             if (roomData.ShouldCreateNextRoom)

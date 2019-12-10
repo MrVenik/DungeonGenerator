@@ -9,11 +9,7 @@ namespace DungeonGenerator
 {
     public abstract class RoomFacroty : ScriptableObject
     {
-        public virtual void Create(int x, int y, RoomData roomData)
-        {
-            CreateNextRooms(x, y, roomData);
-        }
-
+        public abstract void Create(int x, int y, RoomData roomData);
         public abstract void CreateNextRooms(int x, int y, RoomData roomData);
         protected abstract void CreateNextRoom(int x, int y, Side side, RoomData roomData);
     }
