@@ -46,7 +46,6 @@ namespace DungeonGenerator
                     if (PossibleNextRooms.Count > 0)
                     {
                         RoomData nextRoomData = (PossibleNextRooms.Count == 1) ? PossibleNextRooms[0].RoomData : GetRandomRoom();
-                        Debug.Log(nextRoomData);
 
                         if (nextRoomData != null)
                         {
@@ -74,7 +73,7 @@ namespace DungeonGenerator
 
             foreach (var room in PossibleNextRooms)
             {
-                float chanceMultiplier = 1;//room.ShouldCreateNextRoom ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
+                float chanceMultiplier = (!room.RoomData.ShouldCreateNextRoom) ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
 
                 if (chance > 0 && chance <= (room.Chance * chanceMultiplier))
                 {
