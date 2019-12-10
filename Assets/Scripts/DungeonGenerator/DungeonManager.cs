@@ -13,6 +13,7 @@ namespace DungeonGenerator
 
         [SerializeField] private GameObject _dungeonPrefab;
         [SerializeField] private int _currentAmountOfRooms;
+        [SerializeField] private bool _useDeviation;
 
         private void Awake()
         {
@@ -43,9 +44,12 @@ namespace DungeonGenerator
             Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
 
             Dungeon.CreateStartRoom(rndX, rndY, rndSide);
-            if (Math.Abs(Dungeon.PredicatedAmountOfRooms - Dungeon.AmountOfRooms) > Dungeon.AmountOfRooms * Dungeon.MaximumDeviation)
+            if (_useDeviation)
             {
-                CreateDungeon();
+                if (Math.Abs(Dungeon.PredicatedAmountOfRooms - Dungeon.AmountOfRooms) > Dungeon.AmountOfRooms * Dungeon.MaximumDeviation)
+                {
+                    CreateDungeon();
+                }
             }
 
             Debug.Log(System.DateTime.Now);
