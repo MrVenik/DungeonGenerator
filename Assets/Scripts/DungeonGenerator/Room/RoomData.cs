@@ -8,7 +8,7 @@ using UnityEngine;
 namespace DungeonGenerator
 {
     [CreateAssetMenu(fileName = "New Room", menuName = "Rooms/Room")]
-    public class RoomData : ScriptableObject
+    public class RoomData : CreatableData
     {
         [SerializeField] private string _name;
         [SerializeField] private RoomSize _size;
@@ -30,12 +30,13 @@ namespace DungeonGenerator
         public bool ShouldCreateNextRoom { get => _shouldCreateNextRoom; private set => _shouldCreateNextRoom = value; }
         public RoomCreator Creator { get => _creator; private set => _creator = value; }
         public RoomFacroty Factory { get => _factory; private set => _factory = value; }
+        public override bool IsPlug { get => !ShouldCreateNextRoom; }
 
-        public bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
-        public void Create(int x, int y) => Factory.Create(x, y, this);
+        public override bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
+        public override void Create(int x, int y) => Factory.Create(x, y, this);
         public void Build(Transform transform) => Builder.Build(this, transform);
 
-        public void Rotate(Side side)
+        public override void Rotate(Side side)
         {
             switch (Entrance)
             {

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Name: GroupTurnRoom
+  m_EditorClassIdentifier: 
+  _name: Group Turn Room
+  _size: 9
+  _entrance: 1
+  _connection:
+    Top: 2
+    Bottom: 5
+    Left: 2
+    Right: 5
+  _shouldCreateNextRoom: 0
+  _checker: {fileID: 11400000, guid: 046f43b057b778a45917c0759bbf5bb6, type: 2}
+  _builder: {fileID: 11400000, guid: c47c5574a975e3245a43dfa5da62a78b, type: 2}
+  _creator: {fileID: 0}
+  _factory: {fileID: 11400000, guid: a25a8b25f686b6041b55b42d515d08a1, type: 2}

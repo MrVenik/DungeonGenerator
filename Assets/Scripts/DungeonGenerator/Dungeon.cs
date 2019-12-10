@@ -114,7 +114,6 @@ namespace DungeonGenerator
 
         public void CreateStartRoom(int x, int y, Side side)
         {
-            Debug.Log($"Creating start room on {x}, {y}");
             RoomData startRoom = Instantiate(StartRoom);
             startRoom.Rotate(side);
             SetRoom(x, y, startRoom);

@@ -10,7 +10,7 @@ namespace DungeonGenerator
     [Serializable]
     public class RandomRoomData
     {
-        public RoomData RoomData;
+        public CreatableData Data;
         [Range(0.0f, 1.0f)]
         public float Chance;
     }
@@ -45,15 +45,33 @@ namespace DungeonGenerator
                 {
                     if (PossibleNextRooms.Count > 0)
                     {
-                        RoomData nextRoomData = (PossibleNextRooms.Count == 1) ? PossibleNextRooms[0].RoomData : GetRandomRoom();
+                        CreatableData nextRoomData = (PossibleNextRooms.Count == 1) ? PossibleNextRooms[0].Data : GetRandomRoom();
 
                         if (nextRoomData != null)
                         {
-                            RoomData roomData = Instantiate(nextRoomData);
+                            CreatableData roomData = Instantiate(nextRoomData);
                             roomData.Rotate(side.Oposite());
                             if (roomData.CanCreate(x, y))
                             {
-                                DungeonManager.Dungeon.SetRoom(x, y, roomData);
+                                if (roomData is RoomGroupData)
+                                {
+                                    RoomGroupData roomGroup = roomData as RoomGroupData;
+                                    for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
+                                    {
+                                        for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
+                                        {
+                                            if (roomGroup.Elements[j + k * roomGroup.ArraySize].RoomData != null)
+                                            {
+                                                RoomData room = roomGroup.Elements[j + k * roomGroup.ArraySize].RoomData;
+                                                DungeonManager.Dungeon.SetRoom(ix, iy, room);
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    DungeonManager.Dungeon.SetRoom(x, y, roomData as RoomData);
+                                }
                                 roomData.Create(x, y);
                             }
                             else Destroy(roomData);
@@ -65,19 +83,19 @@ namespace DungeonGenerator
             }
         }
 
-        private RoomData GetRandomRoom()
+        private CreatableData GetRandomRoom()
         {
-            RoomData nextRoom = null;
+            CreatableData nextRoom = null;
 
             float chance = UnityEngine.Random.Range(0f, TotalWeight);
 
             foreach (var room in PossibleNextRooms)
             {
-                float chanceMultiplier = (!room.RoomData.ShouldCreateNextRoom) ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
+                float chanceMultiplier = room.Data.IsPlug ? DungeonManager.Dungeon.PlugChance : DungeonManager.Dungeon.FillingChance;
 
                 if (chance > 0 && chance <= (room.Chance * chanceMultiplier))
                 {
-                    nextRoom = room.RoomData;
+                    nextRoom = room.Data;
                     break;
                 }
                 chance -= room.Chance;
