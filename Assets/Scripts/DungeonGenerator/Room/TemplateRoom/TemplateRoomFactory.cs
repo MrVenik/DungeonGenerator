@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Room Factory/Template RoomFactory")]
+    [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Rooms/Room Factory/Template RoomFactory")]
     public class TemplateRoomFactory : RoomFacroty
     {
         public override void CreateNextRooms(int x, int y, RoomData roomData)

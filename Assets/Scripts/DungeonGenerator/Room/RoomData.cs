@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    [CreateAssetMenu(fileName = "New Room", menuName = "Room/Room")]
+    [CreateAssetMenu(fileName = "New Room", menuName = "Rooms/Room")]
     public class RoomData : ScriptableObject
     {
         [SerializeField] private string _name;

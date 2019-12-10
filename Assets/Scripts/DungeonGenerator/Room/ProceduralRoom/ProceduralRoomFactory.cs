@@ -14,7 +14,7 @@ namespace DungeonGenerator
         public float Chance;
     }
 
-    [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Room Factory/Procedural RoomFactory")]
+    [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Rooms/Room Factory/Procedural RoomFactory")]
     public class ProceduralRoomFactory : RoomFacroty
     {
         [SerializeField] private int _amountOfOpenConnections;

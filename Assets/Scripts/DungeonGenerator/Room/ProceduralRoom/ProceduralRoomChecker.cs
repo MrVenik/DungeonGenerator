@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    [CreateAssetMenu(fileName = "New RoomChecker", menuName = "Room Checkers/Procedural Room Checker")]
+    [CreateAssetMenu(fileName = "New RoomChecker", menuName = "Rooms/Room Checkers/Procedural Room Checker")]
     public class ProceduralRoomChecker : RoomChecker
     {
         [Range(0, 4)]

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    [CreateAssetMenu(fileName = "New RoomChecker", menuName = "Room Checkers/Template Room Checker")]
+    [CreateAssetMenu(fileName = "New RoomChecker", menuName = "Rooms/Room Checkers/Template Room Checker")]
     public class TemplateRoomChecker : RoomChecker
     {
         public override bool CanCreate(int x, int y, RoomData room)

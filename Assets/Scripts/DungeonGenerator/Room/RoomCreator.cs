@@ -15,7 +15,7 @@ namespace DungeonGenerator
         public float Chance;
     }
 
-    [CreateAssetMenu(fileName = "New RoomCreator", menuName = "Room Creator")]
+    [CreateAssetMenu(fileName = "New RoomCreator", menuName = "Rooms/Room Creator")]
     public class RoomCreator : ScriptableObject
     {
         [SerializeField] private List<RandomRoomData> _possibleNextRooms;

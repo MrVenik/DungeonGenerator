@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
-    [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Room Builders/Template Room Builder")]
+    [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Rooms/Room Builders/Template Room Builder")]
     public class TemplateRoomBuilder : RoomBuilder
     {
         [SerializeField] private GameObject _templatePrefab;
