@@ -11,6 +11,16 @@
         SecretRoomDoor
     }
 
+    public static class ConnectionTypeExtensions
+    {
+        public static bool CanCreateNextRoom(this ConnectionType type)
+        {
+            return type != ConnectionType.Wall
+                && type != ConnectionType.None
+                && type != ConnectionType.Border;
+        }
+    }
+
     [System.Serializable]
     public class Connection
     {
