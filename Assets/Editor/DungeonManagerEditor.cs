@@ -16,6 +16,10 @@ namespace DungeonGenerator.Editor
             {
                 myScript.CreateDungeon();
             }
+            if (GUILayout.Button("Build Dungeon"))
+            {
+                myScript.BuildDungeon();
+            }
         }
     }
 }

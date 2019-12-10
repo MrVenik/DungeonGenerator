@@ -35,6 +35,8 @@ namespace DungeonGenerator
         [Range(0.2f, 1.0f)]
         [SerializeField] private float _maximumDeviation;
 
+        [SerializeField] private bool _builded;
+
         public int PredicatedAmountOfRooms
         {
             get => _predicatedAmountOfRooms;
@@ -77,20 +79,26 @@ namespace DungeonGenerator
 
         public void BuildDungeon()
         {
-            for (int x = 0; x < Width; x++)
+            if (!_builded)
             {
-                for (int y = 0; y < Heigth; y++)
+                for (int x = 0; x < Width; x++)
                 {
-                    if (_rooms[x, y] != null)
+                    for (int y = 0; y < Heigth; y++)
                     {
-                        _rooms[x, y].Build();
+                        if (_rooms[x, y] != null)
+                        {
+                            _rooms[x, y].Build();
+                        }
                     }
                 }
+                _builded = true;
             }
+
         }
 
         public void Awake()
         {
+            _builded = false;
             Create();
         }
 

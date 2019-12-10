@@ -48,10 +48,17 @@ namespace DungeonGenerator
                 CreateDungeon();
             }
 
-            Dungeon.BuildDungeon();
             Debug.Log(System.DateTime.Now);
 
             _currentAmountOfRooms = Dungeon.AmountOfRooms;
+        }
+
+        public void BuildDungeon()
+        {
+            if (Dungeon != null)
+            {
+                Dungeon.BuildDungeon();
+            }
         }
     }
 }
