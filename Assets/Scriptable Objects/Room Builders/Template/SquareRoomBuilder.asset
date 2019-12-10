@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c510e7b77a57cc34da37e0d069b55232, type: 3}
   m_Name: SquareRoomBuilder
   m_EditorClassIdentifier: 
-  _templatePrefab: {fileID: 0}
+  _templatePrefab: {fileID: 3714116030602386548, guid: 6f3fda6f982471d4f86493ea02e3ef00,
+    type: 3}

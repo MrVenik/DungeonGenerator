@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c510e7b77a57cc34da37e0d069b55232, type: 3}
   m_Name: ExampleStopRoomBuilder
   m_EditorClassIdentifier: 
-  _templatePrefab: {fileID: 0}
+  _templatePrefab: {fileID: 7355629288733540915, guid: 71f16f34f55d1d94091ae5895ba7829e,
+    type: 3}

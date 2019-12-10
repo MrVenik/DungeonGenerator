@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c510e7b77a57cc34da37e0d069b55232, type: 3}
   m_Name: Group3x3SideRoomBuilder
   m_EditorClassIdentifier: 
-  _templatePrefab: {fileID: 0}
+  _templatePrefab: {fileID: 5890313988608653278, guid: 33383d180438f0d4882e082688e45598,
+    type: 3}
