@@ -106,7 +106,7 @@ namespace DungeonGenerator
                 {
                     if ((ShouldConnectToOtherProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToOtherProceduralRooms) || Entrance == side)
                     {
-                        neighbourConnectionType = CreateRandomConnection();
+                        neighbourConnectionType = CreateRandomConnection(neighbourRoom as ProceduralRoomData);
                     }
                     else neighbourConnectionType = ConnectionType.Wall;
                 }
@@ -118,15 +118,17 @@ namespace DungeonGenerator
             return neighbourConnectionType;
         }
 
-        private ConnectionType CreateRandomConnection()
+        private ConnectionType CreateRandomConnection(ProceduralRoomData neighbourRoom)
         {
-            if (PossibleNextConnectionTypes.Count > 0)
+            List<ConnectionData> possibleConnections = GetCommonConnectionDataFrom(neighbourRoom.PossibleNextConnectionTypes);
+
+            if (possibleConnections.Count > 0)
             {
                 List<ConnectionType> nextConnections = new List<ConnectionType>();
 
                 float chance = UnityEngine.Random.Range(0f, 1f);
 
-                foreach (var connection in PossibleNextConnectionTypes)
+                foreach (var connection in possibleConnections)
                 {
                     if (chance < connection.Chance)
                     {
@@ -140,9 +142,22 @@ namespace DungeonGenerator
                     int rndIndex = UnityEngine.Random.Range(0, nextConnections.Count);
                     return nextConnections[rndIndex];
                 }
-                return CreateRandomConnection();
+                return CreateRandomConnection(neighbourRoom);
             }
             else throw new Exception("Possible connection types list is empty");
+        }
+
+        private List<ConnectionData> GetCommonConnectionDataFrom(List<ConnectionData> neighbourPossibleConnections)
+        {
+            List<ConnectionData> possibleConnections = new List<ConnectionData>();
+            foreach (var connectionData in PossibleNextConnectionTypes)
+            {
+                if (connectionData.Chance > 0 && neighbourPossibleConnections.Exists(t => t.ConnectionType == connectionData.ConnectionType))
+                {
+                    possibleConnections.Add(connectionData);
+                }
+            }
+            return possibleConnections;
         }
     }
 }
