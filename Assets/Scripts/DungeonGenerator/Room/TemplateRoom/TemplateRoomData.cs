@@ -13,10 +13,12 @@ namespace DungeonGenerator
         public override void Create(int x, int y)
         {
             CreateNextRooms(x, y);
+            Created = true;
         }
 
         private void CreateNextRooms(int x, int y)
         {
+            IsCreatingNextRooms = true;
             if (ShouldCreateNextRoom)
             {
                 var queue = new List<(int, int, Side)>();
@@ -30,6 +32,7 @@ namespace DungeonGenerator
                     CreateNextRoom(roomPos.Item1, roomPos.Item2, roomPos.Item3);
                 }
             }
+            IsCreatingNextRooms = false;
         }
 
         private void CreateNextRoom(int x, int y, Side side)
@@ -37,6 +40,13 @@ namespace DungeonGenerator
             Creator.Create(x + side.X(), y + side.Y(), side);
             RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x + side.X(), y + side.Y());
             if (nextRoomData == null) CreateNextRoom(x, y, side);
+            else
+            {
+                if (!nextRoomData.Created && !nextRoomData.IsCreatingNextRooms)
+                {
+                    nextRoomData.Create(x + side.X(), y + side.Y());
+                }
+            }
         }
     }
 }

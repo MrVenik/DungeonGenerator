@@ -10,6 +10,8 @@ namespace DungeonGenerator
     public class RoomData : CreatableData
     {
         [SerializeField] private string _name;
+        [SerializeField] private bool _created;
+        [SerializeField] private bool _isCreatingNextRooms;
         [SerializeField] private int _id;
         [SerializeField] private RoomSize _size;
         [SerializeField] private Side _entrance;
@@ -30,6 +32,8 @@ namespace DungeonGenerator
         public RoomCreator Creator { get => _creator; private set => _creator = value; }
         public override bool IsPlug { get => !ShouldCreateNextRoom; }
         public int ID { get => _id; set => _id = value; }
+        public bool Created { get => _created; protected set => _created = value; }
+        public bool IsCreatingNextRooms { get => _isCreatingNextRooms; protected set => _isCreatingNextRooms = value; }
 
         public override bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
         public override void Create(int x, int y) => Create(x, y);

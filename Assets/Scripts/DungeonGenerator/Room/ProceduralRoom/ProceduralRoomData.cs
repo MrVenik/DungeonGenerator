@@ -48,11 +48,13 @@ namespace DungeonGenerator
             if (Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
 
             CreateNextRooms(x, y);
+
+            Created = true;
         }
 
         private void CreateNextRooms(int x, int y)
         {
-
+            IsCreatingNextRooms = true;
             List<Side> queue = new List<Side>
                 {
                     Side.Top,
@@ -74,6 +76,7 @@ namespace DungeonGenerator
                     if (Connection.GetConnectionTypeBySide(side).CanCreateNextRoom()) AmountOfOpenConnections++;
                 }
             }
+            IsCreatingNextRooms = false;
         }
 
         protected void CreateNextRoom(int x, int y, Side side)
@@ -85,6 +88,13 @@ namespace DungeonGenerator
                     Creator.Create(x, y, side);
                     RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
                     if (nextRoomData == null) CreateNextRoom(x, y, side);
+                    else
+                    {
+                        if (!nextRoomData.Created && !nextRoomData.IsCreatingNextRooms)
+                        {
+                            nextRoomData.Create(x + side.X(), y + side.Y());
+                        }
+                    }
                 }
                 else
                 {
@@ -92,6 +102,14 @@ namespace DungeonGenerator
                     if (chance <= ChanceOfNextRoom)
                     {
                         Creator.Create(x, y, side);
+                        RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
+                        if (nextRoomData != null)
+                        {
+                            if (!nextRoomData.Created && !nextRoomData.IsCreatingNextRooms)
+                            {
+                                nextRoomData.Create(x + side.X(), y + side.Y());
+                            }
+                        }
                     }
                 }
             }
