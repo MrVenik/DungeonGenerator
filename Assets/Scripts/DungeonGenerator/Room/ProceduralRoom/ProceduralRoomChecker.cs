@@ -15,37 +15,74 @@ namespace DungeonGenerator
         [Range(0, 4)]
         [SerializeField] private int _maxAmountOfOpenConnections;
 
-        [SerializeField] private List<ConnectionType> _possibleConnectionTypes;
-
-        public List<ConnectionType> PossibleConnectionTypes { get => _possibleConnectionTypes; private set => _possibleConnectionTypes = value; }
+        private int _currentAmountOfOpenConnections;
 
         public override bool CanCreate(int x, int y, RoomData room)
         {
             if (base.CanCreate(x, y, room))
             {
-                int connections = 0;
+                _currentAmountOfOpenConnections = 0;
 
-                Connection topConnection = DungeonManager.Dungeon.GetRoomConnection(x, y + 1);
-                if (!PossibleConnectionTypes.Contains(topConnection.Bottom) && topConnection.Bottom != ConnectionType.None && topConnection.Bottom != ConnectionType.Wall) return false;
-                if (topConnection.Bottom != ConnectionType.Wall && topConnection.Bottom != ConnectionType.Border) connections++;
+                ProceduralRoomData proceduralRoom = room as ProceduralRoomData;
 
-                Connection bottomConnection = DungeonManager.Dungeon.GetRoomConnection(x, y - 1);
-                if (!PossibleConnectionTypes.Contains(bottomConnection.Top) && bottomConnection.Top != ConnectionType.None && bottomConnection.Top != ConnectionType.Wall) return false;
-                if (bottomConnection.Top != ConnectionType.Wall && bottomConnection.Top != ConnectionType.Border) connections++;
+                if (!CheckNeighbourRoom(x, y, Side.Top, proceduralRoom)) return false;
+                if (!CheckNeighbourRoom(x, y, Side.Bottom, proceduralRoom)) return false;
+                if (!CheckNeighbourRoom(x, y, Side.Left, proceduralRoom)) return false;
+                if (!CheckNeighbourRoom(x, y, Side.Right, proceduralRoom)) return false;
 
-                Connection leftConnection = DungeonManager.Dungeon.GetRoomConnection(x - 1, y);
-                if (!PossibleConnectionTypes.Contains(leftConnection.Right) && leftConnection.Right != ConnectionType.None && leftConnection.Right != ConnectionType.Wall) return false;
-                if (leftConnection.Right != ConnectionType.Wall && leftConnection.Right != ConnectionType.Border) connections++;
+                bool canCreate = (_currentAmountOfOpenConnections >= _minAmountOfOpenConnections && _currentAmountOfOpenConnections <= _maxAmountOfOpenConnections);
 
-                Connection rightConnection = DungeonManager.Dungeon.GetRoomConnection(x + 1, y);
-                if (!PossibleConnectionTypes.Contains(rightConnection.Left) && rightConnection.Left != ConnectionType.None && rightConnection.Left != ConnectionType.Wall) return false;
-                if (rightConnection.Left != ConnectionType.Wall && rightConnection.Left != ConnectionType.Border) connections++;
-
-                bool canCreate = (connections >= _minAmountOfOpenConnections && connections <= _maxAmountOfOpenConnections);
+                _currentAmountOfOpenConnections = 0;
 
                 return canCreate;
             }
             else return false;
+        }
+
+        private bool CheckNeighbourRoom(int x, int y, Side side, ProceduralRoomData roomData)
+        {
+            RoomData neighbourRoom = DungeonManager.Dungeon.GetRoom(x + side.X(), y + side.Y());
+            ConnectionType neighbourConnectionType;
+            if (neighbourRoom != null)
+            {
+                neighbourConnectionType = neighbourRoom.Connection.GetConnectionTypeBySide(side.Oposite());
+                if (neighbourConnectionType == ConnectionType.None)
+                {
+                    if ((roomData.ShouldConnectToOtherProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToOtherProceduralRooms) || roomData.Entrance == side)
+                    {
+                        if (!CanConnect(roomData, neighbourRoom as ProceduralRoomData))
+                        {
+                            return false;
+                        }
+                        _currentAmountOfOpenConnections++;
+                    }
+                }
+                else
+                {
+                    if (!roomData.PossibleNextConnectionTypes.Exists(t => t.ConnectionType == neighbourConnectionType) && neighbourConnectionType != ConnectionType.Wall) return false;
+                    if (neighbourConnectionType != ConnectionType.Wall && neighbourConnectionType != ConnectionType.Border) _currentAmountOfOpenConnections++;
+                }
+            }
+            else
+            {
+                neighbourConnectionType = DungeonManager.Dungeon.GetRoomConnection(x + side.X(), y + side.Y()).GetConnectionTypeBySide(side.Oposite());
+                if (neighbourConnectionType != ConnectionType.None && neighbourConnectionType != ConnectionType.Wall) return false;
+                _currentAmountOfOpenConnections++;
+
+            }
+            return true;
+        }
+
+        private bool CanConnect(ProceduralRoomData room, ProceduralRoomData neighbourRoom)
+        {
+            foreach (var connectionData in room.PossibleNextConnectionTypes)
+            {
+                if (connectionData.Chance > 0 && neighbourRoom.PossibleNextConnectionTypes.Exists(t => t.ConnectionType == connectionData.ConnectionType))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

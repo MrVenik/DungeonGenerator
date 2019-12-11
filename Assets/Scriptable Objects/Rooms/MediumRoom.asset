@@ -30,4 +30,7 @@ MonoBehaviour:
   _chanceOfNextRoom: 0
   _possibleNextConnectionTypes:
   - ConnectionType: 3
+    Chance: 0.5
+  - ConnectionType: 4
     Chance: 1
+  _shouldConnectToOtherProceduralRooms: 0

@@ -11,6 +11,7 @@ namespace DungeonGenerator
     public class ConnectionData
     {
         public ConnectionType ConnectionType;
+        [Range(0.0f, 1.0f)]
         public float Chance;
     }
     [CreateAssetMenu(fileName = "New Room", menuName = "Rooms/Room/Procedural Room")]
@@ -23,12 +24,14 @@ namespace DungeonGenerator
         [Range(0.0f, 1.0f)]
         [SerializeField] private float _chanceOfNextRoom;
         [SerializeField] private List<ConnectionData> _possibleNextConnectionTypes;
+        [SerializeField] private bool _shouldConnectToOtherProceduralRooms;
 
         public int AmountOfOpenConnections { get; private set; }
         public int AmountOfNeededRooms { get => _amountOfNeededRooms; private set => _amountOfNeededRooms = value; }
         public float ChanceOfNextRoom { get => _chanceOfNextRoom; private set => _chanceOfNextRoom = value; }
         public List<ConnectionData> PossibleNextConnectionTypes { get => _possibleNextConnectionTypes; private set => _possibleNextConnectionTypes = value; }
         public int MaximumAmountOfCreatedRooms { get => _maximumAmountOfCreatedRooms; private set => _maximumAmountOfCreatedRooms = value; }
+        public bool ShouldConnectToOtherProceduralRooms { get => _shouldConnectToOtherProceduralRooms; private set => _shouldConnectToOtherProceduralRooms = value; }
 
         public override void Create(int x, int y)
         {
@@ -101,7 +104,11 @@ namespace DungeonGenerator
                 neighbourConnectionType = neighbourRoom.Connection.GetConnectionTypeBySide(side.Oposite());
                 if (neighbourConnectionType == ConnectionType.None)
                 {
-                    neighbourConnectionType = CreateRandomConnection();
+                    if ((ShouldConnectToOtherProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToOtherProceduralRooms) || Entrance == side)
+                    {
+                        neighbourConnectionType = CreateRandomConnection();
+                    }
+                    else neighbourConnectionType = ConnectionType.Wall;
                 }
             }
             else
