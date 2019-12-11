@@ -68,7 +68,7 @@ namespace DungeonGenerator
             {
                 neighbourConnectionType = DungeonManager.Dungeon.GetRoomConnection(x + side.X(), y + side.Y()).GetConnectionTypeBySide(side.Oposite());
                 if (neighbourConnectionType != ConnectionType.None && neighbourConnectionType != ConnectionType.Wall) return false;
-                _currentAmountOfOpenConnections++;
+                if (neighbourConnectionType != ConnectionType.Wall && neighbourConnectionType != ConnectionType.Border) _currentAmountOfOpenConnections++;
 
             }
             return true;
