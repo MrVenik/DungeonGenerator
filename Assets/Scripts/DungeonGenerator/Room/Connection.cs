@@ -45,6 +45,45 @@
         public ConnectionType Left;
         public ConnectionType Right;
 
+        public ConnectionType GetConnectionTypeBySide(Side side)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    return Top;
+                case Side.Bottom:
+                    return Bottom;
+                case Side.Left:
+                    return Left;
+                case Side.Right:
+                    return Right;
+                default:
+                    break;
+            }
+            throw new System.Exception("Invalid Side type " + side);
+        }
+
+        public void SetConnectionTypeBySide(ConnectionType type, Side side)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    Top = type;
+                    break;
+                case Side.Bottom:
+                    Bottom = type;
+                    break;
+                case Side.Left:
+                    Left = type;
+                    break;
+                case Side.Right:
+                    Right = type;
+                    break;
+                default:
+                    throw new System.Exception("Invalid Side type " + side);
+            }
+        }
+
         public Connection Rotate(bool clockwise = false)
         {
             Connection newConnection = new Connection()

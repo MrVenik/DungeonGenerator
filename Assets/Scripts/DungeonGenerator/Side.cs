@@ -10,6 +10,42 @@
 
     public static class SideExtansions
     {
+        public static int X(this Side side)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    return 0;
+                case Side.Bottom:
+                    return 0;
+                case Side.Left:
+                    return -1;
+                case Side.Right:
+                    return 1;
+                default:
+                    break;
+            }
+            throw new System.Exception("Invalid side type");
+        }
+
+        public static int Y(this Side side)
+        {
+            switch (side)
+            {
+                case Side.Top:
+                    return 1;
+                case Side.Bottom:
+                    return -1;
+                case Side.Left:
+                    return 0;
+                case Side.Right:
+                    return 0;
+                default:
+                    break;
+            }
+            throw new System.Exception("Invalid side type");
+        }
+
         public static Side Oposite(this Side side)
         {
             switch (side)
