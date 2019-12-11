@@ -20,10 +20,10 @@ namespace DungeonGenerator
             if (ShouldCreateNextRoom)
             {
                 var queue = new List<(int, int, Side)>();
-                if (Connection.Top.CanCreateNextRoom()) queue.Add((x, y + 1, Side.Top));
-                if (Connection.Bottom.CanCreateNextRoom()) queue.Add((x, y - 1, Side.Bottom));
-                if (Connection.Left.CanCreateNextRoom()) queue.Add((x - 1, y, Side.Left));
-                if (Connection.Right.CanCreateNextRoom()) queue.Add((x + 1, y, Side.Right));
+                if (Connection.Top.CanCreateNextRoom()) queue.Add((x, y, Side.Top));
+                if (Connection.Bottom.CanCreateNextRoom()) queue.Add((x, y, Side.Bottom));
+                if (Connection.Left.CanCreateNextRoom()) queue.Add((x, y, Side.Left));
+                if (Connection.Right.CanCreateNextRoom()) queue.Add((x, y, Side.Right));
                 queue.Shuffle();
                 foreach (var roomPos in queue)
                 {
@@ -34,8 +34,8 @@ namespace DungeonGenerator
 
         private void CreateNextRoom(int x, int y, Side side)
         {
-            Creator.Create(x, y, side);
-            RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
+            Creator.Create(x + side.X(), y + side.Y(), side);
+            RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x + side.X(), y + side.Y());
             if (nextRoomData == null) CreateNextRoom(x, y, side);
         }
     }
