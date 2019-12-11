@@ -48,7 +48,7 @@ namespace DungeonGenerator
                 neighbourConnectionType = neighbourRoom.Connection.GetConnectionTypeBySide(side.Oposite());
                 if (neighbourConnectionType == ConnectionType.None)
                 {
-                    if ((roomData.ShouldConnectToOtherProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToOtherProceduralRooms) || roomData.Entrance == side)
+                    if ((roomData.ShouldConnectToProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToProceduralRooms) || roomData.Entrance == side)
                     {
                         if (!CanConnect(roomData, neighbourRoom as ProceduralRoomData))
                         {
@@ -59,6 +59,7 @@ namespace DungeonGenerator
                 }
                 else
                 {
+                    if (!roomData.ShouldConnectToTemplateRooms) return false;
                     if (!roomData.PossibleNextConnectionTypes.Exists(t => t.ConnectionType == neighbourConnectionType) && neighbourConnectionType != ConnectionType.Wall) return false;
                     if (neighbourConnectionType != ConnectionType.Wall && neighbourConnectionType != ConnectionType.Border) _currentAmountOfOpenConnections++;
                 }

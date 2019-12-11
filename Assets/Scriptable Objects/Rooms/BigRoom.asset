@@ -35,4 +35,5 @@ MonoBehaviour:
     Chance: 0.5
   - ConnectionType: 5
     Chance: 1
-  _shouldConnectToOtherProceduralRooms: 0
+  _shouldConnectToProceduralRooms: 0
+  _shouldConnectToTemplateRooms: 1

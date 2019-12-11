@@ -24,14 +24,16 @@ namespace DungeonGenerator
         [Range(0.0f, 1.0f)]
         [SerializeField] private float _chanceOfNextRoom;
         [SerializeField] private List<ConnectionData> _possibleNextConnectionTypes;
-        [SerializeField] private bool _shouldConnectToOtherProceduralRooms;
+        [SerializeField] private bool _shouldConnectToProceduralRooms;
+        [SerializeField] private bool _shouldConnectToTemplateRooms;
 
         public int AmountOfOpenConnections { get; private set; }
         public int AmountOfNeededRooms { get => _amountOfNeededRooms; private set => _amountOfNeededRooms = value; }
         public float ChanceOfNextRoom { get => _chanceOfNextRoom; private set => _chanceOfNextRoom = value; }
         public List<ConnectionData> PossibleNextConnectionTypes { get => _possibleNextConnectionTypes; private set => _possibleNextConnectionTypes = value; }
         public int MaximumAmountOfCreatedRooms { get => _maximumAmountOfCreatedRooms; private set => _maximumAmountOfCreatedRooms = value; }
-        public bool ShouldConnectToOtherProceduralRooms { get => _shouldConnectToOtherProceduralRooms; private set => _shouldConnectToOtherProceduralRooms = value; }
+        public bool ShouldConnectToProceduralRooms { get => _shouldConnectToProceduralRooms; private set => _shouldConnectToProceduralRooms = value; }
+        public bool ShouldConnectToTemplateRooms { get => _shouldConnectToTemplateRooms; private set => _shouldConnectToTemplateRooms = value; }
 
         public override void Create(int x, int y)
         {
@@ -104,7 +106,7 @@ namespace DungeonGenerator
                 neighbourConnectionType = neighbourRoom.Connection.GetConnectionTypeBySide(side.Oposite());
                 if (neighbourConnectionType == ConnectionType.None)
                 {
-                    if ((ShouldConnectToOtherProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToOtherProceduralRooms) || Entrance == side)
+                    if ((ShouldConnectToProceduralRooms && (neighbourRoom as ProceduralRoomData).ShouldConnectToProceduralRooms) || Entrance == side)
                     {
                         neighbourConnectionType = CreateRandomConnection(neighbourRoom as ProceduralRoomData);
                     }

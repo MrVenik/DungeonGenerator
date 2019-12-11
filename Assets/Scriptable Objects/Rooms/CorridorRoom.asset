@@ -31,4 +31,5 @@ MonoBehaviour:
   _possibleNextConnectionTypes:
   - ConnectionType: 3
     Chance: 1
-  _shouldConnectToOtherProceduralRooms: 0
+  _shouldConnectToProceduralRooms: 0
+  _shouldConnectToTemplateRooms: 1
