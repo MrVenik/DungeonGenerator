@@ -18,6 +18,11 @@ namespace DungeonGenerator
         private void Awake()
         {
             CreateAndBuild();
+            ScriptableObject[] objects = Resources.FindObjectsOfTypeAll<CreatableData>();
+            foreach (var item in objects)
+            {
+                Debug.Log(item);
+            }
         }
 
         public void CreateAndBuild()

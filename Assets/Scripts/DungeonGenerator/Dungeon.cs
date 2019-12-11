@@ -90,6 +90,7 @@ namespace DungeonGenerator
                             roomBehaviour.Entrance = _rooms[x, y].Entrance;
                             roomBehaviour.ID = _rooms[x, y].ID;
                             _rooms[x, y].Build(roomBehaviour.transform);
+                            DestroyImmediate(_rooms[x, y]);
                         }
                     }
                 }
