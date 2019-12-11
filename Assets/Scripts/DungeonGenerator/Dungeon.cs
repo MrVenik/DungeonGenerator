@@ -118,7 +118,7 @@ namespace DungeonGenerator
         public void CreateStartRoom(int x, int y, Side side)
         {
             RoomData startRoom = Instantiate(StartRoom);
-            startRoom.Rotate(side);
+            startRoom.Rotate(side.Oposite());
             SetRoom(x, y, startRoom);
             startRoom.Create(x, y);
         }
@@ -143,6 +143,37 @@ namespace DungeonGenerator
                 else return Connection.None;
             }
             else return Connection.Border;
+        }
+
+        public void ReserveRoom(int x, int y, Side side, CreatableData data)
+        {
+            CreatableData roomData = Instantiate(data);
+            roomData.Rotate(side.Oposite());
+            if (roomData.CanCreate(x, y))
+            {
+                if (roomData is RoomGroupData)
+                {
+                    RoomGroupData roomGroup = roomData as RoomGroupData;
+                    for (int ix = x - roomGroup.EntranceX, j = 0; ix < x + roomGroup.ArraySize - roomGroup.EntranceX; ix++, j++)
+                    {
+                        for (int iy = y - roomGroup.EntranceY, k = 0; iy < y + roomGroup.ArraySize - roomGroup.EntranceY; iy++, k++)
+                        {
+                            GroupElementData groupElement = roomGroup.Elements[j + k * roomGroup.ArraySize];
+                            if (groupElement != null && groupElement.RoomData != null)
+                            {
+                                RoomData room = groupElement.RoomData;
+                                DungeonManager.Dungeon.SetRoom(ix, iy, room);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    DungeonManager.Dungeon.SetRoom(x, y, roomData as RoomData);
+                }
+                //roomData.Create(x, y);
+            }
+            else DestroyImmediate(roomData);
         }
 
         public void SetRoom(int x, int y, RoomData roomData)
