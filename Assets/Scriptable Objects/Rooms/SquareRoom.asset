@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Script: {fileID: 11500000, guid: 0524e5bcb9e6dbf4ab79fc883d27597b, type: 3}
   m_Name: SquareRoom
   m_EditorClassIdentifier: 
   _name: Square Room
+  _id: 0
   _size: 9
   _entrance: 0
   _connection:
@@ -24,4 +25,3 @@ MonoBehaviour:
   _checker: {fileID: 11400000, guid: 838accbd8ebda6649b80fc6681f3625c, type: 2}
   _builder: {fileID: 11400000, guid: 25e107f665a89d04cb436cba4f88d8b9, type: 2}
   _creator: {fileID: 11400000, guid: 2ac59e1609975a849a9112d5efd209e3, type: 2}
-  _factory: {fileID: 11400000, guid: a25a8b25f686b6041b55b42d515d08a1, type: 2}

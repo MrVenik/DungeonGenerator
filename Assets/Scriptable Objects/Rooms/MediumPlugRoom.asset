@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Script: {fileID: 11500000, guid: c294842eec4b07f439aaea8524ffd335, type: 3}
   m_Name: MediumPlugRoom
   m_EditorClassIdentifier: 
-  _name: MediumPlugRoom
+  _name: Medium Plug Room
+  _id: 0
   _size: 7
   _entrance: 0
   _connection:
@@ -24,4 +25,9 @@ MonoBehaviour:
   _checker: {fileID: 11400000, guid: a3c08c70603eef144a17d3bcdb65d998, type: 2}
   _builder: {fileID: 11400000, guid: 3c473e6e60c38af4d94f963a559c62d4, type: 2}
   _creator: {fileID: 0}
-  _factory: {fileID: 11400000, guid: fdb74f27b1ca7b344bd0544dd60ab84f, type: 2}
+  _amountOfNeededRooms: 0
+  _maximumAmountOfCreatedRooms: 0
+  _chanceOfNextRoom: 0
+  _possibleNextConnectionTypes:
+  - ConnectionType: 3
+    Chance: 1

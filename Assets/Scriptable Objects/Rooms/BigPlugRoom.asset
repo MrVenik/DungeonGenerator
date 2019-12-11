@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Script: {fileID: 11500000, guid: c294842eec4b07f439aaea8524ffd335, type: 3}
   m_Name: BigPlugRoom
   m_EditorClassIdentifier: 
   _name: Big Plug Room
+  _id: 0
   _size: 9
   _entrance: 0
   _connection:
@@ -24,4 +25,9 @@ MonoBehaviour:
   _checker: {fileID: 11400000, guid: 74d23ced00486cd4da6b40edee0840a4, type: 2}
   _builder: {fileID: 11400000, guid: 69da6034c12ad1c4b9169fb410248dcf, type: 2}
   _creator: {fileID: 0}
-  _factory: {fileID: 11400000, guid: 2725de48230d2554fa62076f718a25af, type: 2}
+  _amountOfNeededRooms: 0
+  _maximumAmountOfCreatedRooms: 0
+  _chanceOfNextRoom: 0
+  _possibleNextConnectionTypes:
+  - ConnectionType: 3
+    Chance: 1

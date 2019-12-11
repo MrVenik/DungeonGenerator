@@ -27,9 +27,9 @@ MonoBehaviour:
     Chance: 0.25
   - Data: {fileID: 11400000, guid: 567ef02f2735dd341975889d48d38189, type: 2}
     Chance: 0.5
-  - Data: {fileID: 11400000, guid: 3bac09b4b9bafd541bff26a1b92cb88a, type: 2}
+  - Data: {fileID: 11400000, guid: 8c949ab0cf91e024aaac1a709c2a5ce6, type: 2}
     Chance: 0.5
-  - Data: {fileID: 11400000, guid: 630f098b44ce8594abba92d5a57b358f, type: 2}
+  - Data: {fileID: 11400000, guid: 2d8e588559810bb409cf7891915e245e, type: 2}
     Chance: 0.5
   - Data: {fileID: 11400000, guid: 9b09ad607e9b7d040af6ad142135dcb4, type: 2}
     Chance: 0.2

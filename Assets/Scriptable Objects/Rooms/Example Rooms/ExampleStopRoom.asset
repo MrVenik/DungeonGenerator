@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: facf2103a5ad0ab4bb5f373a973e9d76, type: 3}
+  m_Script: {fileID: 11500000, guid: 0524e5bcb9e6dbf4ab79fc883d27597b, type: 3}
   m_Name: ExampleStopRoom
   m_EditorClassIdentifier: 
   _name: Example Stop Room
+  _id: 0
   _size: 7
   _entrance: 1
   _connection:
@@ -23,5 +24,4 @@ MonoBehaviour:
   _shouldCreateNextRoom: 0
   _checker: {fileID: 11400000, guid: 046f43b057b778a45917c0759bbf5bb6, type: 2}
   _builder: {fileID: 11400000, guid: 2b92b73339628094799ccf46a8057290, type: 2}
-  _creator: {fileID: 11400000, guid: 2ac59e1609975a849a9112d5efd209e3, type: 2}
-  _factory: {fileID: 11400000, guid: a25a8b25f686b6041b55b42d515d08a1, type: 2}
+  _creator: {fileID: 0}

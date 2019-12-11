@@ -25,7 +25,7 @@ MonoBehaviour:
     Entrance: 0
   - RoomData: {fileID: 0}
     Entrance: 0
-  - RoomData: {fileID: 11400000, guid: ed0c157e4640fbf45bfdf0f1cdd3705d, type: 2}
+  - RoomData: {fileID: 11400000, guid: 8d421c031f2aed24e95277abb894b8ef, type: 2}
     Entrance: 1
   - RoomData: {fileID: 11400000, guid: eeff2b18f13db7b40b21f2985b83f6cf, type: 2}
     Entrance: 0

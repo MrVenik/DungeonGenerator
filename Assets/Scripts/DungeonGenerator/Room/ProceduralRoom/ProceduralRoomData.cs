@@ -13,9 +13,8 @@ namespace DungeonGenerator
         public ConnectionType ConnectionType;
         public float Chance;
     }
-
-    [CreateAssetMenu(fileName = "New RoomFactory", menuName = "Rooms/Room Factory/Procedural RoomFactory")]
-    public class ProceduralRoomFactory : RoomFacroty
+    [CreateAssetMenu(fileName = "New Room", menuName = "Rooms/Room/Procedural Room")]
+    public class ProceduralRoomData : RoomData
     {
         [Range(0, 4)]
         [SerializeField] private int _amountOfNeededRooms;
@@ -31,26 +30,22 @@ namespace DungeonGenerator
         public List<ConnectionData> PossibleNextConnectionTypes { get => _possibleNextConnectionTypes; private set => _possibleNextConnectionTypes = value; }
         public int MaximumAmountOfCreatedRooms { get => _maximumAmountOfCreatedRooms; private set => _maximumAmountOfCreatedRooms = value; }
 
-        public override void Create(int x, int y, RoomData roomData)
+        public override void Create(int x, int y)
         {
-            AmountOfOpenConnections = 0;
+            Connection.Top = (Connection.Top == ConnectionType.None) ? ConnectTo(x, y, Side.Top) : Connection.Top;
+            Connection.Bottom = (Connection.Bottom == ConnectionType.None) ? ConnectTo(x, y, Side.Bottom) : Connection.Bottom;
+            Connection.Left = (Connection.Left == ConnectionType.None) ? ConnectTo(x, y, Side.Left) : Connection.Left;
+            Connection.Right = (Connection.Right == ConnectionType.None) ? ConnectTo(x, y, Side.Right) : Connection.Right;
 
-            roomData.Connection.Top = (roomData.Connection.Top == ConnectionType.None) ? ConnectTo(x, y, Side.Top) : roomData.Connection.Top;
-            roomData.Connection.Bottom = (roomData.Connection.Bottom == ConnectionType.None) ? ConnectTo(x, y, Side.Bottom) : roomData.Connection.Bottom;
-            roomData.Connection.Left = (roomData.Connection.Left == ConnectionType.None) ? ConnectTo(x, y, Side.Left) : roomData.Connection.Left;
-            roomData.Connection.Right = (roomData.Connection.Right == ConnectionType.None) ? ConnectTo(x, y, Side.Right) : roomData.Connection.Right;
+            if (Connection.Top.CanCreateNextRoom()) AmountOfOpenConnections++;
+            if (Connection.Bottom.CanCreateNextRoom()) AmountOfOpenConnections++;
+            if (Connection.Left.CanCreateNextRoom()) AmountOfOpenConnections++;
+            if (Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
 
-            if (roomData.Connection.Top.CanCreateNextRoom()) AmountOfOpenConnections++;
-            if (roomData.Connection.Bottom.CanCreateNextRoom()) AmountOfOpenConnections++;
-            if (roomData.Connection.Left.CanCreateNextRoom()) AmountOfOpenConnections++;
-            if (roomData.Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
-
-            CreateNextRooms(x, y, roomData);
-
-            AmountOfOpenConnections = 0;
+            CreateNextRooms(x, y);
         }
 
-        public override void CreateNextRooms(int x, int y, RoomData roomData)
+        private void CreateNextRooms(int x, int y)
         {
 
             List<Side> queue = new List<Side>
@@ -69,49 +64,49 @@ namespace DungeonGenerator
                 {
                     case Side.Top:
 
-                        if (roomData.Connection.Top == ConnectionType.None)
+                        if (Connection.Top == ConnectionType.None)
                         {
-                            if (roomData.ShouldCreateNextRoom) CreateNextRoom(x, y + 1, side, roomData);
+                            if (ShouldCreateNextRoom) CreateNextRoom(x, y + 1, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(x, y + 1);
-                            if (nextRoom == null) roomData.Connection.Top = ConnectionType.Wall;
-                            else roomData.Connection.Top = nextRoom.Connection.Bottom;
-                            if (roomData.Connection.Top.CanCreateNextRoom()) AmountOfOpenConnections++;
+                            if (nextRoom == null) Connection.Top = ConnectionType.Wall;
+                            else Connection.Top = nextRoom.Connection.Bottom;
+                            if (Connection.Top.CanCreateNextRoom()) AmountOfOpenConnections++;
                         }
 
                         break;
                     case Side.Bottom:
 
-                        if (roomData.Connection.Bottom == ConnectionType.None)
+                        if (Connection.Bottom == ConnectionType.None)
                         {
-                            if (roomData.ShouldCreateNextRoom) CreateNextRoom(x, y - 1, side, roomData);
+                            if (ShouldCreateNextRoom) CreateNextRoom(x, y - 1, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(x, y - 1);
-                            if (nextRoom == null) roomData.Connection.Bottom = ConnectionType.Wall;
-                            else roomData.Connection.Bottom = nextRoom.Connection.Top;
-                            if (roomData.Connection.Bottom.CanCreateNextRoom()) AmountOfOpenConnections++;
+                            if (nextRoom == null) Connection.Bottom = ConnectionType.Wall;
+                            else Connection.Bottom = nextRoom.Connection.Top;
+                            if (Connection.Bottom.CanCreateNextRoom()) AmountOfOpenConnections++;
                         }
 
                         break;
                     case Side.Left:
 
-                        if (roomData.Connection.Left == ConnectionType.None)
+                        if (Connection.Left == ConnectionType.None)
                         {
-                            if (roomData.ShouldCreateNextRoom) CreateNextRoom(x - 1, y, side, roomData);
+                            if (ShouldCreateNextRoom) CreateNextRoom(x - 1, y, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(x - 1, y);
-                            if (nextRoom == null) roomData.Connection.Left = ConnectionType.Wall;
-                            else roomData.Connection.Left = nextRoom.Connection.Right;
-                            if (roomData.Connection.Left.CanCreateNextRoom()) AmountOfOpenConnections++;
+                            if (nextRoom == null) Connection.Left = ConnectionType.Wall;
+                            else Connection.Left = nextRoom.Connection.Right;
+                            if (Connection.Left.CanCreateNextRoom()) AmountOfOpenConnections++;
                         }
 
                         break;
                     case Side.Right:
 
-                        if (roomData.Connection.Right == ConnectionType.None)
+                        if (Connection.Right == ConnectionType.None)
                         {
-                            if (roomData.ShouldCreateNextRoom) CreateNextRoom(x + 1, y, side, roomData);
+                            if (ShouldCreateNextRoom) CreateNextRoom(x + 1, y, side);
                             nextRoom = DungeonManager.Dungeon.GetRoom(x + 1, y);
-                            if (nextRoom == null) roomData.Connection.Right = ConnectionType.Wall;
-                            else roomData.Connection.Right = nextRoom.Connection.Left;
-                            if (roomData.Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
+                            if (nextRoom == null) Connection.Right = ConnectionType.Wall;
+                            else Connection.Right = nextRoom.Connection.Left;
+                            if (Connection.Right.CanCreateNextRoom()) AmountOfOpenConnections++;
                         }
 
                         break;
@@ -121,22 +116,22 @@ namespace DungeonGenerator
             }
         }
 
-        protected override void CreateNextRoom(int x, int y, Side side, RoomData roomData)
+        protected void CreateNextRoom(int x, int y, Side side)
         {
             if (AmountOfOpenConnections < MaximumAmountOfCreatedRooms)
             {
                 if (AmountOfOpenConnections < AmountOfNeededRooms)
                 {
-                    roomData.Creator.Create(x, y, side);
+                    Creator.Create(x, y, side);
                     RoomData nextRoomData = DungeonManager.Dungeon.GetRoom(x, y);
-                    if (nextRoomData == null) CreateNextRoom(x, y, side, roomData);
+                    if (nextRoomData == null) CreateNextRoom(x, y, side);
                 }
                 else
                 {
                     float chance = UnityEngine.Random.Range(0f, 1f);
                     if (chance <= ChanceOfNextRoom)
                     {
-                        roomData.Creator.Create(x, y, side);
+                        Creator.Create(x, y, side);
                     }
                 }
             }
