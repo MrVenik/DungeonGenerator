@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileVariants:
   - {fileID: 7072868418194532806, guid: 4bd5238ded5e1974bbfbc9a5bc97ce23, type: 3}
+  - {fileID: 7072868418194532806, guid: 07d435152ca3333478a1883dff385837, type: 3}
+  _useScale: 0
