@@ -28,34 +28,8 @@ namespace DungeonGenerator
         [SerializeField] private int _arraySize;
 
         [SerializeField] private GroupElementData[] _defaultElements;
-        private GroupElementData[] _elements = null;
 
-        public GroupElementData[] Elements 
-        { 
-            get
-            {
-                if (_elements == null)
-                {
-                    _elements = new GroupElementData[ArraySize * ArraySize];
-                    for (int x = 0; x < ArraySize; x++)
-                    {
-                        for (int y = 0; y < ArraySize; y++)
-                        {
-                            if (_defaultElements[x + y * ArraySize].RoomData != null)
-                            {
-                                _elements[x + y * ArraySize] = new GroupElementData
-                                {
-                                    Entrance = _defaultElements[x + y * ArraySize].Entrance,
-                                    RoomData = Instantiate(_defaultElements[x + y * ArraySize].RoomData)
-                                };
-                            }
-                        }
-                    }
-                }
-                return _elements;
-            }
-            private set => _elements = value; 
-        }
+        public GroupElementData[] Elements { get; private set; }
 
         public int EntranceX { get => _entranceX; private set => _entranceX = value; }
         public int EntranceY { get => _entranceY; private set => _entranceY = value; }
@@ -64,11 +38,33 @@ namespace DungeonGenerator
         public int ArraySize { get => _arraySize; private set => _arraySize = value; }
         public override bool IsPlug { get => _isPlug; }
 
+        public void OnEnable()
+        {
+            if (Elements == null)
+            {
+                Elements = new GroupElementData[ArraySize * ArraySize];
+                for (int x = 0; x < ArraySize; x++)
+                {
+                    for (int y = 0; y < ArraySize; y++)
+                    {
+                        if (_defaultElements[x + y * ArraySize].RoomData != null)
+                        {
+                            Elements[x + y * ArraySize] = new GroupElementData
+                            {
+                                Entrance = _defaultElements[x + y * ArraySize].Entrance,
+                                RoomData = Instantiate(_defaultElements[x + y * ArraySize].RoomData)
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
         public void OnDestroy()
         {
-            foreach (var item in _elements)
+            foreach (var item in Elements)
             {
-                if (item != null && item.RoomData != null) DestroyImmediate(item.RoomData);
+                if (item != null && item.RoomData != null && !item.RoomData.Created && !item.RoomData.IsCreatingNextRooms) DestroyImmediate(item.RoomData);
             }
         }
 
@@ -86,6 +82,7 @@ namespace DungeonGenerator
                     }
                 }
             }
+            DestroyImmediate(this);
         }
 
         public override bool CanCreate(int x, int y)
