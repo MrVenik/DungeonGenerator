@@ -20,11 +20,6 @@ namespace DungeonGenerator
         private void Awake()
         {
             CreateAndBuild();
-            ScriptableObject[] objects = Resources.FindObjectsOfTypeAll<CreatableData>();
-            foreach (var item in objects)
-            {
-                Debug.Log(item);
-            }
         }
 
         public void CreateAndBuild()
@@ -56,16 +51,7 @@ namespace DungeonGenerator
 
             Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
 
-            //Dungeon.ReserveRoom(1, 1, Side.Bottom, _exampleRoomForReservation);
-            Dungeon.ReserveRoom(25, 15, Side.Top, _exampleRoomForReservation);
-
-            Dungeon.BuildPath(15, 1, Side.Top, 25, 15, Side.Bottom);
-
-            Dungeon.ReserveRoom(15, 25, Side.Top, _exampleBossRoom);
-
-            Dungeon.BuildPath(25, 15, Side.Top, 15, 25, Side.Bottom);
-
-            Dungeon.CreateStartRoom(15, 1, Side.Top);
+            Dungeon.CreateStartRoom(rndX, rndY, rndSide);
             if (_useDeviation)
             {
                 if (Math.Abs(Dungeon.PredicatedAmountOfRooms - Dungeon.AmountOfRooms) > Dungeon.AmountOfRooms * Dungeon.MaximumDeviation)

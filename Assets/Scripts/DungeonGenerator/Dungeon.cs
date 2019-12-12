@@ -184,8 +184,6 @@ namespace DungeonGenerator
             int endX = toX + toSide.X();
             int endY = toY + toSide.Y();
 
-            Debug.Log($"Current X = {currentX}, Current Y = {currentY}");
-
             if (fromX == toX && fromY == toY)
             {
                 return;
@@ -195,7 +193,6 @@ namespace DungeonGenerator
 
             if (currentX == endX && currentY == endY)
             {
-                Debug.Log("I founded end coords");
                 return;
             }
 
@@ -206,7 +203,6 @@ namespace DungeonGenerator
                     {
                         bool clockwise = ((currentX - endX) < 0);
                         fromSide = fromSide.Rotate(clockwise);
-                        Debug.Log("New Side - " + fromSide);
                     }
                     else if ((currentX - endX) != 0)
                     {
@@ -214,11 +210,10 @@ namespace DungeonGenerator
                         {
                             bool clockwise = ((currentX - endX) < 0);
                             fromSide = fromSide.Rotate(clockwise);
-                            Debug.Log("New Random Side - " + fromSide);
                         }
                     }
-
                     break;
+
                 case Side.Bottom:
                     if (currentY + fromSide.Y() < endY)
                     {
@@ -232,10 +227,8 @@ namespace DungeonGenerator
                         {
                             bool clockwise = ((currentX - endX) > 0);
                             fromSide = fromSide.Rotate(clockwise);
-                            Debug.Log("New Random Side - " + fromSide);
                         }
                     }
-
 
                     break;
                 case Side.Left:
@@ -243,13 +236,11 @@ namespace DungeonGenerator
                     {
                         bool clockwise = (currentY - endY) < 0;
                         fromSide = fromSide.Rotate(clockwise);
-                        Debug.Log("New Side - " + fromSide);
                     }
                     else if ((currentY - endY) != 0)
                     {
                         bool clockwise = ((currentY - endY) < 0);
                         fromSide = fromSide.Rotate(clockwise);
-                        Debug.Log("New Random Side - " + fromSide);
                     }
                     break;
                 case Side.Right:
@@ -257,13 +248,11 @@ namespace DungeonGenerator
                     {
                         bool clockwise = (currentY - endY) > 0;
                         fromSide = fromSide.Rotate(clockwise);
-                        Debug.Log("New Side - " + fromSide);
                     }
                     else if ((currentY - endY) != 0)
                     {
                         bool clockwise = ((currentY - endY) > 0);
                         fromSide = fromSide.Rotate(clockwise);
-                        Debug.Log("New Random Side - " + fromSide);
                     }
                     break;
                 default:
