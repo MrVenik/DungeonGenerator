@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3286434799689053046}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children: []
   m_Father: {fileID: 4756535141506621790}
@@ -79,6 +79,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -121,6 +122,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4756535141506621790}
     m_Modifications:
+    - target: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
+        type: 3}
+      propertyPath: m_Name
+      value: Column (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 7641099661783280248, guid: b4a5391a12f68e24683942a698f2fcc7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -176,11 +182,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
-        type: 3}
-      propertyPath: m_Name
-      value: Column (1)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4a5391a12f68e24683942a698f2fcc7, type: 3}
 --- !u!4 &4680096432746411299 stripped
@@ -196,11 +197,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4756535141506621790}
     m_Modifications:
-    - target: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
-        type: 3}
-      propertyPath: m_Name
-      value: StartRoomBuild
-      objectReference: {fileID: 0}
     - target: {fileID: 2596132496266331843, guid: 55aaccb9cdb03054f86e31f27608e4d8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -256,6 +252,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5207988609153977532, guid: 55aaccb9cdb03054f86e31f27608e4d8,
+        type: 3}
+      propertyPath: m_Name
+      value: StartRoomBuild
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55aaccb9cdb03054f86e31f27608e4d8, type: 3}
 --- !u!4 &711783590083472477 stripped
@@ -271,6 +272,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4756535141506621790}
     m_Modifications:
+    - target: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
+        type: 3}
+      propertyPath: m_Name
+      value: Column
+      objectReference: {fileID: 0}
     - target: {fileID: 7641099661783280248, guid: b4a5391a12f68e24683942a698f2fcc7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -325,11 +331,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
-        type: 3}
-      propertyPath: m_Name
-      value: Column
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4a5391a12f68e24683942a698f2fcc7, type: 3}

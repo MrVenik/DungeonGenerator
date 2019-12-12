@@ -22,16 +22,16 @@ namespace DungeonGenerator
             switch (roomData.Entrance)
             {
                 case Side.Top:
-                    Instantiate(_templatePrefab, new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 180), transform);
+                    Instantiate(_templatePrefab, new Vector3(transform.position.x + maximumSize - diff, transform.position.y + maximumSize - diff), Quaternion.Euler(0, 0, 180), transform);
                     break;
                 case Side.Bottom:
-                    Instantiate(_templatePrefab, new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + diff), Quaternion.Euler(0, 0, 0), transform);
+                    Instantiate(_templatePrefab, new Vector3(transform.position.x + diff, transform.position.y + diff), Quaternion.Euler(0, 0, 0), transform);
                     break;
                 case Side.Left:
-                    Instantiate(_templatePrefab, new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 270), transform);
+                    Instantiate(_templatePrefab, new Vector3(transform.position.x + diff, transform.position.y + maximumSize - diff), Quaternion.Euler(0, 0, 270), transform);
                     break;
                 case Side.Right:
-                    Instantiate(_templatePrefab, new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + diff), Quaternion.Euler(0, 0, 90), transform);
+                    Instantiate(_templatePrefab, new Vector3(transform.position.x + maximumSize - diff, transform.position.y + diff), Quaternion.Euler(0, 0, 90), transform);
                     break;
                 default:
                     break;

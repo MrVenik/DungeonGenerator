@@ -49,15 +49,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2596132496266331843}
     m_Modifications:
-    - target: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
-        type: 3}
-      propertyPath: m_Name
-      value: Wall (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 8555269195631874469, guid: afd28d010128ad348b1f31dc4c637d9d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8555269195631874469, guid: afd28d010128ad348b1f31dc4c637d9d,
         type: 3}
@@ -109,6 +104,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
+        type: 3}
+      propertyPath: m_Name
+      value: Wall (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afd28d010128ad348b1f31dc4c637d9d, type: 3}
 --- !u!4 &8219447761943208601 stripped
@@ -124,15 +124,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2596132496266331843}
     m_Modifications:
-    - target: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
-        type: 3}
-      propertyPath: m_Name
-      value: Wall (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 8555269195631874469, guid: afd28d010128ad348b1f31dc4c637d9d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8555269195631874469, guid: afd28d010128ad348b1f31dc4c637d9d,
         type: 3}
@@ -183,6 +178,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169957533052186383, guid: afd28d010128ad348b1f31dc4c637d9d,
+        type: 3}
+      propertyPath: m_Name
+      value: Wall (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afd28d010128ad348b1f31dc4c637d9d, type: 3}

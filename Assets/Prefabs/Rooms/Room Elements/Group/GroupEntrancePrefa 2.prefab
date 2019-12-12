@@ -40,15 +40,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1680422280466167414}
     m_Modifications:
-    - target: {fileID: 7850669346458092511, guid: d69088b5d48ca6b49a182273b1f87dd5,
-        type: 3}
-      propertyPath: m_Name
-      value: BigWall
-      objectReference: {fileID: 0}
     - target: {fileID: 5113839109077306984, guid: d69088b5d48ca6b49a182273b1f87dd5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5113839109077306984, guid: d69088b5d48ca6b49a182273b1f87dd5,
         type: 3}
@@ -109,6 +104,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7850669346458092511, guid: d69088b5d48ca6b49a182273b1f87dd5,
+        type: 3}
+      propertyPath: m_Name
+      value: BigWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d69088b5d48ca6b49a182273b1f87dd5, type: 3}

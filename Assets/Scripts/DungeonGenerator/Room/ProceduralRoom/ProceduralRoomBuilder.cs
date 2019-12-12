@@ -24,28 +24,28 @@ namespace DungeonGenerator
 
             int diff = (maximumSize - roomSize) / 2;
 
-            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
-            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
-            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + diff), transform.rotation, transform);
-            Instantiate(GetVariantFrom(_columnVariants), new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(transform.position.x + diff, transform.position.y + diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(transform.position.x + diff, transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(transform.position.x + maximumSize - 1 - diff, transform.position.y + diff), transform.rotation, transform);
+            Instantiate(GetVariantFrom(_columnVariants), new Vector3(transform.position.x + maximumSize - 1 - diff, transform.position.y + maximumSize - 1 - diff), transform.rotation, transform);
 
             GameObject element;
             // Top connection
             element = GetConnectionGameObject(roomData.Connection.Top);
             if (element != null)
-                Instantiate(element, new Vector3(0.5f + transform.position.x + 1 + diff, 0.5f + transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, 0), transform);
+                Instantiate(element, new Vector3(transform.position.x + 1 + diff, transform.position.y - 1 + maximumSize - diff), Quaternion.Euler(0, 0, 0), transform);
             // Bottom connection
             element = GetConnectionGameObject(roomData.Connection.Bottom);
             if (element != null)
-                Instantiate(element, new Vector3(0.5f + transform.position.x + maximumSize - 2 - diff, 0.5f + transform.position.y + diff), Quaternion.Euler(0, 0, 180), transform);
+                Instantiate(element, new Vector3(transform.position.x - 1 + maximumSize - diff, transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 180), transform);
             // Left connection
             element = GetConnectionGameObject(roomData.Connection.Left);
             if (element != null)
-                Instantiate(element, new Vector3(0.5f + transform.position.x + diff, 0.5f + transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), transform);
+                Instantiate(element, new Vector3(transform.position.x + 1 + diff, transform.position.y + 1 + diff), Quaternion.Euler(0, 0, 90), transform);
             // Ritght connection
             element = GetConnectionGameObject(roomData.Connection.Right);
             if (element != null)
-                Instantiate(element, new Vector3(0.5f + transform.position.x + maximumSize - 1 - diff, 0.5f + transform.position.y + maximumSize - 2 - diff), Quaternion.Euler(0, 0, -90), transform);
+                Instantiate(element, new Vector3(transform.position.x + maximumSize - 1 - diff, transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, -90), transform);
         }
 
         private GameObject GetConnectionGameObject(ConnectionType type)
