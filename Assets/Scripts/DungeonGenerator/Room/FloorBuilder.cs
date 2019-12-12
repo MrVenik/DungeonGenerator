@@ -11,6 +11,8 @@ namespace DungeonGenerator
     public class FloorBuilder : ScriptableObject
     {
         [SerializeField] private List<GameObject> _tileVariants;
+        [SerializeField] private bool _useScale;
+
 
         public void Build(RoomData roomData, Transform transform)
         {
@@ -19,16 +21,22 @@ namespace DungeonGenerator
 
             int diff = (maximumSize - roomSize) / 2;
 
-            for (int x = 0; x < roomSize; x++)
+            if (_useScale)
             {
-                for (int y = 0; y < roomSize; y++)
+                GameObject tile = GetVariantFrom(_tileVariants);
+                Instantiate(tile, new Vector3(transform.position.x + diff, transform.position.y + diff, 1), transform.rotation, transform).transform.localScale += new Vector3(roomSize - 1, roomSize - 1, 1);
+            }
+            else
+            {
+                for (int x = 0; x < roomSize; x++)
                 {
-                    GameObject tile = GetVariantFrom(_tileVariants);
-                    Instantiate(tile, new Vector3(transform.position.x + diff + x, transform.position.y + diff + y, 1), transform.rotation, transform);
+                    for (int y = 0; y < roomSize; y++)
+                    {
+                        GameObject tile = GetVariantFrom(_tileVariants);
+                        Instantiate(tile, new Vector3(transform.position.x + diff + x, transform.position.y + diff + y, 1), transform.rotation, transform);
+                    }
                 }
             }
-
-
         }
 
         private GameObject GetVariantFrom(List<GameObject> variants)
