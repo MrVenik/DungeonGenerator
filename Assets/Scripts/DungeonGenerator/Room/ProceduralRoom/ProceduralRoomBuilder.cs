@@ -46,6 +46,8 @@ namespace DungeonGenerator
             element = GetConnectionGameObject(roomData.Connection.Right);
             if (element != null)
                 Instantiate(element, new Vector3(transform.position.x + maximumSize - 1 - diff, transform.position.y + maximumSize - 1 - diff), Quaternion.Euler(0, 0, -90), transform);
+
+            if (FloorBuilder != null) FloorBuilder.Build(roomData, transform);
         }
 
         private GameObject GetConnectionGameObject(ConnectionType type)

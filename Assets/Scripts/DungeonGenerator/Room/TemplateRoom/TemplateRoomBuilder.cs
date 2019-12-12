@@ -36,6 +36,8 @@ namespace DungeonGenerator
                 default:
                     break;
             }
+
+            if (FloorBuilder != null) FloorBuilder.Build(roomData, transform);
         }
     }
 }

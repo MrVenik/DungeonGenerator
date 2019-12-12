@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45277b3619cdac446b0e6d6035a6d543, type: 3}
-  m_Name: SquareRoomBuilder
+  m_Script: {fileID: 11500000, guid: d0735bc5ce9af3e4787631eca8a1af42, type: 3}
+  m_Name: FloorBuilder
   m_EditorClassIdentifier: 
-  _floorBuilder: {fileID: 11400000, guid: e02e45c2f9098f746a6404ceb6bbd805, type: 2}
-  _templatePrefab: {fileID: 3714116030602386548, guid: 6f3fda6f982471d4f86493ea02e3ef00,
-    type: 3}
+  _tileVariants:
+  - {fileID: 7072868418194532806, guid: 4bd5238ded5e1974bbfbc9a5bc97ce23, type: 3}
