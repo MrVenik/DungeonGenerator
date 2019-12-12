@@ -204,34 +204,66 @@ namespace DungeonGenerator
                 case Side.Top:
                     if (currentY + fromSide.Y() > endY)
                     {
-                        bool clockwise = (currentY - endY) <= 0;
+                        bool clockwise = ((currentX - endX) < 0);
                         fromSide = fromSide.Rotate(clockwise);
                         Debug.Log("New Side - " + fromSide);
+                    }
+                    else if ((currentX - endX) != 0)
+                    {
+                        if (UnityEngine.Random.Range(0, 2) == 0)
+                        {
+                            bool clockwise = ((currentX - endX) < 0);
+                            fromSide = fromSide.Rotate(clockwise);
+                            Debug.Log("New Random Side - " + fromSide);
+                        }
                     }
 
                     break;
                 case Side.Bottom:
                     if (currentY + fromSide.Y() < endY)
                     {
-                        bool clockwise = (currentY - endY) >= 0;
+                        bool clockwise = ((currentX - endX) > 0);
                         fromSide = fromSide.Rotate(clockwise);
                         Debug.Log("New Side - " + fromSide);
                     }
+                    else if ((currentX - endX) != 0)
+                    {
+                        if (UnityEngine.Random.Range(0, 2) == 0)
+                        {
+                            bool clockwise = ((currentX - endX) > 0);
+                            fromSide = fromSide.Rotate(clockwise);
+                            Debug.Log("New Random Side - " + fromSide);
+                        }
+                    }
+
+
                     break;
                 case Side.Left:
                     if (currentX + fromSide.X() < endX)
                     {
-                        bool clockwise = (currentX - endX) < 0;
+                        bool clockwise = (currentY - endY) < 0;
                         fromSide = fromSide.Rotate(clockwise);
                         Debug.Log("New Side - " + fromSide);
+                    }
+                    else if ((currentY - endY) != 0)
+                    {
+                        bool clockwise = ((currentY - endY) < 0);
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Random Side - " + fromSide);
                     }
                     break;
                 case Side.Right:
                     if (currentX + fromSide.X() > endX)
                     {
-                        bool clockwise = (currentX - endX) > 0;
+                        bool clockwise = (currentY - endY) > 0;
                         fromSide = fromSide.Rotate(clockwise);
                         Debug.Log("New Side - " + fromSide);
+                    }
+                    else if ((currentY - endY) != 0)
+                    {
+                        bool clockwise = ((currentY - endY) > 0);
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Random Side - " + fromSide);
                     }
                     break;
                 default:

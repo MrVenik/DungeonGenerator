@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: PathRoom
   m_EditorClassIdentifier: 
   _name: Path
-  _created: 0
-  _isCreatingNextRooms: 0
   _id: 0
   _size: 5
   _entrance: 0
@@ -33,5 +31,5 @@ MonoBehaviour:
   _possibleNextConnectionTypes:
   - ConnectionType: 3
     Chance: 1
-  _shouldConnectToProceduralRooms: 0
+  _shouldConnectToProceduralRooms: 1
   _shouldConnectToTemplateRooms: 1
