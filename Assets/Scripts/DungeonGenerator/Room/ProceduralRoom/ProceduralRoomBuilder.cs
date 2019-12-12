@@ -53,7 +53,7 @@ namespace DungeonGenerator
             switch (type)
             {
                 case ConnectionType.None:
-                    break;
+                    return null;
                 case ConnectionType.Border:
                     return GetVariantFrom(_wallConnectionVariants);
                 case ConnectionType.Wall:

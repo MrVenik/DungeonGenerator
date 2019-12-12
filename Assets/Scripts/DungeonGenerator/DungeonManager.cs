@@ -56,10 +56,12 @@ namespace DungeonGenerator
 
             Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
 
-            Dungeon.ReserveRoom(1, 1, Side.Bottom, _exampleRoomForReservation);
+            //Dungeon.ReserveRoom(1, 1, Side.Bottom, _exampleRoomForReservation);
             Dungeon.ReserveRoom(5, 5, Side.Top, _exampleRoomForReservation);
 
-            Dungeon.CreateStartRoom(rndX, rndY, rndSide);
+            Dungeon.BuildPath(1, 1, Side.Top, 5, 5, Side.Bottom);
+
+            Dungeon.CreateStartRoom(1, 1, Side.Top);
             if (_useDeviation)
             {
                 if (Math.Abs(Dungeon.PredicatedAmountOfRooms - Dungeon.AmountOfRooms) > Dungeon.AmountOfRooms * Dungeon.MaximumDeviation)

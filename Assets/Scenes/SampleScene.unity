@@ -237,7 +237,7 @@ MonoBehaviour:
     type: 3}
   _currentAmountOfRooms: 0
   _useDeviation: 0
-  _exampleRoomForReservation: {fileID: 11400000, guid: 8c949ab0cf91e024aaac1a709c2a5ce6,
+  _exampleRoomForReservation: {fileID: 11400000, guid: a56d1278f0735a2408d39c6d4b676a5e,
     type: 2}
 --- !u!4 &2052712550
 Transform:

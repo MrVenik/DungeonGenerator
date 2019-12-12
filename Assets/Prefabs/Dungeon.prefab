@@ -55,3 +55,4 @@ MonoBehaviour:
   _currentAmountOfRooms: 0
   _maximumDeviation: 0.2
   _builded: 0
+  _pathRoom: {fileID: 11400000, guid: afad3741dd7769a46b595425bc29bb15, type: 2}

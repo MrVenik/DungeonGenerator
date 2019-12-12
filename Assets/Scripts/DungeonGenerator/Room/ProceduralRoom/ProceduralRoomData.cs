@@ -37,6 +37,7 @@ namespace DungeonGenerator
 
         public override void Create(int x, int y)
         {
+            IsCreatingNextRooms = true;
             Connection.Top = (Connection.Top == ConnectionType.None) ? ConnectTo(x, y, Side.Top) : Connection.Top;
             Connection.Bottom = (Connection.Bottom == ConnectionType.None) ? ConnectTo(x, y, Side.Bottom) : Connection.Bottom;
             Connection.Left = (Connection.Left == ConnectionType.None) ? ConnectTo(x, y, Side.Left) : Connection.Left;
@@ -121,6 +122,10 @@ namespace DungeonGenerator
             ConnectionType neighbourConnectionType;
             if (neighbourRoom != null)
             {
+                if (!neighbourRoom.Created && !neighbourRoom.IsCreatingNextRooms)
+                {
+                    neighbourRoom.Create(x + side.X(), y + side.Y());
+                }
                 neighbourConnectionType = neighbourRoom.Connection.GetConnectionTypeBySide(side.Oposite());
                 if (neighbourConnectionType == ConnectionType.None)
                 {

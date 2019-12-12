@@ -176,6 +176,71 @@ namespace DungeonGenerator
             else DestroyImmediate(roomData);
         }
 
+        [SerializeField] private RoomData _pathRoom;
+        public void BuildPath(int fromX, int fromY, Side fromSide, int toX, int toY, Side toSide)
+        {
+            int currentX = fromX + fromSide.X();
+            int currentY = fromY + fromSide.Y();
+            int endX = toX + toSide.X();
+            int endY = toY + toSide.Y();
+
+            Debug.Log($"Current X = {currentX}, Current Y = {currentY}");
+
+            if (fromX == toX && fromY == toY)
+            {
+                return;
+            }
+
+            ReserveRoom(currentX, currentY, fromSide, _pathRoom);
+
+            if (currentX == endX && currentY == endY)
+            {
+                Debug.Log("I founded end coords");
+                return;
+            }
+
+            switch (fromSide)
+            {
+                case Side.Top:
+                    if (currentY + fromSide.Y() > endY)
+                    {
+                        bool clockwise = (currentY - endY) <= 0;
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Side - " + fromSide);
+                    }
+
+                    break;
+                case Side.Bottom:
+                    if (currentY + fromSide.Y() < endY)
+                    {
+                        bool clockwise = (currentY - endY) >= 0;
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Side - " + fromSide);
+                    }
+                    break;
+                case Side.Left:
+                    if (currentX + fromSide.X() < endX)
+                    {
+                        bool clockwise = (currentX - endX) < 0;
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Side - " + fromSide);
+                    }
+                    break;
+                case Side.Right:
+                    if (currentX + fromSide.X() > endX)
+                    {
+                        bool clockwise = (currentX - endX) > 0;
+                        fromSide = fromSide.Rotate(clockwise);
+                        Debug.Log("New Side - " + fromSide);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            BuildPath(currentX, currentY, fromSide, toX, toY, toSide);
+
+        }
+
         public void SetRoom(int x, int y, RoomData roomData)
         {
             if (CheckBorders(x, y))
