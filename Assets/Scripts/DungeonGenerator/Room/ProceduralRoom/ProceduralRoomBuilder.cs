@@ -9,9 +9,19 @@ namespace DungeonGenerator
 {
     public enum RoomCellData
     {
-        None, 
+        None,
         Wall,
         Floor
+    }
+
+    [Serializable]
+    public class RoomElementData
+    {
+        public string Name;
+        public GameObject GameObject;
+        public Vector3 Position;
+        [Range(0.0f, 1.0f)]
+        public float Chance;
     }
 
     [Serializable]
@@ -27,6 +37,8 @@ namespace DungeonGenerator
         [SerializeField] private List<WallData> _wallVariants;
         [SerializeField] private List<GameObject> _floorVariants;
         [SerializeField] private GameObject _shadow;
+
+        [SerializeField] private List<RoomElementData> _roomElements;
 
         private RoomCellData[,] _roomCells;
 
@@ -312,6 +324,7 @@ namespace DungeonGenerator
                             {
                                 Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
                             }
+
                             else if (bottomConnectionType == ConnectionType.Wall)
                             {
                                 RoomData bottomRoom = DungeonManager.Dungeon.GetRoom(roomX, roomY - 1);
@@ -334,9 +347,42 @@ namespace DungeonGenerator
                     else if (_roomCells[x, y] == RoomCellData.Floor)
                     {
                         Instantiate(_floorVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
+
+                        List<RoomElementData> possibleElements = _roomElements.FindAll(t => t.Position.x >= x && t.Position.x < x + 1 && t.Position.y >= y && t.Position.y < y + 1);
+                        if (possibleElements.Count > 0)
+                        {
+                            RoomElementData randomElement = GetRandomElement(possibleElements);
+                            if (randomElement != null)
+                            {
+                                Instantiate(randomElement.GameObject, new Vector3(transform.position.x + randomElement.Position.x, transform.position.y + randomElement.Position.y), transform.rotation, transform);
+
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        private RoomElementData GetRandomElement(List<RoomElementData> possibleElements)
+        {
+            List<RoomElementData> elements = new List<RoomElementData>();
+
+            float chance = UnityEngine.Random.Range(0f, 1f);
+
+            foreach (var element in possibleElements)
+            {
+                if (chance < element.Chance)
+                {
+                    elements.Add(element);
+                }
+            }
+
+            if (elements.Count > 0)
+            {
+                int rndIndex = UnityEngine.Random.Range(0, elements.Count);
+                return elements[rndIndex];
+            }
+            return null;
         }
     }
 }
