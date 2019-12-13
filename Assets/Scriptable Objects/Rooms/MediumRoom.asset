@@ -23,7 +23,7 @@ MonoBehaviour:
     Right: 0
   _shouldCreateNextRoom: 1
   _checker: {fileID: 11400000, guid: a3c08c70603eef144a17d3bcdb65d998, type: 2}
-  _builder: {fileID: 11400000, guid: 3c473e6e60c38af4d94f963a559c62d4, type: 2}
+  _builder: {fileID: 11400000, guid: 69da6034c12ad1c4b9169fb410248dcf, type: 2}
   _creator: {fileID: 11400000, guid: 2ac59e1609975a849a9112d5efd209e3, type: 2}
   _amountOfNeededRooms: 2
   _maximumAmountOfCreatedRooms: 2

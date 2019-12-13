@@ -23,5 +23,5 @@ MonoBehaviour:
     Right: 2
   _shouldCreateNextRoom: 0
   _checker: {fileID: 11400000, guid: 046f43b057b778a45917c0759bbf5bb6, type: 2}
-  _builder: {fileID: 11400000, guid: c62de96024edee245bb3dddc30293c2d, type: 2}
+  _builder: {fileID: 11400000, guid: 69da6034c12ad1c4b9169fb410248dcf, type: 2}
   _creator: {fileID: 0}
