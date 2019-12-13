@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d41f0d2aeece44bb895aeb18cabe7e, type: 3}
   m_Name: ProceduralRoomBuilder
   m_EditorClassIdentifier: 
-  _floorBuilder: {fileID: 11400000, guid: e02e45c2f9098f746a6404ceb6bbd805, type: 2}
   _wallVariants:
-  - {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7, type: 3}
-  - {fileID: 7072868418194532806, guid: 5aa41ef180b688e4f9321aad5fa08861, type: 3}
-  _bricksVariants:
-  - {fileID: 4007233581615405009, guid: 7ae0be32cf958064ab4c1183e63202c0, type: 3}
-  - {fileID: 4007233581615405009, guid: db26e39fa92648848b8a825d3f49eefb, type: 3}
+  - WallTop: {fileID: 7072868418194532806, guid: 5aa41ef180b688e4f9321aad5fa08861,
+      type: 3}
+    WallBrick: {fileID: 4007233581615405009, guid: 7ae0be32cf958064ab4c1183e63202c0,
+      type: 3}
+  - WallTop: {fileID: 7072868418194532806, guid: b4a5391a12f68e24683942a698f2fcc7,
+      type: 3}
+    WallBrick: {fileID: 4007233581615405009, guid: db26e39fa92648848b8a825d3f49eefb,
+      type: 3}
   _floorVariants:
   - {fileID: 7072868418194532806, guid: 07d435152ca3333478a1883dff385837, type: 3}
   - {fileID: 7072868418194532806, guid: 4bd5238ded5e1974bbfbc9a5bc97ce23, type: 3}

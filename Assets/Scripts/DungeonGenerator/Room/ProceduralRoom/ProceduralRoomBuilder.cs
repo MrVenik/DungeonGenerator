@@ -14,11 +14,17 @@ namespace DungeonGenerator
         Floor
     }
 
+    [Serializable]
+    public class WallData
+    {
+        public GameObject WallTop;
+        public GameObject WallBrick;
+    }
+
     [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Rooms/Room Builders/Procedural Room Builder")]
     public class ProceduralRoomBuilder : RoomBuilder
     {
-        [SerializeField] private List<GameObject> _wallVariants;
-        [SerializeField] private List<GameObject> _bricksVariants;
+        [SerializeField] private List<WallData> _wallVariants;
         [SerializeField] private List<GameObject> _floorVariants;
         [SerializeField] private GameObject _shadow;
 
@@ -296,14 +302,15 @@ namespace DungeonGenerator
                 {
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
-                        Instantiate(_wallVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
+                        WallData wallData = _wallVariants.GetRandomElement();
+                        Instantiate(wallData.WallTop, new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
                         if (y - 1 < 0)
                         {
-                            Instantiate(_bricksVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
                         }
                         else if (_roomCells[x, y - 1] != RoomCellData.Wall)
                         {
-                            Instantiate(_bricksVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
                             if (_roomCells[x, y - 1] == RoomCellData.Floor) Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                         }
                     }
