@@ -304,7 +304,7 @@ namespace DungeonGenerator
                         else if (_roomCells[x, y - 1] != RoomCellData.Wall)
                         {
                             Instantiate(GetVariantFrom(_bricksVariants), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                            Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1), transform.rotation, transform);
+                            if (_roomCells[x, y - 1] == RoomCellData.Floor) Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                         }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
