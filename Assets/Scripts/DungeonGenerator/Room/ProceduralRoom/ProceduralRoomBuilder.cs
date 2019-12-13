@@ -18,7 +18,9 @@ namespace DungeonGenerator
     public class ProceduralRoomBuilder : RoomBuilder
     {
         [SerializeField] private List<GameObject> _wallVariants;
+        [SerializeField] private List<GameObject> _bricksVariants;
         [SerializeField] private List<GameObject> _floorVariants;
+        [SerializeField] private GameObject _shadow;
 
         private RoomCellData[,] _roomCells;
 
@@ -295,10 +297,19 @@ namespace DungeonGenerator
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
                         Instantiate(GetVariantFrom(_wallVariants), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
+                        if (y - 1 < 0)
+                        {
+                            Instantiate(GetVariantFrom(_bricksVariants), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                        }
+                        else if (_roomCells[x, y - 1] != RoomCellData.Wall)
+                        {
+                            Instantiate(GetVariantFrom(_bricksVariants), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1), transform.rotation, transform);
+                        }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
                     {
-                        Instantiate(GetVariantFrom(_floorVariants), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
+                        Instantiate(GetVariantFrom(_floorVariants), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
                     }
                 }
             }
