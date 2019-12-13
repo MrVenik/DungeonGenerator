@@ -18,10 +18,11 @@ namespace DungeonGenerator
     public class ProceduralRoomBuilder : RoomBuilder
     {
         [SerializeField] private List<GameObject> _wallVariants;
+        [SerializeField] private List<GameObject> _floorVariants;
 
         private RoomCellData[,] _roomCells;
 
-        public void PlaceWalls(RoomData roomData)
+        public void PlaceCells(RoomData roomData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
             _roomCells = new RoomCellData[maximumSize, maximumSize];
@@ -30,6 +31,28 @@ namespace DungeonGenerator
             BuildSide(roomData, Side.Bottom);
             BuildSide(roomData, Side.Left);
             BuildSide(roomData, Side.Right);
+
+            BuildFloor(roomData);
+        }
+
+        private void BuildFloor(RoomData roomData)
+        {
+            int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
+            int roomSize = (int)roomData.Size;
+
+            int roomOffset = (maximumSize - roomSize) / 2;
+
+            for (int x = roomOffset + 1; x < maximumSize - roomOffset - 1; x++)
+            {
+                for (int y = roomOffset + 1; y < maximumSize - roomOffset - 1; y++)
+                {
+                    if (_roomCells[x, y] == RoomCellData.None)
+                    {
+                        _roomCells[x, y] = RoomCellData.Floor;
+                    }
+                }
+            }
+
         }
 
         private void BuildSide(RoomData roomData, Side side)
@@ -127,13 +150,30 @@ namespace DungeonGenerator
                     {
                         for (int x = offset; x < maximumSize - offset; x++)
                         {
-                            if ((y == maximumSize - offset - 1) && _roomCells[x, maximumSize - offset - 1] == RoomCellData.None && !(x > centerPoint - connectionOffset && x < centerPoint + connectionOffset))
+                            if (_roomCells[x, y] == RoomCellData.None)
                             {
-                                _roomCells[x, y] = RoomCellData.Wall;
-                            }
-                            else if (_roomCells[x, y] == RoomCellData.None && (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset))
-                            {
-                                _roomCells[x, y] = RoomCellData.Wall;
+                                if (y == maximumSize - offset - 1)
+                                {
+                                    if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                    else
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                }
+                                else
+                                {
+                                    if (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                    else if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                }
                             }
                         }
                     }
@@ -143,13 +183,30 @@ namespace DungeonGenerator
                     {
                         for (int x = offset; x < maximumSize - offset; x++)
                         {
-                            if (y == offset && _roomCells[x, y] == RoomCellData.None && !(x > centerPoint - connectionOffset && x < centerPoint + connectionOffset))
+                            if (_roomCells[x, y] == RoomCellData.None)
                             {
-                                _roomCells[x, y] = RoomCellData.Wall;
-                            }
-                            else if(_roomCells[x, y] == RoomCellData.None && (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset))
-                            {
-                                _roomCells[x, y] = RoomCellData.Wall;
+                                if (y == offset)
+                                {
+                                    if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                    else
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                }
+                                else
+                                {
+                                    if (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                    else if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                }
                             }
                         }
                     }
@@ -159,13 +216,30 @@ namespace DungeonGenerator
                     {
                         for (int y = offset; y < maximumSize - offset; y++)
                         {
-                            if (x == offset && _roomCells[x, y] == RoomCellData.None && !(y > centerPoint - connectionOffset && y < centerPoint + connectionOffset))
+                            if (_roomCells[x, y] == RoomCellData.None)
                             {
-                                _roomCells[x, y] = RoomCellData.Wall;
-                            }
-                            else if(_roomCells[x, y] == RoomCellData.None && (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset))
-                            {
-                                _roomCells[x, y] = RoomCellData.Wall;
+                                if (x == offset)
+                                {
+                                    if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                    else
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                }
+                                else
+                                {
+                                    if (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                    else if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                }
                             }
                         }
                     }
@@ -175,13 +249,30 @@ namespace DungeonGenerator
                     {
                         for (int y = offset; y < maximumSize - offset; y++)
                         {
-                            if ((x == maximumSize - offset - 1) && _roomCells[maximumSize - offset - 1, y] == RoomCellData.None && !(y > centerPoint - connectionOffset && y < centerPoint + connectionOffset))
+                            if (_roomCells[x, y] == RoomCellData.None)
                             {
-                                _roomCells[x, y] = RoomCellData.Wall;
-                            }
-                            else if (_roomCells[x, y] == RoomCellData.None && (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset))
-                            {
-                                _roomCells[x, y] = RoomCellData.Wall;
+                                if (x == maximumSize - offset - 1)
+                                {
+                                    if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                    else
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                }
+                                else
+                                {
+                                    if (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Wall;
+                                    }
+                                    else if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    {
+                                        _roomCells[x, y] = RoomCellData.Floor;
+                                    }
+                                }
                             }
                         }
                     }
@@ -193,7 +284,7 @@ namespace DungeonGenerator
 
         public override void Build(RoomData roomData, Transform transform)
         {
-            PlaceWalls(roomData);
+            PlaceCells(roomData);
 
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
 
@@ -204,6 +295,10 @@ namespace DungeonGenerator
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
                         Instantiate(GetVariantFrom(_wallVariants), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
+                    }
+                    else if (_roomCells[x, y] == RoomCellData.Floor)
+                    {
+                        Instantiate(GetVariantFrom(_floorVariants), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
                     }
                 }
             }
