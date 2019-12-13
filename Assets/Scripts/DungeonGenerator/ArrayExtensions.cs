@@ -17,6 +17,16 @@ namespace DungeonGenerator
             }
         }
 
+        public static T GetRandomElement<T>(this IList<T> list) where T : class
+        {
+            if (list != null && list.Count > 0)
+            {
+                int rndIndex = UnityEngine.Random.Range(0, list.Count);
+                return list[rndIndex];
+            }
+            return null;
+        }
+
         public static T[] Rotate<T>(this T[] array, bool clockwise = false)
         {
             int size = (int)System.Math.Sqrt(array.Length);

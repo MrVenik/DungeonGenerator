@@ -296,33 +296,23 @@ namespace DungeonGenerator
                 {
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
-                        Instantiate(GetVariantFrom(_wallVariants), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
+                        Instantiate(_wallVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
                         if (y - 1 < 0)
                         {
-                            Instantiate(GetVariantFrom(_bricksVariants), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            Instantiate(_bricksVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
                         }
                         else if (_roomCells[x, y - 1] != RoomCellData.Wall)
                         {
-                            Instantiate(GetVariantFrom(_bricksVariants), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            Instantiate(_bricksVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
                             if (_roomCells[x, y - 1] == RoomCellData.Floor) Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                         }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
                     {
-                        Instantiate(GetVariantFrom(_floorVariants), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
+                        Instantiate(_floorVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
                     }
                 }
             }
-        }
-
-        private GameObject GetVariantFrom(List<GameObject> variants)
-        {
-            if (variants != null && variants.Count > 0)
-            {
-                int rndIndex = UnityEngine.Random.Range(0, variants.Count);
-                return variants[rndIndex];
-            }
-            return null;
         }
     }
 }
