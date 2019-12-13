@@ -9,6 +9,6 @@ namespace DungeonGenerator
 {
     public abstract class RoomBuilder : ScriptableObject
     {
-        public abstract void Build(RoomData roomData, Transform transform);
+        public abstract void Build(int roomX, int roomY, RoomData roomData, Transform transform);
     }
 }

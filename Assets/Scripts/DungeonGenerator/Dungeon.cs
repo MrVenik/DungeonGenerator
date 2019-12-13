@@ -89,8 +89,8 @@ namespace DungeonGenerator
                             roomBehaviour.Connection = _rooms[x, y].Connection;
                             roomBehaviour.Entrance = _rooms[x, y].Entrance;
                             roomBehaviour.ID = _rooms[x, y].ID;
-                            _rooms[x, y].Build(roomBehaviour.transform);
-                            DestroyImmediate(_rooms[x, y]);
+                            _rooms[x, y].Build(x, y, roomBehaviour.transform);
+                            //DestroyImmediate(_rooms[x, y]);
                         }
                     }
                 }

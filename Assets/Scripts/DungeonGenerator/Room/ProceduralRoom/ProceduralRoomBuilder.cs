@@ -290,7 +290,7 @@ namespace DungeonGenerator
             }
         }
 
-        public override void Build(RoomData roomData, Transform transform)
+        public override void Build(int roomX, int roomY, RoomData roomData, Transform transform)
         {
             PlaceCells(roomData);
 
@@ -306,7 +306,24 @@ namespace DungeonGenerator
                         Instantiate(wallData.WallTop, new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
                         if (y - 1 < 0)
                         {
-                            Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            ConnectionType bottomConnectionType = DungeonManager.Dungeon.GetRoomConnection(roomX, roomY - 1).Top;
+
+                            if (bottomConnectionType == ConnectionType.None)
+                            {
+                                Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                            }
+                            else if (bottomConnectionType == ConnectionType.Wall)
+                            {
+                                RoomData bottomRoom = DungeonManager.Dungeon.GetRoom(roomX, roomY - 1);
+                                if (bottomRoom != null && bottomRoom.Size < DungeonManager.Dungeon.MaximumRoomSize)
+                                {
+                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                }
+                                else if(bottomRoom == null)
+                                {
+                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                }
+                            }
                         }
                         else if (_roomCells[x, y - 1] != RoomCellData.Wall)
                         {

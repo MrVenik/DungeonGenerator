@@ -11,7 +11,7 @@ namespace DungeonGenerator
     public class TemplateRoomBuilder : RoomBuilder
     {
         [SerializeField] private GameObject _templatePrefab;
-        public override void Build(RoomData roomData, Transform transform)
+        public override void Build(int roomX, int roomY, RoomData roomData, Transform transform)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
             int roomSize = (int)roomData.Size;
