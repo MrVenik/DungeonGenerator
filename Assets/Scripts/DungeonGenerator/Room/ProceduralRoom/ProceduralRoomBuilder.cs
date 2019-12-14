@@ -311,6 +311,7 @@ namespace DungeonGenerator
                             if (bottomConnectionType == ConnectionType.None)
                             {
                                 Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                             }
 
                             else if (bottomConnectionType == ConnectionType.Wall)
@@ -319,17 +320,41 @@ namespace DungeonGenerator
                                 if (bottomRoom != null && bottomRoom.Size < DungeonManager.Dungeon.MaximumRoomSize)
                                 {
                                     Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                                 }
                                 else if(bottomRoom == null)
                                 {
                                     Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                                }
+                            }
+                            else if (roomData.Size == DungeonManager.Dungeon.MaximumRoomSize)
+                            {
+                                int centerPoint = (maximumSize - 1) / 2;
+                                int connectionOffset = 0;
+                                switch (bottomConnectionType)
+                                {
+                                    case ConnectionType.Small:
+                                        connectionOffset = 2;
+                                        break;
+                                    case ConnectionType.Medium:
+                                        connectionOffset = 3;
+                                        break;
+                                    case ConnectionType.Big:
+                                        connectionOffset = 4;
+                                        break;
+                                }
+                                if (x != centerPoint - connectionOffset && x != centerPoint + connectionOffset)
+                                {
+                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
+                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                                 }
                             }
                         }
                         else if (_roomCells[x, y - 1] != RoomCellData.Wall)
                         {
                             Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                            if (_roomCells[x, y - 1] == RoomCellData.Floor) Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                            Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
                         }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
