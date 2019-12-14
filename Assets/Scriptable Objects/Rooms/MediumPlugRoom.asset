@@ -25,6 +25,12 @@ MonoBehaviour:
   _checker: {fileID: 11400000, guid: a3c08c70603eef144a17d3bcdb65d998, type: 2}
   _builder: {fileID: 11400000, guid: 69da6034c12ad1c4b9169fb410248dcf, type: 2}
   _creator: {fileID: 0}
+  _roomElements:
+  - Name: Barrel
+    GameObject: {fileID: 6930028449267247210, guid: f28dfd91bcf0761478e2e03ebce426ad,
+      type: 3}
+    Position: {x: 4, y: 4, z: 0}
+    Chance: 0.5
   _amountOfNeededRooms: 0
   _maximumAmountOfCreatedRooms: 0
   _chanceOfNextRoom: 0

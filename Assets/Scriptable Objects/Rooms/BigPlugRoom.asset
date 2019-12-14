@@ -26,8 +26,8 @@ MonoBehaviour:
   _builder: {fileID: 11400000, guid: 69da6034c12ad1c4b9169fb410248dcf, type: 2}
   _creator: {fileID: 0}
   _roomElements:
-  - Name: Diamond
-    GameObject: {fileID: 8038155571181037406, guid: 6e6283529d05a074f99098fb16cb6e7c,
+  - Name: Chest
+    GameObject: {fileID: 9026317229549758827, guid: 60a60b9f6c944b14d89be27e5880c076,
       type: 3}
     Position: {x: 4, y: 4, z: 0}
     Chance: 0.5
