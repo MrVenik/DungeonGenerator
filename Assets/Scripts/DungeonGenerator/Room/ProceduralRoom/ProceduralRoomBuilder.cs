@@ -15,16 +15,6 @@ namespace DungeonGenerator
     }
 
     [Serializable]
-    public class RoomElementData
-    {
-        public string Name;
-        public GameObject GameObject;
-        public Vector3 Position;
-        [Range(0.0f, 1.0f)]
-        public float Chance;
-    }
-
-    [Serializable]
     public class WallData
     {
         public GameObject WallTop;
@@ -37,8 +27,6 @@ namespace DungeonGenerator
         [SerializeField] private List<WallData> _wallVariants;
         [SerializeField] private List<GameObject> _floorVariants;
         [SerializeField] private GameObject _shadow;
-
-        [SerializeField] private List<RoomElementData> _roomElements;
 
         private RoomCellData[,] _roomCells;
 
@@ -348,7 +336,7 @@ namespace DungeonGenerator
                     {
                         Instantiate(_floorVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
 
-                        List<RoomElementData> possibleElements = _roomElements.FindAll(t => t.Position.x >= x && t.Position.x < x + 1 && t.Position.y >= y && t.Position.y < y + 1);
+                        List<RoomElementData> possibleElements = roomData.RoomElements.FindAll(t => t.Position.x >= x && t.Position.x < x + 1 && t.Position.y >= y && t.Position.y < y + 1);
                         if (possibleElements.Count > 0)
                         {
                             RoomElementData randomElement = GetRandomElement(possibleElements);

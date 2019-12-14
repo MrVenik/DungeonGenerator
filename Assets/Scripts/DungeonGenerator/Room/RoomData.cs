@@ -7,6 +7,15 @@ using UnityEngine;
 
 namespace DungeonGenerator
 {
+    [Serializable]
+    public class RoomElementData
+    {
+        public string Name;
+        public GameObject GameObject;
+        public Vector3 Position;
+        [Range(0.0f, 1.0f)]
+        public float Chance;
+    }
     public class RoomData : CreatableData
     {
         [SerializeField] private string _name;
@@ -20,6 +29,8 @@ namespace DungeonGenerator
         [SerializeField] private RoomBuilder _builder;
         [SerializeField] private RoomCreator _creator;
 
+        [SerializeField] private List<RoomElementData> _roomElements;
+
         public string Name { get => _name; private set => _name = value; }
         public Connection Connection { get => _connection; private set => _connection = value; }
         public Side Entrance { get => _entrance; private set => _entrance = value; }
@@ -32,6 +43,7 @@ namespace DungeonGenerator
         public int ID { get => _id; set => _id = value; }
         public bool Created { get; protected set; }
         public bool IsCreatingNextRooms { get; protected set; }
+        public List<RoomElementData> RoomElements { get => _roomElements; private set => _roomElements = value; }
 
         public override bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
         public override void Create(int x, int y) => Create(x, y);
