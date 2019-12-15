@@ -13,17 +13,29 @@ MonoBehaviour:
   m_Name: ProceduralRoomBuilder
   m_EditorClassIdentifier: 
   _wallVariants:
-  - WallTop: {fileID: 7072868418194532806, guid: 5aa41ef180b688e4f9321aad5fa08861,
+  - Top: {fileID: 5670876486467114741, guid: e5d98e859743e1349b3d404840052cc7, type: 3}
+    Brick: {fileID: 5671579265727788601, guid: 5db2f4187ff64a94aa500a31ecb03cdc, type: 3}
+    Bottom: {fileID: 1191750791256656260, guid: 2659dc807e53af1498da081a3e02397d,
       type: 3}
-    WallBrick: {fileID: 5709675478377882227, guid: cbd2a0302594816478fb1b8cadfb73af,
+    TopLeft: {fileID: 221135016376712277, guid: 65ac868b5b7a9894e9a30f9c0058e9d4,
       type: 3}
-  - WallTop: {fileID: 7072868418194532806, guid: 5aa41ef180b688e4f9321aad5fa08861,
+    TopRight: {fileID: 1705368003619998669, guid: f89791e9716ef8344a8fdae127918dc5,
       type: 3}
-    WallBrick: {fileID: 759530254798142201, guid: 7921f5b2ea691fb45861a46a66147b56,
+    TopInnerLeft: {fileID: 2248146774031973232, guid: 5504ae9075ddc5a47937a47eaa19c157,
       type: 3}
-  - WallTop: {fileID: 7072868418194532806, guid: 5aa41ef180b688e4f9321aad5fa08861,
+    TopInnerRight: {fileID: 7236388108150635134, guid: f97125dbfa762584cbe5e00653972bff,
       type: 3}
-    WallBrick: {fileID: 1696990136444518795, guid: 69443933a7570e9418126c00b12865ce,
+    TopOuterLeft: {fileID: 2573160346504651669, guid: 834160927fec9694b972315ffd2e8fb3,
+      type: 3}
+    TopOuterRight: {fileID: 523991019755803756, guid: 583d160782f872041947d7c03543defc,
+      type: 3}
+    BottomInnerLeft: {fileID: 1390939612480251752, guid: a876a5b09cb50b54691a1b26261509d5,
+      type: 3}
+    BottomInnerRight: {fileID: 5152889087590738610, guid: 6e7a551d765d140489fb420f7ee044cb,
+      type: 3}
+    BottomOuterLeft: {fileID: 3164042613427486103, guid: c09f9cc095d553e45b461fb94575a1ea,
+      type: 3}
+    BottomOuterRight: {fileID: 3634871577877935873, guid: acfd06b7f90479d4e8818497b248b617,
       type: 3}
   _floorVariants:
   - {fileID: 3867303837648581295, guid: abc9ccfc65bf9e24f9e48852edf62d7f, type: 3}

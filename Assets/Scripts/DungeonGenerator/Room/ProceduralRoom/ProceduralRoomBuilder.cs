@@ -17,8 +17,22 @@ namespace DungeonGenerator
     [Serializable]
     public class WallData
     {
-        public GameObject WallTop;
-        public GameObject WallBrick;
+        public GameObject Top;
+        public GameObject Brick;
+        public GameObject Bottom;
+
+        public GameObject TopLeft;
+        public GameObject TopRight;
+
+        public GameObject TopInnerLeft;
+        public GameObject TopInnerRight;
+        public GameObject TopOuterLeft;
+        public GameObject TopOuterRight;
+
+        public GameObject BottomInnerLeft;
+        public GameObject BottomInnerRight;
+        public GameObject BottomOuterLeft;
+        public GameObject BottomOuterRight;
     }
 
     [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Rooms/Room Builders/Procedural Room Builder")]
@@ -295,6 +309,9 @@ namespace DungeonGenerator
             PlaceCells(roomData);
 
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
+            int roomSize = (int)roomData.Size;
+            int offset = (maximumSize - roomSize) / 2;
+            int centerPoint = (maximumSize - 1) / 2;
 
             for (int x = 0; x < maximumSize; x++)
             {
@@ -303,58 +320,232 @@ namespace DungeonGenerator
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
                         WallData wallData = _wallVariants.GetRandomElement();
-                        Instantiate(wallData.WallTop, new Vector3(transform.position.x + x, transform.position.y + y), transform.rotation, transform);
-                        if (y - 1 < 0)
+
+                        if (y - 1 >= 0 && y + 1 < maximumSize)
                         {
-                            ConnectionType bottomConnectionType = DungeonManager.Dungeon.GetRoomConnection(roomX, roomY - 1).Top;
-
-                            if (bottomConnectionType == ConnectionType.None)
+                            if (_roomCells[x, y - 1] == RoomCellData.Wall && _roomCells[x, y + 1] == RoomCellData.Floor)
                             {
-                                Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                                Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                                if (x < centerPoint)
+                                {
+                                    Instantiate(wallData.BottomInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                    else if (y - 2 < 0 && roomData.Connection.Bottom != ConnectionType.Wall)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                                if (x > centerPoint)
+                                {
+                                    Instantiate(wallData.BottomInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                    else if (y - 2 < 0 && roomData.Connection.Bottom != ConnectionType.Wall)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                            }
+                            else if (_roomCells[x, y - 1] == RoomCellData.None && _roomCells[x, y + 1] == RoomCellData.Wall)
+                            {
+                                if (y - 2 < 0)
+                                {
+                                    if (x == offset)
+                                    {
+                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    }
+                                    if (x == maximumSize - offset - 1)
+                                    {
+                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    }
+                                }
+                                else
+                                {
+                                    if (x == offset)
+                                    {
+                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+
+                                    }
+                                    if (x == maximumSize - offset - 1)
+                                    {
+                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+
+                                    }
+                                }
+                            }
+                            else if (_roomCells[x, y + 1] == RoomCellData.None && _roomCells[x, y - 1] == RoomCellData.Wall)
+                            {
+                                if (x == offset)
+                                {
+                                    Instantiate(wallData.TopOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                                if (x == maximumSize - offset - 1)
+                                {
+                                    Instantiate(wallData.TopOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                            }
+                            else if (_roomCells[x, y - 1] == RoomCellData.Wall && _roomCells[x, y + 1] == RoomCellData.Wall)
+                            {
+                                if (y - 2 >= 0 && (_roomCells[x, y - 2] != RoomCellData.None && _roomCells[x, y - 2] != RoomCellData.Floor))
+                                {
+                                    if (x < centerPoint)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                    if (x > centerPoint)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+
+                                }
+                                else if (y - 2 < 0 && roomData.Connection.Bottom == ConnectionType.Big)
+                                {
+                                    if (x < centerPoint)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                    if (x > centerPoint)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                                else if (y - 2 < 0)
+                                {
+                                    if (x < centerPoint)
+                                    {
+                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                    if (x > centerPoint)
+                                    {
+                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+
+                            }
+                            else if (_roomCells[x, y - 1] == RoomCellData.Floor)
+                            {
+                                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.TopInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                }
+                                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.TopInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                }
+                                else Instantiate(wallData.Top, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                Instantiate(wallData.Brick, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                            }
+                            else if (_roomCells[x, y + 1] == RoomCellData.Floor)
+                            {
+                                Instantiate(wallData.Bottom, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
                             }
 
-                            else if (bottomConnectionType == ConnectionType.Wall)
+                        }
+                        else if (y - 1 < 0 && y + 1 < maximumSize)
+                        {
+                            if (roomData.Connection.Bottom != ConnectionType.Wall && _roomCells[x, y + 1] == RoomCellData.Wall && roomData.Size != DungeonManager.Dungeon.MaximumRoomSize)
                             {
-                                RoomData bottomRoom = DungeonManager.Dungeon.GetRoom(roomX, roomY - 1);
-                                if (bottomRoom != null && bottomRoom.Size < DungeonManager.Dungeon.MaximumRoomSize)
+                                if (x < centerPoint)
                                 {
-                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+
                                 }
-                                else if(bottomRoom == null)
+                                if (x > centerPoint)
                                 {
-                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+
                                 }
                             }
-                            else if (roomData.Size == DungeonManager.Dungeon.MaximumRoomSize)
+                            else if (roomData.Connection.Bottom == ConnectionType.Big && _roomCells[x, y + 1] == RoomCellData.Wall && roomData.Size == DungeonManager.Dungeon.MaximumRoomSize)
                             {
-                                int centerPoint = (maximumSize - 1) / 2;
-                                int connectionOffset = 0;
-                                switch (bottomConnectionType)
+                                if (x < centerPoint)
                                 {
-                                    case ConnectionType.Small:
-                                        connectionOffset = 2;
-                                        break;
-                                    case ConnectionType.Medium:
-                                        connectionOffset = 3;
-                                        break;
-                                    case ConnectionType.Big:
-                                        connectionOffset = 4;
-                                        break;
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+
                                 }
-                                if (x != centerPoint - connectionOffset && x != centerPoint + connectionOffset)
+                                if (x > centerPoint)
                                 {
-                                    Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                                    Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+
                                 }
+                            }
+
+                            else if (_roomCells[x, y + 1] == RoomCellData.Floor)
+                            {
+                                if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.BottomInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+
+                                }
+                                else if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.BottomInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                }
+                                else Instantiate(wallData.Bottom, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
                             }
                         }
-                        else if (_roomCells[x, y - 1] != RoomCellData.Wall)
+                        else if (y + 1 >= maximumSize && y - 1 >= 0)
                         {
-                            Instantiate(wallData.WallBrick, new Vector3(transform.position.x + x, transform.position.y + y - 0.5f), transform.rotation, transform);
-                            Instantiate(_shadow, new Vector3(transform.position.x + x, transform.position.y + y - 1, -1), transform.rotation, transform);
+                            if (_roomCells[x, y - 1] == RoomCellData.Floor)
+                            {
+                                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.TopInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                }
+                                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
+                                {
+                                    Instantiate(wallData.TopInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                }
+                                else Instantiate(wallData.Top, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                Instantiate(wallData.Brick, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                            }
+                            else if (_roomCells[x, y - 1] == RoomCellData.Wall)
+                            {
+                                if (x < centerPoint)
+                                {
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY + 1) == null || DungeonManager.Dungeon.GetRoom(roomX, roomY + 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                    {
+                                        Instantiate(wallData.TopOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    }
+
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                                if (x > centerPoint)
+                                {
+                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY + 1) == null || DungeonManager.Dungeon.GetRoom(roomX, roomY + 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
+                                    {
+                                        Instantiate(wallData.TopOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+                                    }
+                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
+                                    {
+                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
+                                    }
+                                }
+                            }
                         }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
