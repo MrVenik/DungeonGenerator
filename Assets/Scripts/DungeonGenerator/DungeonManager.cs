@@ -25,8 +25,14 @@ namespace DungeonGenerator
     {
         [SerializeField] private TilemapData _tilemapData;
 
+        [SerializeField] private GameObject _playerDefault;
+        private GameObject _player;
+
+        [SerializeField] private Transform _camera;
+
         public static Dungeon Dungeon { get; private set; }
         public TilemapData TilemapData { get => _tilemapData; private set => _tilemapData = value; }
+        public Transform Camera { get => _camera; set => _camera = value; }
 
         [SerializeField] private GameObject _dungeonPrefab;
         [SerializeField] private int _currentAmountOfRooms;
@@ -34,9 +40,29 @@ namespace DungeonGenerator
 
         [SerializeField] private CreatableData _exampleRoomForReservation;
         [SerializeField] private CreatableData _exampleBossRoom;
+
+        private Vector3Int _startPosition;
+
         private void Awake()
         {
             CreateAndBuild();
+        }
+
+        private void Update()
+        {
+            if (_player != null)
+            {
+                Camera.position = new Vector3(_player.transform.position.x, _player.transform.position.y, -50);
+            }
+        }
+
+        public void SetPlayer()
+        {
+            if (_player == null)
+            {
+                _player = Instantiate(_playerDefault, _startPosition, _playerDefault.transform.rotation);
+            }
+            else Destroy(_player.gameObject);
         }
 
         public void CreateAndBuild()
@@ -67,6 +93,8 @@ namespace DungeonGenerator
                 Side.Right
             };
 
+            _startPosition = new Vector3Int(rndX * (int)Dungeon.MaximumRoomSize + (int)Dungeon.MaximumRoomSize / 2, rndY * (int)Dungeon.MaximumRoomSize + (int)Dungeon.MaximumRoomSize / 2, 0);
+
             Side rndSide = sides[UnityEngine.Random.Range(0, sides.Count)];
 
             Dungeon.CreateStartRoom(rndX, rndY, rndSide);
@@ -91,5 +119,7 @@ namespace DungeonGenerator
                 Dungeon.BuildDungeon();
             }
         }
+
+
     }
 }

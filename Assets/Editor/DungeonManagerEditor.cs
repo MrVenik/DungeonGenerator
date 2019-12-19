@@ -24,6 +24,10 @@ namespace DungeonGenerator.Editor
             {
                 dungeonManager.BuildDungeon();
             }
+            if (GUILayout.Button("Start"))
+            {
+                dungeonManager.SetPlayer();
+            }
         }
     }
 }
