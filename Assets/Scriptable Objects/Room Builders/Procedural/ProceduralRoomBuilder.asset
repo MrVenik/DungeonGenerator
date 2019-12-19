@@ -27,7 +27,7 @@ MonoBehaviour:
     BottomOuterLeft: {fileID: 11400000, guid: 478f7fcdcd8b8c845ab56ed583fe8e74, type: 2}
     BottomOuterRight: {fileID: 11400000, guid: ed66e6e6f43172c44b39d803c1dd5a79, type: 2}
   _floorVariants:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8a3e5c9a4a6047d44bcfbb1df12fbc0e, type: 2}
   - {fileID: 11400000, guid: 3da0ab3c24e0f5a45a1c49286a70205d, type: 2}
   - {fileID: 11400000, guid: ee48d15d342baf948894edf226fdd9fc, type: 2}
   - {fileID: 11400000, guid: 609ffab2342465543a912ea1c47b0930, type: 2}
