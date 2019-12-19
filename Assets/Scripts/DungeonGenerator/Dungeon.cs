@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonGenerator
 {
 
     public class Dungeon : MonoBehaviour
     {
-        [SerializeField] private RoomBehaviour _roomBehaviour;
-
         [SerializeField] public RoomData StartRoom;
 
         [SerializeField] public RoomSize MaximumRoomSize;
@@ -21,6 +20,8 @@ namespace DungeonGenerator
 
         public int Heigth { get => _heigth; set => _heigth = value; }
         public int Width { get => _width; set => _width = value; }
+
+        public TilemapData TilemapData { get; set; }
 
         private RoomData[,] _rooms;
         public Transform Transform { get; private set; }
@@ -71,8 +72,6 @@ namespace DungeonGenerator
             }
         }
 
-        public RoomBehaviour RoomBehaviour { get => _roomBehaviour; private set => _roomBehaviour = value; }
-
         public void BuildDungeon()
         {
             if (!_builded)
@@ -83,13 +82,8 @@ namespace DungeonGenerator
                     {
                         if (_rooms[x, y] != null)
                         {
-                            Vector3 roomPosition = new Vector3(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize);
-                            RoomBehaviour roomBehaviour = Instantiate(RoomBehaviour, roomPosition, Quaternion.identity, Transform);
-                            roomBehaviour.name = _rooms[x, y].Name;
-                            roomBehaviour.Connection = _rooms[x, y].Connection;
-                            roomBehaviour.Entrance = _rooms[x, y].Entrance;
-                            roomBehaviour.ID = _rooms[x, y].ID;
-                            _rooms[x, y].Build(x, y, roomBehaviour.transform);
+                            Vector3Int roomPosition = new Vector3Int(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize, 0);
+                            _rooms[x, y].Build(_rooms[x, y], roomPosition, TilemapData);
                             //DestroyImmediate(_rooms[x, y]);
                         }
                     }

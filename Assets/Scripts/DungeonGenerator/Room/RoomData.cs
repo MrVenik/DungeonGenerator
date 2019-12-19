@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonGenerator
 {
@@ -47,7 +48,7 @@ namespace DungeonGenerator
 
         public override bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
         public override void Create(int x, int y) => Create(x, y);
-        public void Build(int x, int y, Transform transform) => Builder.Build(x, y, this, transform);
+        public void Build(RoomData roomData, Vector3Int position, TilemapData tilemapData) => Builder.Build(roomData, position, tilemapData);
 
         public override void Rotate(Side side)
         {

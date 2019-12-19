@@ -4,9 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonGenerator
 {
+    public class RoomTilemapData
+    {
+        public int Size { get; private set; }
+        public Tile[,] FloorLayer;
+        public Tile[,] WallLayer;
+
+
+        public RoomTilemapData(int size)
+        {
+            Size = size;
+            FloorLayer = new Tile[Size, Size];
+            WallLayer = new Tile[Size, Size];
+        }
+    }
+
     public enum RoomCellData
     {
         None,
@@ -17,67 +33,57 @@ namespace DungeonGenerator
     [Serializable]
     public class WallData
     {
-        public GameObject Top;
-        public GameObject Brick;
-        public GameObject Bottom;
+        public Tile Top;
+        public Tile Brick;
+        public Tile Bottom;
 
-        public GameObject TopLeft;
-        public GameObject TopRight;
+        public Tile TopLeft;
+        public Tile TopRight;
 
-        public GameObject TopInnerLeft;
-        public GameObject TopInnerRight;
-        public GameObject TopOuterLeft;
-        public GameObject TopOuterRight;
+        public Tile TopInnerLeft;
+        public Tile TopInnerRight;
+        public Tile TopOuterLeft;
+        public Tile TopOuterRight;
 
-        public GameObject BottomInnerLeft;
-        public GameObject BottomInnerRight;
-        public GameObject BottomOuterLeft;
-        public GameObject BottomOuterRight;
+        public Tile BottomInnerLeft;
+        public Tile BottomInnerRight;
+        public Tile BottomOuterLeft;
+        public Tile BottomOuterRight;
     }
 
     [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Rooms/Room Builders/Procedural Room Builder")]
     public class ProceduralRoomBuilder : RoomBuilder
     {
         [SerializeField] private List<WallData> _wallVariants;
-        [SerializeField] private List<GameObject> _floorVariants;
+        [SerializeField] private List<Tile> _floorVariants;
         [SerializeField] private GameObject _shadow;
+
+        private RoomTilemapData _tilemapData;
 
         private RoomCellData[,] _roomCells;
 
-        public void PlaceCells(RoomData roomData)
-        {
-            int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
-            _roomCells = new RoomCellData[maximumSize, maximumSize];
-
-            BuildSide(roomData, Side.Top);
-            BuildSide(roomData, Side.Bottom);
-            BuildSide(roomData, Side.Left);
-            BuildSide(roomData, Side.Right);
-
-            BuildFloor(roomData);
-        }
-
-        private void BuildFloor(RoomData roomData)
+        private void BuildFloor(RoomData roomData, Vector3Int position, TilemapData tilemapData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
             int roomSize = (int)roomData.Size;
 
             int roomOffset = (maximumSize - roomSize) / 2;
 
-            for (int x = roomOffset + 1; x < maximumSize - roomOffset - 1; x++)
+            for (int x = position.x + roomOffset + 1; x < position.x + maximumSize - roomOffset - 1; x++)
             {
-                for (int y = roomOffset + 1; y < maximumSize - roomOffset - 1; y++)
+                for (int y = position.y + roomOffset + 1; y < position.y + maximumSize - roomOffset - 1; y++)
                 {
-                    if (_roomCells[x, y] == RoomCellData.None)
+                    Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                    if (!tilemapData.FloorLayer.HasTile(tilePosition))
                     {
-                        _roomCells[x, y] = RoomCellData.Floor;
+                        tilemapData.FloorLayer.SetTile(tilePosition, _floorVariants.GetRandomElement());
                     }
                 }
             }
 
         }
 
-        private void BuildSide(RoomData roomData, Side side)
+        private void BuildSide(RoomData roomData, Side side, Vector3Int position, TilemapData tilemapData)
         {
             switch (roomData.Connection.GetConnectionTypeBySide(side))
             {
@@ -86,16 +92,16 @@ namespace DungeonGenerator
                 case ConnectionType.Border:
                     break;
                 case ConnectionType.Wall:
-                    BuildWall(roomData, side);
+                    BuildWall(roomData, side, position, tilemapData);
                     break;
                 case ConnectionType.Small:
-                    BuildOpen(roomData, side, 2);
+                    BuildOpen(roomData, side, 2, position, tilemapData);
                     break;
                 case ConnectionType.Medium:
-                    BuildOpen(roomData, side, 3);
+                    BuildOpen(roomData, side, 3, position, tilemapData);
                     break;
                 case ConnectionType.Big:
-                    BuildOpen(roomData, side, 4);
+                    BuildOpen(roomData, side, 4, position, tilemapData);
                     break;
                 case ConnectionType.SecretRoomDoor:
                     break;
@@ -104,7 +110,7 @@ namespace DungeonGenerator
             }
         }
 
-        private void BuildWall(RoomData roomData, Side side)
+        private void BuildWall(RoomData roomData, Side side, Vector3Int position, TilemapData tilemapData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
             int roomSize = (int)roomData.Size;
@@ -113,42 +119,144 @@ namespace DungeonGenerator
             switch (side)
             {
                 case Side.Top:
-                    for (int x = offset; x < maximumSize - offset; x++)
+                    for (int x = position.x + offset; x < position.x + maximumSize - offset; x++)
                     {
-                        if (_roomCells[x, maximumSize - offset - 1] == RoomCellData.None)
+                        if (x > position.x + offset && x < position.x + maximumSize - offset - 1)
                         {
-                            _roomCells[x, maximumSize - offset - 1] = RoomCellData.Wall;
+                            int y = position.y + (maximumSize - offset - 1);
+                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Top);
+                            }
+
+                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                            }
                         }
                     }
-
-
                     break;
+
                 case Side.Bottom:
-                    for (int x = offset; x < maximumSize - offset; x++)
+                    for (int x = position.x + offset; x < position.x + maximumSize - offset; x++)
                     {
-                        if (_roomCells[x, offset] == RoomCellData.None)
+                        if (x > position.x + offset && x < position.x + maximumSize - offset - 1)
                         {
-                            _roomCells[x, offset] = RoomCellData.Wall;
+                            int y = position.y + offset + 1;
+                            Vector3Int bottomTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(bottomTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().Bottom);
+                            }
                         }
                     }
-
                     break;
+
                 case Side.Left:
-                    for (int y = offset; y < maximumSize - offset; y++)
+                    for (int y = position.y + offset; y < position.y + maximumSize - offset; y++)
                     {
-                        if (_roomCells[offset, y] == RoomCellData.None)
+                        if (y == position.y + offset + 1)
                         {
-                            _roomCells[offset, y] = RoomCellData.Wall;
+                            if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                            {
+                                int x = position.x + offset;
+                                Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                }
+                            }
+                            else
+                            {
+                                int x = position.x + offset;
+                                Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().BottomOuterLeft);
+                                }
+                            }
+                        }
+                        else if (y == position.y + maximumSize - offset - 1)
+                        {
+                            int x = position.x + offset;
+                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                            }
+                            if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                            {
+                                Vector3Int leftOuterTilePosition = new Vector3Int(x, y + 1, 0);
+                                if (!tilemapData.WallLayer.HasTile(leftOuterTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(leftOuterTilePosition, _wallVariants.GetRandomElement().TopOuterLeft);
+                                }
+                            }
+                        }
+                        else if (y > position.y + offset && y < position.y + maximumSize - offset - 1)
+                        {
+                            int x = position.x + offset;
+                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                            }
                         }
                     }
-
                     break;
+
                 case Side.Right:
-                    for (int y = offset; y < maximumSize - offset; y++)
+                    for (int y = position.y + offset + 1; y < position.y + maximumSize - offset; y++)
                     {
-                        if (_roomCells[maximumSize - offset - 1, y] == RoomCellData.None)
+                        if (y == position.y + offset + 1)
                         {
-                            _roomCells[maximumSize - offset - 1, y] = RoomCellData.Wall;
+                            if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                            {
+                                int x = position.x + maximumSize - offset - 1;
+                                Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                }
+                            }
+                            else
+                            {
+                                int x = position.x + maximumSize - offset - 1;
+                                Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().BottomOuterRight);
+                                }
+                            }
+                        }
+                        else if (y == position.y + maximumSize - offset - 1)
+                        {
+                            int x = position.x + maximumSize - offset - 1;
+                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                            }
+
+                            if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                            {
+                                Vector3Int rightOuterTilePosition = new Vector3Int(x, y + 1, 0);
+                                if (!tilemapData.WallLayer.HasTile(rightOuterTilePosition))
+                                {
+                                    tilemapData.WallLayer.SetTile(rightOuterTilePosition, _wallVariants.GetRandomElement().TopOuterRight);
+                                }
+                            }
+                        }
+                        else if (y > position.y + offset && y < position.y + maximumSize - offset - 1)
+                        {
+                            int x = position.x + maximumSize - offset - 1;
+                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                            {
+                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                            }
                         }
                     }
                     break;
@@ -157,7 +265,7 @@ namespace DungeonGenerator
             }
         }
 
-        private void BuildOpen(RoomData roomData, Side side, int connectionOffset)
+        private void BuildOpen(RoomData roomData, Side side, int connectionOffset, Vector3Int position, TilemapData tilemapData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
             int roomSize = (int)roomData.Size;
@@ -168,134 +276,612 @@ namespace DungeonGenerator
             switch (side)
             {
                 case Side.Top:
-                    for (int y = maximumSize - offset - 1; y < maximumSize; y++)
+                    for (int y = position.y + maximumSize - offset - 1; y < position.y + maximumSize; y++)
                     {
-                        for (int x = offset; x < maximumSize - offset; x++)
+                        for (int x = position.x + offset; x < position.x + maximumSize - offset; x++)
                         {
-                            if (_roomCells[x, y] == RoomCellData.None)
+                            if (y == position.y + maximumSize - offset - 1)
                             {
-                                if (y == maximumSize - offset - 1)
+                                // placing floor between walls
+                                if (x > position.x + centerPoint - connectionOffset && x < position.x + centerPoint + connectionOffset)
                                 {
-                                    if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
-                                    }
-                                    else
-                                    {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
                                     }
                                 }
-                                else
+                                else if (x == position.x + centerPoint - connectionOffset || x == position.x + centerPoint + connectionOffset)
                                 {
-                                    if (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset)
+                                    if (x == position.x + centerPoint - connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerLeft);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+
                                     }
-                                    else if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    else if (x == position.x + centerPoint + connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerRight);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else if (x > position.x + offset && x < position.x + maximumSize - offset - 1)
+                                {
+                                    Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                    if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                    {
+                                        tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Top);
+                                    }
+
+                                    Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                    {
+                                        tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (x == position.x + centerPoint - connectionOffset || x == position.x + centerPoint + connectionOffset)
+                                {
+                                    if (y != position.y + maximumSize - offset)
+                                    {
+                                        if (x == position.x + centerPoint - connectionOffset)
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+                                        else if (x == position.x + centerPoint + connectionOffset)
+                                        {
+                                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (x == position.x + centerPoint - connectionOffset)
+                                        {
+                                            if (roomData.Connection.Left == ConnectionType.Wall)
+                                            {
+                                                Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                                if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                                {
+                                                    tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                                }
+                                            }
+                                        }
+                                        else if (x == position.x + centerPoint + connectionOffset)
+                                        {
+                                            if (roomData.Connection.Right == ConnectionType.Wall)
+                                            {
+                                                Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                                if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                                {
+                                                    tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (x > position.x + centerPoint - connectionOffset && x < position.x + centerPoint + connectionOffset)
+                                {
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
+                                    {
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
+                                    }
+                                }
+                            }
+
+
                         }
                     }
                     break;
+
                 case Side.Bottom:
-                    for (int y = 0; y < offset + 1; y++)
+                    for (int y = position.y; y < position.y + offset + 1; y++)
                     {
-                        for (int x = offset; x < maximumSize - offset; x++)
+                        for (int x = position.x + offset; x < position.x + maximumSize - offset; x++)
                         {
-                            if (_roomCells[x, y] == RoomCellData.None)
+                            if (y == position.y + offset)
                             {
-                                if (y == offset)
+                                // placing floor between walls
+                                if (x > position.x + centerPoint - connectionOffset && x < position.x + centerPoint + connectionOffset)
                                 {
-                                    if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
-                                    }
-                                    else
-                                    {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
                                     }
                                 }
-                                else
+                                else if (x == position.x + centerPoint - connectionOffset || x == position.x + centerPoint + connectionOffset)
                                 {
-                                    if (x == centerPoint - connectionOffset || x == centerPoint + connectionOffset)
+                                    if (x == position.x + centerPoint - connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int bottomTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(bottomTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().BottomInnerRight);
+                                            }
+                                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+                                        else if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Left))
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+
                                     }
-                                    else if (x > centerPoint - connectionOffset && x < centerPoint + connectionOffset)
+                                    else if (x == position.x + centerPoint + connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().BottomInnerLeft);
+                                            }
+                                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                        else if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Right))
+                                        {
+                                            Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else if (x > position.x + offset && x < position.x + maximumSize - offset - 1)
+                                {
+                                    Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                    if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                    {
+                                        tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Bottom);
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (x == position.x + centerPoint - connectionOffset || x == position.x + centerPoint + connectionOffset)
+                                {
+                                    if (x == position.x + centerPoint - connectionOffset)
+                                    {
+                                        Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                        if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                        }
+                                    }
+                                    else if (x == position.x + centerPoint + connectionOffset)
+                                    {
+                                        Vector3Int rightTilePosition = new Vector3Int(x, y, 0);
+                                        if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                        }
+                                    }
+                                }
+                                else if (x > position.x + centerPoint - connectionOffset && x < position.x + centerPoint + connectionOffset)
+                                {
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
+                                    {
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
+                                    }
+                                }
+                            }
+
+
                         }
                     }
                     break;
                 case Side.Left:
-                    for (int x = 0; x < offset + 1; x++)
+                    for (int x = position.x; x < position.x + offset + 1; x++)
                     {
-                        for (int y = offset; y < maximumSize - offset; y++)
+                        for (int y = position.y + offset; y < position.y + maximumSize - offset; y++)
                         {
-                            if (_roomCells[x, y] == RoomCellData.None)
+                            if (x == position.x + offset)
                             {
-                                if (x == offset)
+                                if (y > position.y + centerPoint - connectionOffset && y < position.y + centerPoint + connectionOffset)
                                 {
-                                    if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
-                                    }
-                                    else
-                                    {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
                                     }
                                 }
-                                else
+                                else if (y == position.y + centerPoint - connectionOffset || y == position.y + centerPoint + connectionOffset)
                                 {
-                                    if (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset)
+                                    if (y == position.y + centerPoint + connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Left))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerLeft);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+                                        else if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerLeft);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Top);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
                                     }
-                                    else if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    else if (y == position.y + centerPoint - connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Left))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().BottomInnerRight);
+                                            }
+                                        }
+                                        else if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().BottomInnerRight);
+                                            }
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Bottom);
+                                            }
+                                        }
+                                    }
+                                }
+                                else 
+                                {
+                                    if (y > position.y + offset && y < position.y + maximumSize - offset - 1)
+                                    {
+                                        Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                        }
+                                    }
+                                    else if (y == position.y + offset)
+                                    {
+                                        if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().BottomOuterLeft);
+                                            }
+                                        }
+                                    }
+                                    else if (y == position.y + maximumSize - offset - 1)
+                                    {
+                                        if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopOuterLeft);
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (y == position.y + centerPoint - connectionOffset || y == position.y + centerPoint + connectionOffset)
+                                {
+                                    if (y == position.y + centerPoint - connectionOffset)
+                                    {
+                                        Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().Bottom);
+                                        }
+                                    }
+                                    else if (y == position.y + centerPoint + connectionOffset)
+                                    {
+                                        Vector3Int rightTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().Top);
+                                        }
+                                        Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                        if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                        }
+                                    }
+
+                                }
+                                else if (y > position.y + centerPoint - connectionOffset && y < position.y + centerPoint + connectionOffset)
+                                {
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
+                                    {
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
+                                    }
+                                }
+                            }
+
                         }
                     }
                     break;
                 case Side.Right:
-                    for (int x = maximumSize - offset - 1; x < maximumSize; x++)
+                    for (int x = position.x + maximumSize - offset - 1; x < position.x + maximumSize; x++)
                     {
-                        for (int y = offset; y < maximumSize - offset; y++)
+                        for (int y = position.y + offset; y < position.y + maximumSize - offset; y++)
                         {
-                            if (_roomCells[x, y] == RoomCellData.None)
+
+                            if (x == position.x + maximumSize - offset - 1)
                             {
-                                if (x == maximumSize - offset - 1)
+                                if (y > position.y + centerPoint - connectionOffset && y < position.y + centerPoint + connectionOffset)
                                 {
-                                    if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
                                     }
-                                    else
+                                }
+                                else if (y == position.y + centerPoint - connectionOffset || y == position.y + centerPoint + connectionOffset)
+                                {
+                                    if (y == position.y + centerPoint + connectionOffset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Right))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerRight);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+                                        else if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerRight);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Top);
+                                            }
+                                            Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                            }
+                                        }
+
+                                    }
+                                    else if (y == position.y + centerPoint - connectionOffset)
+                                    {
+                                        if (!roomData.Size.IsEqualsToConnectionType(roomData.Connection.Right))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().BottomInnerLeft);
+                                            }
+                                        }
+                                        else if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().BottomInnerLeft);
+                                            }
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int topTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(topTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Bottom);
+                                            }
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    if (y == centerPoint - connectionOffset || y == centerPoint + connectionOffset)
+                                    if (y > position.y + offset && y < position.y + maximumSize - offset - 1)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Wall;
+                                        Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                        }
                                     }
-                                    else if (y > centerPoint - connectionOffset && y < centerPoint + connectionOffset)
+                                    else if (y == position.y + offset)
                                     {
-                                        _roomCells[x, y] = RoomCellData.Floor;
+                                        if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Bottom))
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().BottomOuterRight);
+                                            }
+                                        }
+                                    }
+                                    else if (y == position.y + maximumSize - offset - 1)
+                                    {
+                                        if (roomData.Size.IsEqualsToConnectionType(roomData.Connection.Top))
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopRight);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                            if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                            {
+                                                tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().TopOuterRight);
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (y == position.y + centerPoint - connectionOffset || y == position.y + centerPoint + connectionOffset)
+                                {
+                                    if (y == position.y + centerPoint - connectionOffset)
+                                    {
+                                        Vector3Int leftTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(leftTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(leftTilePosition, _wallVariants.GetRandomElement().Bottom);
+                                        }
+                                    }
+                                    else if (y == position.y + centerPoint + connectionOffset)
+                                    {
+                                        Vector3Int rightTilePosition = new Vector3Int(x, y + 1, 0);
+                                        if (!tilemapData.WallLayer.HasTile(rightTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(rightTilePosition, _wallVariants.GetRandomElement().Top);
+                                        }
+                                        Vector3Int brickTilePosition = new Vector3Int(x, y, 0);
+                                        if (!tilemapData.WallLayer.HasTile(brickTilePosition))
+                                        {
+                                            tilemapData.WallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                                        }
+                                    }
+                                }
+                                else if (y > position.y + centerPoint - connectionOffset && y < position.y + centerPoint + connectionOffset)
+                                {
+                                    Vector3Int floorTilePosition = new Vector3Int(x, y, 0);
+                                    if (!tilemapData.FloorLayer.HasTile(floorTilePosition))
+                                    {
+                                        tilemapData.FloorLayer.SetTile(floorTilePosition, _floorVariants.GetRandomElement());
+                                    }
+                                }
+                            }
+
                         }
                     }
                     break;
@@ -304,267 +890,18 @@ namespace DungeonGenerator
             }
         }
 
-        public override void Build(int roomX, int roomY, RoomData roomData, Transform transform)
+        public override void Build(RoomData roomData, Vector3Int position, TilemapData tilemapData)
         {
-            PlaceCells(roomData);
-
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
-            int roomSize = (int)roomData.Size;
-            int offset = (maximumSize - roomSize) / 2;
-            int centerPoint = (maximumSize - 1) / 2;
 
-            for (int x = 0; x < maximumSize; x++)
-            {
-                for (int y = 0; y < maximumSize; y++)
-                {
-                    if (_roomCells[x, y] == RoomCellData.Wall)
-                    {
-                        WallData wallData = _wallVariants.GetRandomElement();
+            BuildSide(roomData, Side.Top, position, tilemapData);
+            BuildSide(roomData, Side.Bottom, position, tilemapData);
+            BuildSide(roomData, Side.Left, position, tilemapData);
+            BuildSide(roomData, Side.Right, position, tilemapData);
 
-                        if (y - 1 >= 0 && y + 1 < maximumSize)
-                        {
-                            if (_roomCells[x, y - 1] == RoomCellData.Wall && _roomCells[x, y + 1] == RoomCellData.Floor)
-                            {
-                                if (x < centerPoint)
-                                {
-                                    Instantiate(wallData.BottomInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                    else if (y - 2 < 0 && roomData.Connection.Bottom != ConnectionType.Wall)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                                if (x > centerPoint)
-                                {
-                                    Instantiate(wallData.BottomInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                    else if (y - 2 < 0 && roomData.Connection.Bottom != ConnectionType.Wall)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                            }
-                            else if (_roomCells[x, y - 1] == RoomCellData.None && _roomCells[x, y + 1] == RoomCellData.Wall)
-                            {
-                                if (y - 2 < 0)
-                                {
-                                    if (x == offset)
-                                    {
-                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    }
-                                    if (x == maximumSize - offset - 1)
-                                    {
-                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    }
-                                }
-                                else
-                                {
-                                    if (x == offset)
-                                    {
-                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
+            BuildFloor(roomData, position, tilemapData);
 
-                                    }
-                                    if (x == maximumSize - offset - 1)
-                                    {
-                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
 
-                                    }
-                                }
-                            }
-                            else if (_roomCells[x, y + 1] == RoomCellData.None && _roomCells[x, y - 1] == RoomCellData.Wall)
-                            {
-                                if (x == offset)
-                                {
-                                    Instantiate(wallData.TopOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                                if (x == maximumSize - offset - 1)
-                                {
-                                    Instantiate(wallData.TopOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                            }
-                            else if (_roomCells[x, y - 1] == RoomCellData.Wall && _roomCells[x, y + 1] == RoomCellData.Wall)
-                            {
-                                if (y - 2 >= 0 && (_roomCells[x, y - 2] != RoomCellData.None && _roomCells[x, y - 2] != RoomCellData.Floor))
-                                {
-                                    if (x < centerPoint)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                    if (x > centerPoint)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-
-                                }
-                                else if (y - 2 < 0 && roomData.Connection.Bottom == ConnectionType.Big)
-                                {
-                                    if (x < centerPoint)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                    if (x > centerPoint)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                                else if (y - 2 < 0)
-                                {
-                                    if (x < centerPoint)
-                                    {
-                                        Instantiate(wallData.BottomOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                    if (x > centerPoint)
-                                    {
-                                        Instantiate(wallData.BottomOuterRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-
-                            }
-                            else if (_roomCells[x, y - 1] == RoomCellData.Floor)
-                            {
-                                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.TopInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                }
-                                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.TopInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                }
-                                else Instantiate(wallData.Top, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                Instantiate(wallData.Brick, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                            }
-                            else if (_roomCells[x, y + 1] == RoomCellData.Floor)
-                            {
-                                Instantiate(wallData.Bottom, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                            }
-
-                        }
-                        else if (y - 1 < 0 && y + 1 < maximumSize)
-                        {
-                            if (roomData.Connection.Bottom != ConnectionType.Wall && _roomCells[x, y + 1] == RoomCellData.Wall && roomData.Size != DungeonManager.Dungeon.MaximumRoomSize)
-                            {
-                                if (x < centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-
-                                }
-                                if (x > centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-
-                                }
-                            }
-                            else if (roomData.Connection.Bottom == ConnectionType.Big && _roomCells[x, y + 1] == RoomCellData.Wall && roomData.Size == DungeonManager.Dungeon.MaximumRoomSize)
-                            {
-                                if (x < centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-
-                                }
-                                if (x > centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-
-                                }
-                            }
-
-                            else if (_roomCells[x, y + 1] == RoomCellData.Floor)
-                            {
-                                if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.BottomInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-
-                                }
-                                else if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.BottomInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY - 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                }
-                                else Instantiate(wallData.Bottom, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                            }
-                        }
-                        else if (y + 1 >= maximumSize && y - 1 >= 0)
-                        {
-                            if (_roomCells[x, y - 1] == RoomCellData.Floor)
-                            {
-                                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.TopInnerLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                }
-                                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                                {
-                                    Instantiate(wallData.TopInnerRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                }
-                                else Instantiate(wallData.Top, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                Instantiate(wallData.Brick, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                            }
-                            else if (_roomCells[x, y - 1] == RoomCellData.Wall)
-                            {
-                                if (x < centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY + 1) == null || DungeonManager.Dungeon.GetRoom(roomX, roomY + 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                    {
-                                        Instantiate(wallData.TopOuterLeft, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    }
-
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopLeft, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                                if (x > centerPoint)
-                                {
-                                    if (DungeonManager.Dungeon.GetRoom(roomX, roomY + 1) == null || DungeonManager.Dungeon.GetRoom(roomX, roomY + 1).Size != DungeonManager.Dungeon.MaximumRoomSize)
-                                    {
-                                        Instantiate(wallData.TopOuterRight, new Vector3(transform.position.x + x, transform.position.y + y + 1, 0), transform.rotation, transform);
-                                    }
-                                    if (y - 2 >= 0 && _roomCells[x, y - 2] == RoomCellData.Wall)
-                                    {
-                                        Instantiate(wallData.TopRight, new Vector3(transform.position.x + x, transform.position.y + y, 0), transform.rotation, transform);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (_roomCells[x, y] == RoomCellData.Floor)
-                    {
-                        Instantiate(_floorVariants.GetRandomElement(), new Vector3(transform.position.x + x, transform.position.y + y, 1), transform.rotation, transform);
-
-                        List<RoomElementData> possibleElements = roomData.RoomElements.FindAll(t => t.Position.x >= x && t.Position.x < x + 1 && t.Position.y >= y && t.Position.y < y + 1);
-                        if (possibleElements.Count > 0)
-                        {
-                            RoomElementData randomElement = GetRandomElement(possibleElements);
-                            if (randomElement != null)
-                            {
-                                Instantiate(randomElement.GameObject, new Vector3(transform.position.x + randomElement.Position.x, transform.position.y + randomElement.Position.y), transform.rotation, transform);
-
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         private RoomElementData GetRandomElement(List<RoomElementData> possibleElements)

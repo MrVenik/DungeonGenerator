@@ -4,12 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonGenerator
 {
+    [Serializable]
+    public class TilemapData
+    {
+        public Tilemap FloorLayer;
+        public Tilemap WallLayer;
+
+        public void Clear()
+        {
+            if (FloorLayer != null) FloorLayer.ClearAllTiles();
+            if (WallLayer != null) WallLayer.ClearAllTiles();
+        }
+    }
+
     public class DungeonManager : MonoBehaviour
     {
+        [SerializeField] private TilemapData _tilemapData;
+
         public static Dungeon Dungeon { get; private set; }
+        public TilemapData TilemapData { get => _tilemapData; private set => _tilemapData = value; }
 
         [SerializeField] private GameObject _dungeonPrefab;
         [SerializeField] private int _currentAmountOfRooms;
@@ -37,6 +54,7 @@ namespace DungeonGenerator
 
             Debug.Log(System.DateTime.Now);
             Dungeon = Instantiate(_dungeonPrefab, transform.position, transform.rotation, transform).GetComponent<Dungeon>();
+            Dungeon.TilemapData = TilemapData;
 
             int rndX = UnityEngine.Random.Range(1, Dungeon.Width - 1);
             int rndY = UnityEngine.Random.Range(1, Dungeon.Heigth - 1);
@@ -69,6 +87,7 @@ namespace DungeonGenerator
         {
             if (Dungeon != null)
             {
+                TilemapData.Clear();
                 Dungeon.BuildDungeon();
             }
         }
