@@ -22,8 +22,8 @@ MonoBehaviour:
     TopInnerRight: {fileID: 11400000, guid: 3c2e2310ef13a3b4e94fc3fbaa4ebb74, type: 2}
     TopOuterLeft: {fileID: 11400000, guid: a2b166d7efe3ccb4584093607919cf03, type: 2}
     TopOuterRight: {fileID: 11400000, guid: afa5e0496fde211438331e402386e7e9, type: 2}
-    BottomInnerLeft: {fileID: 11400000, guid: fd7bbe80006c70c41aa9cce5f87f9d35, type: 2}
-    BottomInnerRight: {fileID: 11400000, guid: 38b299aa7dae0824eb5274a8c5159cd1, type: 2}
+    BottomInnerLeft: {fileID: 11400000, guid: 38b299aa7dae0824eb5274a8c5159cd1, type: 2}
+    BottomInnerRight: {fileID: 11400000, guid: fd7bbe80006c70c41aa9cce5f87f9d35, type: 2}
     BottomOuterLeft: {fileID: 11400000, guid: 478f7fcdcd8b8c845ab56ed583fe8e74, type: 2}
     BottomOuterRight: {fileID: 11400000, guid: ed66e6e6f43172c44b39d803c1dd5a79, type: 2}
   _floorVariants:
