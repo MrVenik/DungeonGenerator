@@ -48,7 +48,7 @@ namespace DungeonGenerator
 
         public override bool CanCreate(int x, int y) => Checker.CanCreate(x, y, this);
         public override void Create(int x, int y) => Create(x, y);
-        public void Build(RoomData roomData, Vector3Int position, TilemapData tilemapData) => Builder.Build(roomData, position, tilemapData);
+        public void Build(Vector3Int position, TilemapData tilemapData) => Builder.Build(this, position, tilemapData);
 
         public override void Rotate(Side side)
         {

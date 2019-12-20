@@ -83,7 +83,7 @@ namespace DungeonGenerator
                         if (_rooms[x, y] != null)
                         {
                             Vector3Int roomPosition = new Vector3Int(x * (int)DungeonManager.Dungeon.MaximumRoomSize, y * (int)DungeonManager.Dungeon.MaximumRoomSize, 0);
-                            _rooms[x, y].Build(_rooms[x, y], roomPosition, TilemapData);
+                            _rooms[x, y].Build(roomPosition, TilemapData);
                             //DestroyImmediate(_rooms[x, y]);
                         }
                     }
