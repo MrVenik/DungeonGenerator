@@ -28,6 +28,8 @@ namespace DungeonGenerator
 
         private RoomCellData[,] _roomCells;
 
+        private WallData _roomWall;
+
         public void PlaceCells(RoomData roomData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
@@ -57,6 +59,8 @@ namespace DungeonGenerator
         public override void Build(RoomData roomData, Vector3Int position, TilemapData tilemapData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
+
+            _roomWall = _wallVariants.GetRandomElement();
 
             PlaceCells(roomData);
 
@@ -94,7 +98,7 @@ namespace DungeonGenerator
                     Vector3Int brickTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y, 0);
                     if (!wallLayer.HasTile(brickTilePosition))
                     {
-                        wallLayer.SetTile(brickTilePosition, _wallVariants.GetRandomElement().Brick);
+                        wallLayer.SetTile(brickTilePosition, _roomWall.Brick);
                     }
                     // Placing top left inner
                     if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
@@ -102,7 +106,7 @@ namespace DungeonGenerator
                         Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                         if (!wallLayer.HasTile(topTilePosition))
                         {
-                            wallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerLeft);
+                            wallLayer.SetTile(topTilePosition, _roomWall.TopInnerLeft);
                         }
                     }
                     // Placing top right inner
@@ -111,7 +115,7 @@ namespace DungeonGenerator
                         Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                         if (!wallLayer.HasTile(topTilePosition))
                         {
-                            wallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().TopInnerRight);
+                            wallLayer.SetTile(topTilePosition, _roomWall.TopInnerRight);
                         }
                     }
                     // Placing top
@@ -120,7 +124,7 @@ namespace DungeonGenerator
                         Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                         if (!wallLayer.HasTile(topTilePosition))
                         {
-                            wallLayer.SetTile(topTilePosition, _wallVariants.GetRandomElement().Top);
+                            wallLayer.SetTile(topTilePosition, _roomWall.Top);
                         }
                     }
                 }
@@ -135,7 +139,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().BottomInnerLeft);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomInnerLeft);
                     }
                 }
                 // Placing bottom right inner
@@ -144,7 +148,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().BottomInnerRight);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomInnerRight);
                     }
                 }
                 // Placing bottom
@@ -153,7 +157,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().Bottom);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.Bottom);
                     }
                 }
             }
@@ -169,7 +173,7 @@ namespace DungeonGenerator
                         Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                         if (!wallLayer.HasTile(bottomTilePosition))
                         {
-                            wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                            wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
                         }
                     }
                     // Placing right
@@ -178,7 +182,7 @@ namespace DungeonGenerator
                         Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                         if (!wallLayer.HasTile(bottomTilePosition))
                         {
-                            wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopRight);
+                            wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
                         }
                     }
                 }
@@ -192,7 +196,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopOuterLeft);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopOuterLeft);
                     }
                 }
                 // Placing left 
@@ -201,7 +205,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
                     }
                 }
                 // Placing right outer
@@ -210,7 +214,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopOuterRight);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopOuterRight);
                     }
                 }
                 // Placing right 
@@ -219,7 +223,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopRight);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
                     }
                 }
             }
@@ -232,7 +236,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().BottomOuterLeft);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomOuterLeft);
                     }
                 }
                 // Placing left 
@@ -241,7 +245,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopLeft);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
                     }
                 }
                 // Placing right outer
@@ -250,7 +254,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().BottomOuterRight);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomOuterRight);
                     }
                 }
                 // Placing right 
@@ -259,7 +263,7 @@ namespace DungeonGenerator
                     Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
                     if (!wallLayer.HasTile(bottomTilePosition))
                     {
-                        wallLayer.SetTile(bottomTilePosition, _wallVariants.GetRandomElement().TopRight);
+                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
                     }
                 }
             }
