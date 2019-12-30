@@ -8,21 +8,6 @@ using UnityEngine.Tilemaps;
 
 namespace DungeonGenerator
 {
-    public class RoomTilemapData
-    {
-        public int Size { get; private set; }
-        public Tile[,] FloorLayer;
-        public Tile[,] WallLayer;
-
-
-        public RoomTilemapData(int size)
-        {
-            Size = size;
-            FloorLayer = new Tile[Size, Size];
-            WallLayer = new Tile[Size, Size];
-        }
-    }
-
     public enum RoomCellData
     {
         None,
@@ -30,37 +15,14 @@ namespace DungeonGenerator
         Floor
     }
 
-    [Serializable]
-    public class WallData
-    {
-        public Tile Top;
-        public Tile Brick;
-        public Tile Bottom;
-
-        public Tile TopLeft;
-        public Tile TopRight;
-
-        public Tile TopInnerLeft;
-        public Tile TopInnerRight;
-        public Tile TopOuterLeft;
-        public Tile TopOuterRight;
-
-        public Tile BottomInnerLeft;
-        public Tile BottomInnerRight;
-        public Tile BottomOuterLeft;
-        public Tile BottomOuterRight;
-    }
-
     [CreateAssetMenu(fileName = "New RoomBuilder", menuName = "Rooms/Room Builders/Procedural Room Builder")]
     public class ProceduralRoomBuilder : RoomBuilder
     {
-        [SerializeField] private List<WallData> _wallVariants;
-        [SerializeField] private List<Tile> _floorVariants;
+        [SerializeField] private List<TileBase> _wallVariants;
+        [SerializeField] private List<TileBase> _floorVariants;
         [SerializeField] private GameObject _shadow;
 
-        private RoomTilemapData _tilemapData;
-
-        private WallData _roomWall;
+        private TileBase _roomWall;
 
         private RoomCellData[,] _roomCells;
 
@@ -324,7 +286,6 @@ namespace DungeonGenerator
             }
         }
 
-
         public override void Build(RoomData roomData, Vector3Int position, TilemapData tilemapData)
         {
             int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
@@ -341,7 +302,10 @@ namespace DungeonGenerator
 
                     if (_roomCells[x, y] == RoomCellData.Wall)
                     {
-                        PlaceWall(x, y, position, tilemapData.WallLayer);
+                        if (!tilemapData.WallLayer.HasTile(tilePosition))
+                        {
+                            tilemapData.WallLayer.SetTile(tilePosition, _roomWall);
+                        }
                     }
                     else if (_roomCells[x, y] == RoomCellData.Floor)
                     {
@@ -349,192 +313,6 @@ namespace DungeonGenerator
                         {
                             tilemapData.FloorLayer.SetTile(tilePosition, _floorVariants.GetRandomElement());
                         }
-                    }
-                }
-            }
-
-
-        }
-
-        private void PlaceWall(int x, int y, Vector3Int roomPosition, Tilemap wallLayer)
-        {
-            int maximumSize = (int)DungeonManager.Dungeon.MaximumRoomSize;
-
-            // placing top wall
-            if (y - 1 >= 0 && _roomCells[x, y - 1] == RoomCellData.Floor)
-            {
-                if (y + 1 >= maximumSize || _roomCells[x, y + 1] != RoomCellData.Floor)
-                {
-                    // Placing brick
-                    Vector3Int brickTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y, 0);
-                    if (!wallLayer.HasTile(brickTilePosition))
-                    {
-                        wallLayer.SetTile(brickTilePosition, _roomWall.Brick);
-                    }
-                    // Placing top left inner
-                    if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                    {
-                        Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                        if (!wallLayer.HasTile(topTilePosition))
-                        {
-                            wallLayer.SetTile(topTilePosition, _roomWall.TopInnerLeft);
-                        }
-                    }
-                    // Placing top right inner
-                    else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                    {
-                        Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                        if (!wallLayer.HasTile(topTilePosition))
-                        {
-                            wallLayer.SetTile(topTilePosition, _roomWall.TopInnerRight);
-                        }
-                    }
-                    // Placing top
-                    else
-                    {
-                        Vector3Int topTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                        if (!wallLayer.HasTile(topTilePosition))
-                        {
-                            wallLayer.SetTile(topTilePosition, _roomWall.Top);
-                        }
-                    }
-                }
-            }
-
-            // placing bottom wall
-            if (y + 1 < maximumSize && _roomCells[x, y + 1] == RoomCellData.Floor)
-            {
-                // Placing bottom left inner
-                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomInnerLeft);
-                    }
-                }
-                // Placing bottom right inner
-                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomInnerRight);
-                    }
-                }
-                // Placing bottom
-                else
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.Bottom);
-                    }
-                }
-            }
-
-            // placing side walls
-            if (y - 1 >= 0 && y + 1 < maximumSize)
-            {
-                if (_roomCells[x, y - 1] == RoomCellData.Wall && _roomCells[x, y + 1] == RoomCellData.Wall)
-                {
-                    // Placing left
-                    if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                    {
-                        Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                        if (!wallLayer.HasTile(bottomTilePosition))
-                        {
-                            wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
-                        }
-                    }
-                    // Placing right
-                    else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                    {
-                        Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                        if (!wallLayer.HasTile(bottomTilePosition))
-                        {
-                            wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
-                        }
-                    }
-                }
-            }
-            // placing top corners
-            if (y + 1 >= maximumSize || _roomCells[x, y + 1] == RoomCellData.None)
-            {
-                // Placing left outer
-                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Wall)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopOuterLeft);
-                    }
-                }
-                // Placing left 
-                else if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
-                    }
-                }
-                // Placing right outer
-                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Wall)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopOuterRight);
-                    }
-                }
-                // Placing right 
-                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
-                    }
-                }
-            }
-            // placing bottom corners
-            if (y - 1 < 0 || _roomCells[x, y - 1] == RoomCellData.None)
-            {
-                // Placing left outer
-                if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Wall)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomOuterLeft);
-                    }
-                }
-                // Placing left 
-                else if (x + 1 < maximumSize && _roomCells[x + 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopLeft);
-                    }
-                }
-                // Placing right outer
-                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Wall)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.BottomOuterRight);
-                    }
-                }
-                // Placing right 
-                else if (x - 1 >= 0 && _roomCells[x - 1, y] == RoomCellData.Floor)
-                {
-                    Vector3Int bottomTilePosition = new Vector3Int(roomPosition.x + x, roomPosition.y + y + 1, 0);
-                    if (!wallLayer.HasTile(bottomTilePosition))
-                    {
-                        wallLayer.SetTile(bottomTilePosition, _roomWall.TopRight);
                     }
                 }
             }
